@@ -3,3 +3,4 @@ dist/**
 NDdata/**
 node_modules/
 tests/
+*.zip

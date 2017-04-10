@@ -22,16 +22,16 @@
     "graphing"
   ],
   "devDependencies": {
-    "grunt": "*",
-    "grunt-contrib-clean": "*",
-    "grunt-contrib-compress": "*",
-    "grunt-contrib-concat": "*",
-    "grunt-contrib-copy": "*",
-    "grunt-contrib-cssmin": "*",
-    "grunt-jslint": "*",
-    "grunt-contrib-uglify": "*",
-    "grunt-git-revision": "*",
-    "grunt-natural-docs": "^0.1.1"
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-compress": "^1.4.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^2.0.0",
+    "grunt-contrib-uglify": "^2.3.0",
+    "grunt-git-revision": "0.0.1",
+    "grunt-jslint": "^1.1.14",
+    "grunt-natural-docs": "^1.0.1"
   },
   "license": "(MIT AND GPL-2.0)"
 }

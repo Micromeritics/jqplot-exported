@@ -254,16 +254,11 @@ module.exports = function(grunt) {
         if (error === null) {
           grunt.file.write(file.dest, result);
         }
-      });
-
-      child.on('exit', function() {
         process();
       });
-
     }
 
     process();
-        
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
