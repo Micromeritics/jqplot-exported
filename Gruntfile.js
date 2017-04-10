@@ -179,8 +179,8 @@ module.exports = function(grunt) {
     },
     natural_docs: {
       options: {
-        bin: 'extras\\NaturalDocs\\NaturalDocs.bat',
-        xbin: 'extras/NaturalDocs/NaturalDocs.bat'
+        bin: 'naturaldocs',
+        xbin: 'naturaldocs'
       },
       dist: {
         options: {
