@@ -7,7 +7,6 @@ It can be imported:
 
 ```javascript
 import jqplot from 'jqplot-exported/src/jqplot';
-import 'jqplot-exported/src/jqplot.css';
 import { CanvasAxisLabelRenderer } from 'jqplot-exported/src/plugins/CanvasAxisLabelRenderer';
 import { CanvasAxisTickRenderer } from 'jqplot-exported/src/plugins/CanvasAxisTickRenderer';
 import { EnhancedLegendRenderer } from 'jqplot-exported/src/plugins/EnhancedLegendRenderer';

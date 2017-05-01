@@ -1,6 +1,6 @@
 {
   "name": "jqplot-exported",
-  "version": "1.0.9-pm.2",
+  "version": "1.0.9-pm.3",
   "description": "jqPlot is a plotting and charting plugin for the jQuery Javascript framework. jqPlot produces beautiful line, bar and pie charts with many features.",
   "author": "Chris Leonello <chris@jqplot.com>",
   "contributors": [
@@ -41,7 +41,9 @@
     "babel-cli": "^6.24.1",
     "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.24.1",
+    "css-loader": "^0.28.0",
     "glob": "^7.1.1",
+    "style-loader": "^0.16.1",
     "webpack": "^2.4.1"
   },
   "babel": {

@@ -37,6 +37,7 @@
  * 
  */
 
+import './jqplot.css';
 import jqplot from './jqplot.core';
 export default jqplot;
 export * from './jqplot.core';
