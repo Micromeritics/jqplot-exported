@@ -14,8 +14,13 @@ function getEntryPoints(globPattern) {
   const testFiles = glob.sync(globPattern);
   const entryPoints = {};
   testFiles.forEach(function (file) {
-    entryPoints[file.replace(/\.js$/, '')
-      .replace(/\/?src\//, '')] = './' + file;
+    let name = file.replace(/\.js$/, '').replace(/\/?src\/plugins\//, '');
+    if (name[0].toUpperCase() === name[0]) {
+      // first letter of source file is uppercase? this is a plugin
+      const camelCaseName = name[0].toLowerCase() + name.substring(1);
+      name = `plugins/jqplot.${camelCaseName}`;
+    }
+    entryPoints[name] = './' + file;
   });
   return entryPoints;
 }

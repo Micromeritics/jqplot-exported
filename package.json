@@ -18,7 +18,8 @@
     "build-prod": "webpack --progress -p"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "src/"
   ],
   "main": "dist/jqplot.js",
   "module": "src/jqplot.js",
