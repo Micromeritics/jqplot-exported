@@ -28,9 +28,10 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     /**
-     * Class: $.jqplot.FunnelRenderer
+     * Class: jqplot.FunnelRenderer
      * Plugin renderer to draw a funnel chart.
      * x values, if present, will be used as labels.
      * y values give area size.
@@ -43,12 +44,12 @@
      * 
      * > <script type="text/javascript" src="plugins/jqplot.funnelRenderer.js"></script>
      * 
-     * Properties described here are passed into the $.jqplot function
+     * Properties described here are passed into the jqplot function
      * as options on the series renderer.  For example:
      * 
-     * > plot2 = $.jqplot('chart2', [s1, s2], {
+     * > plot2 = jqplot('chart2', [s1, s2], {
      * >     seriesDefaults: {
-     * >         renderer:$.jqplot.FunnelRenderer,
+     * >         renderer:jqplot.FunnelRenderer,
      * >         rendererOptions:{
      * >              sectionMargin: 12,
      * >              widthRatio: 0.3
@@ -84,15 +85,15 @@
      * 'jqplotDataRightClick' - tiggered when the user right clicks on a section if
      * the "captureRightClick" option is set to true on the plot.
      */
-    $.jqplot.FunnelRenderer = function(){
-        $.jqplot.LineRenderer.call(this);
+    export const FunnelRenderer = jqplot.FunnelRenderer = function(){
+        jqplot.LineRenderer.call(this);
     };
     
-    $.jqplot.FunnelRenderer.prototype = new $.jqplot.LineRenderer();
-    $.jqplot.FunnelRenderer.prototype.constructor = $.jqplot.FunnelRenderer;
+    jqplot.FunnelRenderer.prototype = new jqplot.LineRenderer();
+    jqplot.FunnelRenderer.prototype.constructor = jqplot.FunnelRenderer;
     
     // called with scope of a series
-    $.jqplot.FunnelRenderer.prototype.init = function(options, plot) {
+    jqplot.FunnelRenderer.prototype.init = function(options, plot) {
         // Group: Properties
         //
         // prop: padding
@@ -149,7 +150,7 @@
         this.dataLabelThreshold = 3;
         this._type = 'funnel';
         
-        this.tickRenderer = $.jqplot.FunnelTickRenderer;
+        this.tickRenderer = jqplot.FunnelTickRenderer;
         
         // if user has passed in highlightMouseDown option and not set highlightMouseOver, disable highlightMouseOver
         if (options.highlightMouseDown && options.highlightMouseOver == null) {
@@ -188,7 +189,7 @@
         // set highlight colors if none provided
         if (this.highlightColors.length == 0) {
             for (var i=0; i<this.seriesColors.length; i++){
-                var rgba = $.jqplot.getColorComponents(this.seriesColors[i]);
+                var rgba = jqplot.getColorComponents(this.seriesColors[i]);
                 var newrgb = [rgba[0], rgba[1], rgba[2]];
                 var sum = newrgb[0] + newrgb[1] + newrgb[2];
                 for (var j=0; j<3; j++) {
@@ -212,7 +213,7 @@
     };
     
     // gridData will be of form [label, percentage of total]
-    $.jqplot.FunnelRenderer.prototype.setGridData = function(plot) {
+    jqplot.FunnelRenderer.prototype.setGridData = function(plot) {
         // set gridData property.  This will hold angle in radians of each data point.
         var sum = 0;
         var td = [];
@@ -232,7 +233,7 @@
         this.gridData = td;
     };
     
-    $.jqplot.FunnelRenderer.prototype.makeGridData = function(data, plot) {
+    jqplot.FunnelRenderer.prototype.makeGridData = function(data, plot) {
         // set gridData property.  This will hold angle in radians of each data point.
         var sum = 0;
         var td = [];
@@ -252,7 +253,7 @@
         return td;
     };
     
-    $.jqplot.FunnelRenderer.prototype.drawSection = function (ctx, vertices, color, isShadow) {
+    jqplot.FunnelRenderer.prototype.drawSection = function (ctx, vertices, color, isShadow) {
         var fill = this.fill;
         var lineWidth = this.lineWidth;
         ctx.save();
@@ -297,7 +298,7 @@
     };
     
     // called with scope of series
-    $.jqplot.FunnelRenderer.prototype.draw = function (ctx, gd, options, plot) {
+    jqplot.FunnelRenderer.prototype.draw = function (ctx, gd, options, plot) {
         var i;
         var opts = (options != undefined) ? options : {};
         // offset and direction of offset due to legend placement
@@ -461,19 +462,19 @@
                 
                 if (this.dataLabels == 'label') {
                     fstr = this.dataLabelFormatString || '%s';
-                    label = $.jqplot.sprintf(fstr, gd[i][0]);
+                    label = jqplot.sprintf(fstr, gd[i][0]);
                 }
                 else if (this.dataLabels == 'value') {
                     fstr = this.dataLabelFormatString || '%d';
-                    label = $.jqplot.sprintf(fstr, this.data[i][1]);
+                    label = jqplot.sprintf(fstr, this.data[i][1]);
                 }
                 else if (this.dataLabels == 'percent') {
                     fstr = this.dataLabelFormatString || '%d%%';
-                    label = $.jqplot.sprintf(fstr, gd[i][1]*100);
+                    label = jqplot.sprintf(fstr, gd[i][1]*100);
                 }
                 else if (this.dataLabels.constructor == Array) {
                     fstr = this.dataLabelFormatString || '%s';
-                    label = $.jqplot.sprintf(fstr, this.dataLabels[this._dataIndices[i]]);
+                    label = jqplot.sprintf(fstr, this.dataLabels[this._dataIndices[i]]);
                 }
                 
                 var fact = (this._radius ) * this.dataLabelPositionFactor + this.sliceMargin + this.dataLabelNudge;
@@ -493,20 +494,20 @@
                
     };
     
-    $.jqplot.FunnelAxisRenderer = function() {
-        $.jqplot.LinearAxisRenderer.call(this);
+    export const FunnelAxisRenderer = jqplot.FunnelAxisRenderer = function() {
+        jqplot.LinearAxisRenderer.call(this);
     };
     
-    $.jqplot.FunnelAxisRenderer.prototype = new $.jqplot.LinearAxisRenderer();
-    $.jqplot.FunnelAxisRenderer.prototype.constructor = $.jqplot.FunnelAxisRenderer;
+    jqplot.FunnelAxisRenderer.prototype = new jqplot.LinearAxisRenderer();
+    jqplot.FunnelAxisRenderer.prototype.constructor = jqplot.FunnelAxisRenderer;
         
     
     // There are no traditional axes on a funnel chart.  We just need to provide
     // dummy objects with properties so the plot will render.
     // called with scope of axis object.
-    $.jqplot.FunnelAxisRenderer.prototype.init = function(options){
+    jqplot.FunnelAxisRenderer.prototype.init = function(options){
         //
-        this.tickRenderer = $.jqplot.FunnelTickRenderer;
+        this.tickRenderer = jqplot.FunnelTickRenderer;
         $.extend(true, this, options);
         // I don't think I'm going to need _dataBounds here.
         // have to go Axis scaling in a way to fit chart onto plot area
@@ -525,18 +526,18 @@
     
     
     /**
-     * Class: $.jqplot.FunnelLegendRenderer
+     * Class: jqplot.FunnelLegendRenderer
      * Legend Renderer specific to funnel plots.  Set by default
      * when the user creates a funnel plot.
      */
-    $.jqplot.FunnelLegendRenderer = function(){
-        $.jqplot.TableLegendRenderer.call(this);
+    export const FunnelLegendRenderer = jqplot.FunnelLegendRenderer = function(){
+        jqplot.TableLegendRenderer.call(this);
     };
     
-    $.jqplot.FunnelLegendRenderer.prototype = new $.jqplot.TableLegendRenderer();
-    $.jqplot.FunnelLegendRenderer.prototype.constructor = $.jqplot.FunnelLegendRenderer;
+    jqplot.FunnelLegendRenderer.prototype = new jqplot.TableLegendRenderer();
+    jqplot.FunnelLegendRenderer.prototype.constructor = jqplot.FunnelLegendRenderer;
     
-    $.jqplot.FunnelLegendRenderer.prototype.init = function(options) {
+    jqplot.FunnelLegendRenderer.prototype.init = function(options) {
         // Group: Properties
         //
         // prop: numberRows
@@ -549,7 +550,7 @@
     };
     
     // called with context of legend
-    $.jqplot.FunnelLegendRenderer.prototype.draw = function() {
+    jqplot.FunnelLegendRenderer.prototype.draw = function() {
         var legend = this;
         if (this.show) {
             var series = this._series;
@@ -571,7 +572,7 @@
                 reverse = false,
                 nr, nc;
             var s = series[0];
-            var colorGenerator = new $.jqplot.ColorGenerator(s.seriesColors);
+            var colorGenerator = new jqplot.ColorGenerator(s.seriesColors);
             
             if (s.show) {
                 var pd = s.data;
@@ -653,7 +654,7 @@
         return this._elem;                
     };
     
-    // $.jqplot.FunnelLegendRenderer.prototype.pack = function(offsets) {
+    // jqplot.FunnelLegendRenderer.prototype.pack = function(offsets) {
     //     if (this.show) {
     //         // fake a grid for positioning
     //         var grid = {_top:offsets.top, _left:offsets.left, _right:offsets.right, _bottom:this._plotDimensions.height - offsets.bottom};        
@@ -772,20 +773,20 @@
         options.seriesDefaults = options.seriesDefaults || {};
         // only set these if there is a funnel series
         var setopts = false;
-        if (options.seriesDefaults.renderer == $.jqplot.FunnelRenderer) {
+        if (options.seriesDefaults.renderer == jqplot.FunnelRenderer) {
             setopts = true;
         }
         else if (options.series) {
             for (var i=0; i < options.series.length; i++) {
-                if (options.series[i].renderer == $.jqplot.FunnelRenderer) {
+                if (options.series[i].renderer == jqplot.FunnelRenderer) {
                     setopts = true;
                 }
             }
         }
         
         if (setopts) {
-            options.axesDefaults.renderer = $.jqplot.FunnelAxisRenderer;
-            options.legend.renderer = $.jqplot.FunnelLegendRenderer;
+            options.axesDefaults.renderer = jqplot.FunnelAxisRenderer;
+            options.legend.renderer = jqplot.FunnelLegendRenderer;
             options.legend.preDraw = true;
             options.sortData = false;
             options.seriesDefaults.pointLabels = {show: false};
@@ -796,7 +797,7 @@
         // if multiple series, add a reference to the previous one so that
         // funnel rings can nest.
         for (var i=0; i<this.series.length; i++) {
-            if (this.series[i].renderer.constructor == $.jqplot.FunnelRenderer) {
+            if (this.series[i].renderer.constructor == jqplot.FunnelRenderer) {
                 // don't allow mouseover and mousedown at same time.
                 if (this.series[i].highlightMouseOver) {
                     this.series[i].highlightMouseDown = false;
@@ -809,7 +810,7 @@
     function postParseOptions(options) {
         for (var i=0; i<this.series.length; i++) {
             this.series[i].seriesColors = this.seriesColors;
-            this.series[i].colorGenerator = $.jqplot.colorGenerator;
+            this.series[i].colorGenerator = jqplot.colorGenerator;
         }
     }
     
@@ -914,7 +915,7 @@
         }
 
         this.plugins.funnelRenderer = {};
-        this.plugins.funnelRenderer.highlightCanvas = new $.jqplot.GenericCanvas();
+        this.plugins.funnelRenderer.highlightCanvas = new jqplot.GenericCanvas();
         
         // do we have any data labels?  if so, put highlight canvas before those
         var labels = $(this.targetId+' .jqplot-data-label');
@@ -929,15 +930,11 @@
         this.eventCanvas._elem.bind('mouseleave', {plot:this}, function (ev) { unhighlight(ev.data.plot); });
     }
     
-    $.jqplot.preInitHooks.push(preInit);
+    jqplot.preInitHooks.push(preInit);
     
-    $.jqplot.FunnelTickRenderer = function() {
-        $.jqplot.AxisTickRenderer.call(this);
+    export const FunnelTickRenderer = jqplot.FunnelTickRenderer = function() {
+        jqplot.AxisTickRenderer.call(this);
     };
     
-    $.jqplot.FunnelTickRenderer.prototype = new $.jqplot.AxisTickRenderer();
-    $.jqplot.FunnelTickRenderer.prototype.constructor = $.jqplot.FunnelTickRenderer;
-    
-})(jQuery);
-    
-    
+    jqplot.FunnelTickRenderer.prototype = new jqplot.AxisTickRenderer();
+    jqplot.FunnelTickRenderer.prototype.constructor = jqplot.FunnelTickRenderer;

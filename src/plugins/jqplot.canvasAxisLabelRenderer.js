@@ -28,9 +28,10 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     /**
-    * Class: $.jqplot.CanvasAxisLabelRenderer
+    * Class: jqplot.CanvasAxisLabelRenderer
     * Renderer to draw axis labels with a canvas element to support advanced
     * featrues such as rotated text.  This renderer uses a separate rendering engine
     * to draw the text on the canvas.  Two modes of rendering the text are available.
@@ -43,7 +44,7 @@
     * non-supporting browsers will still render with the Hershey font.
     * 
     */
-    $.jqplot.CanvasAxisLabelRenderer = function(options) {
+    export const CanvasAxisLabelRenderer = jqplot.CanvasAxisLabelRenderer = function(options) {
         // Group: Properties
         
         // prop: angle
@@ -110,20 +111,20 @@
         }
         
         if (this.enableFontSupport) {
-            if ($.jqplot.support_canvas_text()) {
-                this._textRenderer = new $.jqplot.CanvasFontRenderer(ropts);
+            if (jqplot.support_canvas_text()) {
+                this._textRenderer = new jqplot.CanvasFontRenderer(ropts);
             }
             
             else {
-                this._textRenderer = new $.jqplot.CanvasTextRenderer(ropts); 
+                this._textRenderer = new jqplot.CanvasTextRenderer(ropts);
             }
         }
         else {
-            this._textRenderer = new $.jqplot.CanvasTextRenderer(ropts); 
+            this._textRenderer = new jqplot.CanvasTextRenderer(ropts);
         }
     };
     
-    $.jqplot.CanvasAxisLabelRenderer.prototype.init = function(options) {
+    jqplot.CanvasAxisLabelRenderer.prototype.init = function(options) {
         $.extend(true, this, options);
         this._textRenderer.init({fontSize:this.fontSize, fontWeight:this.fontWeight, fontStretch:this.fontStretch, fillStyle:this.textColor, angle:this.getAngleRad(), fontFamily:this.fontFamily});
     };
@@ -131,7 +132,7 @@
     // return width along the x axis
     // will check first to see if an element exists.
     // if not, will return the computed text box width.
-    $.jqplot.CanvasAxisLabelRenderer.prototype.getWidth = function(ctx) {
+    jqplot.CanvasAxisLabelRenderer.prototype.getWidth = function(ctx) {
         if (this._elem) {
          return this._elem.outerWidth(true);
         }
@@ -145,7 +146,7 @@
     };
     
     // return height along the y axis.
-    $.jqplot.CanvasAxisLabelRenderer.prototype.getHeight = function(ctx) {
+    jqplot.CanvasAxisLabelRenderer.prototype.getHeight = function(ctx) {
         if (this._elem) {
          return this._elem.outerHeight(true);
         }
@@ -158,15 +159,15 @@
         }
     };
     
-    $.jqplot.CanvasAxisLabelRenderer.prototype.getAngleRad = function() {
+    jqplot.CanvasAxisLabelRenderer.prototype.getAngleRad = function() {
         var a = this.angle * Math.PI/180;
         return a;
     };
     
-    $.jqplot.CanvasAxisLabelRenderer.prototype.draw = function(ctx, plot) {
+    jqplot.CanvasAxisLabelRenderer.prototype.draw = function(ctx, plot) {
           // Memory Leaks patch
           if (this._elem) {
-              if ($.jqplot.use_excanvas && window.G_vmlCanvasManager.uninitElement !== undefined) {
+              if (jqplot.use_excanvas && window.G_vmlCanvasManager.uninitElement !== undefined) {
                   window.G_vmlCanvasManager.uninitElement(this._elem.get(0));
               }
             
@@ -196,8 +197,6 @@
         return this._elem;
     };
     
-    $.jqplot.CanvasAxisLabelRenderer.prototype.pack = function() {
+    jqplot.CanvasAxisLabelRenderer.prototype.pack = function() {
         this._textRenderer.draw(this._elem.get(0).getContext("2d"), this.label);
     };
-    
-})(jQuery);

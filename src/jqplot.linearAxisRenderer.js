@@ -28,14 +28,16 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // class: $.jqplot.LinearAxisRenderer
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
+
+    // class: jqplot.LinearAxisRenderer
     // The default jqPlot axis renderer, creating a numeric axis.
-    $.jqplot.LinearAxisRenderer = function() {
+    export const LinearAxisRenderer = jqplot.LinearAxisRenderer = function() {
     };
     
     // called with scope of axis object.
-    $.jqplot.LinearAxisRenderer.prototype.init = function(options){
+    jqplot.LinearAxisRenderer.prototype.init = function(options){
         // prop: breakPoints
         // EXPERIMENTAL!! Use at your own risk!
         // Works only with linear axes and the default tick renderer.
@@ -109,7 +111,7 @@
     };
     
     // called with scope of axis
-    $.jqplot.LinearAxisRenderer.prototype.draw = function(ctx, plot) {
+    jqplot.LinearAxisRenderer.prototype.draw = function(ctx, plot) {
         if (this.show) {
             // populate the axis label and value properties.
             // createTicks is a method on the renderer, but
@@ -164,7 +166,7 @@
     };
     
     // called with scope of an axis
-    $.jqplot.LinearAxisRenderer.prototype.reset = function() {
+    jqplot.LinearAxisRenderer.prototype.reset = function() {
         this.min = this._options.min;
         this.max = this._options.max;
         this.tickInterval = this._options.tickInterval;
@@ -178,7 +180,7 @@
     };
     
     // called with scope of axis
-    $.jqplot.LinearAxisRenderer.prototype.set = function() { 
+    jqplot.LinearAxisRenderer.prototype.set = function() { 
         var dim = 0;
         var temp;
         var w = 0;
@@ -219,14 +221,14 @@
             else if (this.name == 'yaxis') {
                 dim = dim + w;
                 this._elem.css({'width':dim+'px', left:'0px', top:'0px'});
-                if (lshow && this._label.constructor == $.jqplot.AxisLabelRenderer) {
+                if (lshow && this._label.constructor == jqplot.AxisLabelRenderer) {
                     this._label._elem.css('width', w+'px');
                 }
             }
             else {
                 dim = dim + w;
                 this._elem.css({'width':dim+'px', right:'0px', top:'0px'});
-                if (lshow && this._label.constructor == $.jqplot.AxisLabelRenderer) {
+                if (lshow && this._label.constructor == jqplot.AxisLabelRenderer) {
                     this._label._elem.css('width', w+'px');
                 }
             }
@@ -234,7 +236,7 @@
     };    
     
     // called with scope of axis
-    $.jqplot.LinearAxisRenderer.prototype.createTicks = function(plot) {
+    jqplot.LinearAxisRenderer.prototype.createTicks = function(plot) {
         // we're are operating on an axis here
         var ticks = this._ticks;
         var userTicks = this.ticks;
@@ -387,7 +389,7 @@
                 // var threshold = 30;
                 // var tdim = Math.max(dim, threshold+1);
                 // this._scalefact =  (tdim-threshold)/300.0;
-                var ret = $.jqplot.LinearTickGenerator(min, max, this._scalefact, _numberTicks, keepMin, keepMax); 
+                var ret = jqplot.LinearTickGenerator(min, max, this._scalefact, _numberTicks, keepMin, keepMax); 
                 // calculate a padded max and min, points should be less than these
                 // so that they aren't too close to the edges of the plot.
                 // User can adjust how much padding is allowed with pad, padMin and PadMax options. 
@@ -400,7 +402,7 @@
                 if (min <tumin || max > tumax) {
                     tumin = (this.min != null) ? min : min - range*(this.padMin - 1);
                     tumax = (this.max != null) ? max : max + range*(this.padMax - 1);
-                    ret = $.jqplot.LinearTickGenerator(tumin, tumax, this._scalefact, _numberTicks, keepMin, keepMax);
+                    ret = jqplot.LinearTickGenerator(tumin, tumax, this._scalefact, _numberTicks, keepMin, keepMax);
                 }
 
                 this.min = ret[0];
@@ -453,7 +455,7 @@
                             }
                             var dp = (vmax - vmin) / vmax;
                             // is this sries a bar?
-                            if (s.renderer.constructor == $.jqplot.BarRenderer) {
+                            if (s.renderer.constructor == jqplot.BarRenderer) {
                                 // if no negative values and could also check range.
                                 if (vmin >= 0 && (s.fillToZero || dp > 0.1)) {
                                     forceMinZero = true;
@@ -565,7 +567,7 @@
 
                     // Compute a somewhat decent format string if it is needed.
                     // get precision of interval and determine a format string.
-                    var sf = $.jqplot.getSignificantFigures(this.tickInterval);
+                    var sf = jqplot.getSignificantFigures(this.tickInterval);
 
                     var fstr;
 
@@ -617,7 +619,7 @@
                     }
 
                     // get precision of interval and determine a format string.
-                    var sf = $.jqplot.getSignificantFigures(this.tickInterval);
+                    var sf = jqplot.getSignificantFigures(this.tickInterval);
 
                     var fstr;
 
@@ -639,14 +641,14 @@
                     this.max = rmax;
                 }
                 
-                if (this.renderer.constructor == $.jqplot.LinearAxisRenderer && this._autoFormatString == '') {
+                if (this.renderer.constructor == jqplot.LinearAxisRenderer && this._autoFormatString == '') {
                     // fix for misleading tick display with small range and low precision.
                     range = this.max - this.min;
                     // figure out precision
                     var temptick = new this.tickRenderer(this.tickOptions);
                     // use the tick formatString or, the default.
-                    var fs = temptick.formatString || $.jqplot.config.defaultTickFormatString; 
-                    var fs = fs.match($.jqplot.sprintf.regex)[0];
+                    var fs = temptick.formatString || jqplot.config.defaultTickFormatString; 
+                    var fs = fs.match(jqplot.sprintf.regex)[0];
                     var precision = 0;
                     if (fs) {
                         if (fs.search(/[fFeEgGpP]/) > -1) {
@@ -724,7 +726,7 @@
             for (var i=0; i<this.numberTicks; i++){
                 tt = this.min + i * this.tickInterval;
                 t = new this.tickRenderer(this.tickOptions);
-                // var t = new $.jqplot.AxisTickRenderer(this.tickOptions);
+                // var t = new jqplot.AxisTickRenderer(this.tickOptions);
 
                 t.setTick(tt, this.name);
                 this._ticks.push(t);
@@ -757,7 +759,7 @@
     //
     // > plot.axes.yaxis.renderer.resetTickValues.call(plot.axes.yaxis, yarr);
     //
-    $.jqplot.LinearAxisRenderer.prototype.resetTickValues = function(opts) {
+    jqplot.LinearAxisRenderer.prototype.resetTickValues = function(opts) {
         if ($.isArray(opts) && opts.length == this._ticks.length) {
             var t;
             for (var i=0; i<opts.length; i++) {
@@ -768,8 +770,8 @@
                 t._elem.html(t.label);
             }
             t = null;
-            this.min = $.jqplot.arrayMin(opts);
-            this.max = $.jqplot.arrayMax(opts);
+            this.min = jqplot.arrayMin(opts);
+            this.max = jqplot.arrayMax(opts);
             this.pack();
         }
         // Not implemented yet.
@@ -779,7 +781,7 @@
     };
     
     // called with scope of axis
-    $.jqplot.LinearAxisRenderer.prototype.pack = function(pos, offsets) {
+    jqplot.LinearAxisRenderer.prototype.pack = function(pos, offsets) {
         // Add defaults for repacking from resetTickValues function.
         pos = pos || {};
         offsets = offsets || this._offsets;
@@ -889,7 +891,7 @@
                     if (t.show && t.showLabel) {
                         var shim;
                         
-                        if (t.constructor == $.jqplot.CanvasAxisTickRenderer && t.angle) {
+                        if (t.constructor == jqplot.CanvasAxisTickRenderer && t.angle) {
                             // will need to adjust auto positioning based on which axis this is.
                             var temp = (this.name == 'xaxis') ? 1 : -1;
                             switch (t.labelPosition) {
@@ -942,7 +944,7 @@
                     var t = ticks[i];
                     if (t.show && t.showLabel) {                        
                         var shim;
-                        if (t.constructor == $.jqplot.CanvasAxisTickRenderer && t.angle) {
+                        if (t.constructor == jqplot.CanvasAxisTickRenderer && t.angle) {
                             // will need to adjust auto positioning based on which axis this is.
                             var temp = (this.name == 'yaxis') ? 1 : -1;
                             switch (t.labelPosition) {
@@ -1003,4 +1005,3 @@
 
         ticks = null;
     };
-})(jQuery);

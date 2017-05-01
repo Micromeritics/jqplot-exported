@@ -5,44 +5,44 @@
  * @version #VERSION#
  * @date #DATE#
  */
- 
-(function($) {
 
-    /** 
+
+
+    /**
      * @description
      * <p>Object with extended date parsing and formatting capabilities.
-     * This library borrows many concepts and ideas from the Date Instance 
+     * This library borrows many concepts and ideas from the Date Instance
      * Methods by Ken Snyder along with some parts of Ken's actual code.</p>
      *
-     * <p>jsDate takes a different approach by not extending the built-in 
-     * Date Object, improving date parsing, allowing for multiple formatting 
+     * <p>jsDate takes a different approach by not extending the built-in
+     * Date Object, improving date parsing, allowing for multiple formatting
      * syntaxes and multiple and more easily expandable localization.</p>
-     * 
+     *
      * @author Chris Leonello
      * @date #date#
      * @version #VERSION#
      * @copyright (c) 2010-2015 Chris Leonello
-     * jsDate is currently available for use in all personal or commercial projects 
-     * under both the MIT and GPL version 2.0 licenses. This means that you can 
+     * jsDate is currently available for use in all personal or commercial projects
+     * under both the MIT and GPL version 2.0 licenses. This means that you can
      * choose the license that best suits your project and use it accordingly.
-     * 
+     *
      * <p>Ken's original Date Instance Methods and copyright notice:</p>
      * <pre>
      * Ken Snyder (ken d snyder at gmail dot com)
      * 2008-09-10
-     * version 2.0.2 (http://kendsnyder.com/sandbox/date/)     
+     * version 2.0.2 (http://kendsnyder.com/sandbox/date/)
      * Creative Commons Attribution License 3.0 (http://creativecommons.org/licenses/by/3.0/)
      * </pre>
-     * 
+     *
      * @class
      * @name jsDate
      * @param  {String | Number | Array | Date&nbsp;Object | Options&nbsp;Object} arguments Optional arguments, either a parsable date/time string,
      * a JavaScript timestamp, an array of numbers of form [year, month, day, hours, minutes, seconds, milliseconds],
      * a Date object, or an options object of form {syntax: "perl", date:some Date} where all options are optional.
      */
-     
+
     var jsDate = function () {
-    
+
         this.syntax = jsDate.config.syntax;
         this._type = "jsDate";
         this.proxy = new Date();
@@ -82,7 +82,7 @@
                 break;
         }
     };
-    
+
     /**
      * @namespace Configuration options that will be used as defaults for all instances on the page.
      * @property {String} defaultLocale The default locale to use [en].
@@ -94,15 +94,15 @@
         syntax: 'perl',
         defaultCentury: 1900
     };
-        
+
     /**
      * Add an arbitrary amount to the currently stored date
-     * 
-     * @param {Number} number      
+     *
+     * @param {Number} number
      * @param {String} unit
-     * @returns {jsDate}       
+     * @returns {jsDate}
      */
-     
+
     jsDate.prototype.add = function(number, unit) {
         var factor = multipliers[unit] || multipliers.day;
         if (typeof factor == 'number') {
@@ -112,13 +112,13 @@
         }
         return this;
     };
-        
+
     /**
      * Create a new jqplot.date object with the same date
-     * 
+     *
      * @returns {jsDate}
-     */  
-     
+     */
+
     jsDate.prototype.clone = function() {
             return new jsDate(this.proxy.getTime());
     };
@@ -135,13 +135,13 @@
 
     /**
      * Find the difference between this jsDate and another date.
-     * 
+     *
      * @param {String| Number| Array| jsDate&nbsp;Object| Date&nbsp;Object} dateObj
      * @param {String} unit
      * @param {Boolean} allowDecimal
      * @returns {Number} Number of units difference between dates.
      */
-     
+
     jsDate.prototype.diff = function(dateObj, unit, allowDecimal) {
         // ensure we have a Date object
         dateObj = new jsDate(dateObj);
@@ -158,85 +158,85 @@
             var unitDiff = factor.diff(this.proxy, dateObj.proxy);
         }
         // if decimals are not allowed, round toward zero
-        return (allowDecimal ? unitDiff : Math[unitDiff > 0 ? 'floor' : 'ceil'](unitDiff));          
+        return (allowDecimal ? unitDiff : Math[unitDiff > 0 ? 'floor' : 'ceil'](unitDiff));
     };
-    
+
     /**
      * Get the abbreviated name of the current week day
-     * 
+     *
      * @returns {String}
-     */   
-     
+     */
+
     jsDate.prototype.getAbbrDayName = function() {
         return jsDate.regional[this.locale]["dayNamesShort"][this.proxy.getDay()];
     };
-    
+
     /**
      * Get the abbreviated name of the current month
-     * 
+     *
      * @returns {String}
      */
-     
+
     jsDate.prototype.getAbbrMonthName = function() {
         return jsDate.regional[this.locale]["monthNamesShort"][this.proxy.getMonth()];
     };
-    
+
     /**
      * Get UPPER CASE AM or PM for the current time
-     * 
+     *
      * @returns {String}
      */
-     
+
     jsDate.prototype.getAMPM = function() {
         return this.proxy.getHours() >= 12 ? 'PM' : 'AM';
     };
-    
+
     /**
      * Get lower case am or pm for the current time
-     * 
+     *
      * @returns {String}
      */
-     
+
     jsDate.prototype.getAmPm = function() {
         return this.proxy.getHours() >= 12 ? 'pm' : 'am';
     };
-    
+
     /**
      * Get the century (19 for 20th Century)
      *
      * @returns {Integer} Century (19 for 20th century).
      */
-    jsDate.prototype.getCentury = function() { 
+    jsDate.prototype.getCentury = function() {
         return parseInt(this.proxy.getFullYear()/100, 10);
     };
-    
+
     /**
      * Implements Date functionality
      */
     jsDate.prototype.getDate = function() {
         return this.proxy.getDate();
     };
-    
+
     /**
      * Implements Date functionality
      */
     jsDate.prototype.getDay = function() {
         return this.proxy.getDay();
     };
-    
+
     /**
      * Get the Day of week 1 (Monday) thru 7 (Sunday)
-     * 
+     *
      * @returns {Integer} Day of week 1 (Monday) thru 7 (Sunday)
      */
-    jsDate.prototype.getDayOfWeek = function() { 
-        var dow = this.proxy.getDay(); 
-        return dow===0?7:dow; 
+    jsDate.prototype.getDayOfWeek = function() {
+        var dow = this.proxy.getDay();
+        return dow===0?7:dow;
     };
-    
+
     /**
      * Get the day of the year
-     * 
+     *
      * @returns {Integer} 1 - 366, day of the year
      */
     jsDate.prototype.getDayOfYear = function() {
@@ -246,17 +246,17 @@
         d = null;
         return parseInt(ms/60000/60/24, 10)+1;
     };
-    
+
     /**
      * Get the name of the current week day
-     * 
+     *
      * @returns {String}
-     */  
-     
+     */
+
     jsDate.prototype.getDayName = function() {
         return jsDate.regional[this.locale]["dayNames"][this.proxy.getDay()];
     };
-    
+
     /**
      * Get the week number of the given year, starting with the first Sunday as the first week
      * @returns {Integer} Week number (13 for the 13th full week of the year).
@@ -268,20 +268,20 @@
         var woy = parseInt((doy+rdow)/7, 10);
         return woy;
     };
-    
+
     /**
      * Implements Date functionality
      */
     jsDate.prototype.getFullYear = function() {
         return this.proxy.getFullYear();
     };
-    
+
     /**
      * Get the GMT offset in hours and minutes (e.g. +06:30)
-     * 
+     *
      * @returns {String}
      */
-     
+
     jsDate.prototype.getGmtOffset = function() {
         // divide the minutes offset by 60
         var hours = this.proxy.getTimezoneOffset() / 60;
@@ -292,26 +292,26 @@
         // add the +/- to the padded number of hours to : to the padded minutes
         return prefix + addZeros(Math.floor(hours), 2) + ':' + addZeros((hours % 1) * 60, 2);
     };
-    
+
     /**
      * Implements Date functionality
      */
     jsDate.prototype.getHours = function() {
         return this.proxy.getHours();
     };
-    
+
     /**
      * Get the current hour on a 12-hour scheme
-     * 
+     *
      * @returns {Integer}
      */
-     
+
     jsDate.prototype.getHours12  = function() {
         var hours = this.proxy.getHours();
         return hours > 12 ? hours - 12 : (hours == 0 ? 12 : hours);
     };
-    
-    
+
+
     jsDate.prototype.getIsoWeek = function() {
         var d = this.proxy;
         var woy = this.getWeekOfYear();
@@ -319,7 +319,7 @@
         // First week is 01 and not 00 as in the case of %U and %W,
         // so we add 1 to the final result except if day 1 of the year
         // is a Monday (then %W returns 01).
-        // We also need to subtract 1 if the day 1 of the year is 
+        // We also need to subtract 1 if the day 1 of the year is
         // Friday-Sunday, so the resulting equation becomes:
         var idow = woy + (dow1_1 > 4 || dow1_1 <= 1 ? 0 : 1);
         if(idow == 53 && (new Date('' + d.getFullYear() + '/12/31')).getDay() < 4)
@@ -334,99 +334,99 @@
         d = null;
         return idow;
     };
-    
+
     /**
      * Implements Date functionality
      */
     jsDate.prototype.getMilliseconds = function() {
         return this.proxy.getMilliseconds();
     };
-    
+
     /**
      * Implements Date functionality
      */
     jsDate.prototype.getMinutes = function() {
         return this.proxy.getMinutes();
     };
-    
+
     /**
      * Implements Date functionality
      */
     jsDate.prototype.getMonth = function() {
         return this.proxy.getMonth();
     };
-    
+
     /**
      * Get the name of the current month
-     * 
+     *
      * @returns {String}
      */
-     
+
     jsDate.prototype.getMonthName = function() {
         return jsDate.regional[this.locale]["monthNames"][this.proxy.getMonth()];
     };
-    
+
     /**
      * Get the number of the current month, 1-12
-     * 
+     *
      * @returns {Integer}
      */
-     
+
     jsDate.prototype.getMonthNumber = function() {
         return this.proxy.getMonth() + 1;
     };
-    
+
     /**
      * Implements Date functionality
      */
     jsDate.prototype.getSeconds = function() {
         return this.proxy.getSeconds();
     };
-    
+
     /**
      * Return a proper two-digit year integer
-     * 
+     *
      * @returns {Integer}
      */
-     
+
     jsDate.prototype.getShortYear = function() {
         return this.proxy.getYear() % 100;
     };
-    
+
     /**
      * Implements Date functionality
      */
     jsDate.prototype.getTime = function() {
         return this.proxy.getTime();
     };
-    
+
     /**
      * Get the timezone abbreviation
      *
      * @returns {String} Abbreviation for the timezone
      */
     jsDate.prototype.getTimezoneAbbr = function() {
-        return this.proxy.toString().replace(/^.*\(([^)]+)\)$/, '$1'); 
+        return this.proxy.toString().replace(/^.*\(([^)]+)\)$/, '$1');
     };
-    
+
     /**
      * Get the browser-reported name for the current timezone (e.g. MDT, Mountain Daylight Time)
-     * 
+     *
      * @returns {String}
      */
     jsDate.prototype.getTimezoneName = function() {
         var match = /(?:\((.+)\)$| ([A-Z]{3}) )/.exec(this.toString());
         return match[1] || match[2] || 'GMT' + this.getGmtOffset();
-    }; 
-    
+    };
+
     /**
      * Implements Date functionality
      */
     jsDate.prototype.getTimezoneOffset = function() {
         return this.proxy.getTimezoneOffset();
     };
-    
-    
+
+
     /**
      * Get the week number of the given year, starting with the first Monday as the first week
      * @returns {Integer} Week number (13 for the 13th week of the year).
@@ -437,40 +437,40 @@
         var woy = parseInt((doy+rdow)/7, 10);
         return woy;
     };
-    
+
     /**
      * Get the current date as a Unix timestamp
-     * 
+     *
      * @returns {Integer}
      */
-     
+
     jsDate.prototype.getUnix = function() {
         return Math.round(this.proxy.getTime() / 1000, 0);
-    }; 
-    
+    };
+
     /**
      * Implements Date functionality
      */
     jsDate.prototype.getYear = function() {
         return this.proxy.getYear();
     };
-    
+
     /**
      * Return a date one day ahead (or any other unit)
-     * 
+     *
      * @param {String} unit Optional, year | month | day | week | hour | minute | second | millisecond
      * @returns {jsDate}
      */
-     
+
     jsDate.prototype.next = function(unit) {
         unit = unit || 'day';
         return this.clone().add(1, unit);
     };
-    
+
     /**
      * Set the jsDate instance to a new date.
      *
-     * @param  {String | Number | Array | Date Object | jsDate Object | Options Object} arguments Optional arguments, 
+     * @param  {String | Number | Array | Date Object | jsDate Object | Options Object} arguments Optional arguments,
      * either a parsable date/time string,
      * a JavaScript timestamp, an array of numbers of form [year, month, day, hours, minutes, seconds, milliseconds],
      * a Date object, jsDate Object or an options object of form {syntax: "perl", date:some Date} where all options are optional.
@@ -509,129 +509,129 @@
         }
         return this;
     };
-    
+
     /**
      * Sets the day of the month for a specified date according to local time.
-     * @param {Integer} dayValue An integer from 1 to 31, representing the day of the month. 
+     * @param {Integer} dayValue An integer from 1 to 31, representing the day of the month.
      */
     jsDate.prototype.setDate = function(n) {
         this.proxy.setDate(n);
         return this;
     };
-    
+
     /**
      * Sets the full year for a specified date according to local time.
-     * @param {Integer} yearValue The numeric value of the year, for example, 1995.  
-     * @param {Integer} monthValue Optional, between 0 and 11 representing the months January through December.  
-     * @param {Integer} dayValue Optional, between 1 and 31 representing the day of the month. If you specify the dayValue parameter, you must also specify the monthValue. 
+     * @param {Integer} yearValue The numeric value of the year, for example, 1995.
+     * @param {Integer} monthValue Optional, between 0 and 11 representing the months January through December.
+     * @param {Integer} dayValue Optional, between 1 and 31 representing the day of the month. If you specify the dayValue parameter, you must also specify the monthValue.
      */
     jsDate.prototype.setFullYear = function() {
         this.proxy.setFullYear.apply(this.proxy, arguments);
         return this;
     };
-    
+
     /**
      * Sets the hours for a specified date according to local time.
-     * 
-     * @param {Integer} hoursValue An integer between 0 and 23, representing the hour.  
-     * @param {Integer} minutesValue Optional, An integer between 0 and 59, representing the minutes.  
-     * @param {Integer} secondsValue Optional, An integer between 0 and 59, representing the seconds. 
-     * If you specify the secondsValue parameter, you must also specify the minutesValue.  
-     * @param {Integer} msValue Optional, A number between 0 and 999, representing the milliseconds. 
-     * If you specify the msValue parameter, you must also specify the minutesValue and secondsValue. 
+     *
+     * @param {Integer} hoursValue An integer between 0 and 23, representing the hour.
+     * @param {Integer} minutesValue Optional, An integer between 0 and 59, representing the minutes.
+     * @param {Integer} secondsValue Optional, An integer between 0 and 59, representing the seconds.
+     * If you specify the secondsValue parameter, you must also specify the minutesValue.
+     * @param {Integer} msValue Optional, A number between 0 and 999, representing the milliseconds.
+     * If you specify the msValue parameter, you must also specify the minutesValue and secondsValue.
      */
     jsDate.prototype.setHours = function() {
         this.proxy.setHours.apply(this.proxy, arguments);
         return this;
     };
-    
+
     /**
      * Implements Date functionality
-     */ 
+     */
     jsDate.prototype.setMilliseconds = function(n) {
         this.proxy.setMilliseconds(n);
         return this;
     };
-    
+
     /**
      * Implements Date functionality
-     */ 
+     */
     jsDate.prototype.setMinutes = function() {
         this.proxy.setMinutes.apply(this.proxy, arguments);
         return this;
     };
-    
+
     /**
      * Implements Date functionality
-     */ 
+     */
     jsDate.prototype.setMonth = function() {
         this.proxy.setMonth.apply(this.proxy, arguments);
         return this;
     };
-    
+
     /**
      * Implements Date functionality
-     */ 
+     */
     jsDate.prototype.setSeconds = function() {
         this.proxy.setSeconds.apply(this.proxy, arguments);
         return this;
     };
-    
+
     /**
      * Implements Date functionality
-     */ 
+     */
     jsDate.prototype.setTime = function(n) {
         this.proxy.setTime(n);
         return this;
     };
-    
+
     /**
      * Implements Date functionality
-     */ 
+     */
     jsDate.prototype.setYear = function() {
         this.proxy.setYear.apply(this.proxy, arguments);
         return this;
     };
-    
+
     /**
      * Provide a formatted string representation of this date.
-     * 
-     * @param {String} formatString A format string.  
+     *
+     * @param {String} formatString A format string.
      * See: {@link jsDate.formats}.
      * @returns {String} Date String.
      */
-            
+
     jsDate.prototype.strftime = function(formatString) {
         formatString = formatString || this.formatString || jsDate.regional[this.locale]['formatString'];
         return jsDate.strftime(this, formatString, this.syntax);
     };
-        
+
     /**
      * Return a String representation of this jsDate object.
      * @returns {String} Date string.
      */
-    
+
     jsDate.prototype.toString = function() {
         return this.proxy.toString();
     };
-        
+
     /**
      * Convert the current date to an 8-digit integer (%Y%m%d)
-     * 
+     *
      * @returns {Integer}
      */
-     
+
     jsDate.prototype.toYmdInt = function() {
         return (this.proxy.getFullYear() * 10000) + (this.getMonthNumber() * 100) + this.proxy.getDate();
     };
-    
+
     /**
      * @namespace Holds localizations for month/day names.
      * <p>jsDate attempts to detect locale when loaded and defaults to 'en'.
      * If a localization is detected which is not available, jsDate defaults to 'en'.
      * Additional localizations can be added after jsDate loads.  After adding a localization,
      * call the jsDate.regional.getLocale() method.  Currently, en, fr and de are defined.</p>
-     * 
+     *
      * <p>Localizations must be an object and have the following properties defined:  monthNames, monthNamesShort, dayNames, dayNamesShort and Localizations are added like:</p>
      * <pre class="code">
      * jsDate.regional['en'] = {
@@ -644,7 +644,7 @@
      * <p>After adding localizations, call <code>jsDate.regional.getLocale();</code> to update the locale setting with the
      * new localizations.</p>
      */
-     
+
     jsDate.regional = {
         'en': {
             monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
@@ -653,7 +653,7 @@
             dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
             formatString: '%Y-%m-%d %H:%M:%S'
         },
-        
+
         'fr': {
             monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
             monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'],
@@ -661,7 +661,7 @@
             dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
             formatString: '%Y-%m-%d %H:%M:%S'
         },
-        
+
         'de': {
             monthNames: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
             monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],
@@ -669,7 +669,7 @@
             dayNamesShort: ['So','Mo','Di','Mi','Do','Fr','Sa'],
             formatString: '%Y-%m-%d %H:%M:%S'
         },
-        
+
         'es': {
             monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio', 'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
             monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun', 'Jul','Ago','Sep','Oct','Nov','Dic'],
@@ -677,7 +677,7 @@
             dayNamesShort: ['Dom','Lun','Mar','Mi&eacute;','Juv','Vie','S&aacute;b'],
             formatString: '%Y-%m-%d %H:%M:%S'
         },
-        
+
         'ru': {
             monthNames: ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
             monthNamesShort: ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'],
@@ -685,7 +685,7 @@
             dayNamesShort: ['вск','пнд','втр','срд','чтв','птн','сбт'],
             formatString: '%Y-%m-%d %H:%M:%S'
         },
-        
+
         'ar': {
             monthNames: ['كانون الثاني', 'شباط', 'آذار', 'نيسان', 'آذار', 'حزيران','تموز', 'آب', 'أيلول',   'تشرين الأول', 'تشرين الثاني', 'كانون الأول'],
             monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
@@ -693,15 +693,15 @@
             dayNamesShort: ['سبت', 'أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة'],
             formatString: '%Y-%m-%d %H:%M:%S'
         },
-        
+
         'pt': {
             monthNames: ['Janeiro','Fevereiro','Mar&ccedil;o','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
             monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
             dayNames: ['Domingo','Segunda-feira','Ter&ccedil;a-feira','Quarta-feira','Quinta-feira','Sexta-feira','S&aacute;bado'],
             dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','S&aacute;b'],
-            formatString: '%Y-%m-%d %H:%M:%S'   
+            formatString: '%Y-%m-%d %H:%M:%S'
         },
-        
+
         'pt-BR': {
             monthNames: ['Janeiro','Fevereiro','Mar&ccedil;o','Abril','Maio','Junho', 'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
             monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
@@ -709,7 +709,7 @@
             dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','S&aacute;b'],
             formatString: '%Y-%m-%d %H:%M:%S'
         },
-        
+
         'pl': {
             monthNames: ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'],
             monthNamesShort: ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze','Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'],
@@ -741,34 +741,34 @@
             dayNamesShort: ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],
             formatString: '%d-%m-%Y %H:%M:%S'
         }
-    
+
     };
-    
+
     // Set english variants to 'en'
     jsDate.regional['en-US'] = jsDate.regional['en-GB'] = jsDate.regional['en'];
-    
+
     /**
      * Try to determine the users locale based on the lang attribute of the html page.  Defaults to 'en'
      * if it cannot figure out a locale of if the locale does not have a localization defined.
      * @returns {String} locale
      */
-     
+
     jsDate.regional.getLocale = function () {
         var l = jsDate.config.defaultLocale;
-        
+
         if ( document && document.getElementsByTagName('html') && document.getElementsByTagName('html')[0].lang ) {
             l = document.getElementsByTagName('html')[0].lang;
             if (!jsDate.regional.hasOwnProperty(l)) {
                 l = jsDate.config.defaultLocale;
             }
         }
-        
+
         return l;
     };
-    
+
     // ms in day
     var day = 24 * 60 * 60 * 1000;
-    
+
     // padd a number with zeros
     var addZeros = function(num, digits) {
         num = String(num);
@@ -825,7 +825,7 @@
             diff: function(d1, d2) {
                 return multipliers.month.diff(d1, d2) / 12;
             }
-        }        
+        }
     };
     //
     // Alias each multiplier with an 's' to allow 'year' and 'years' for example.
@@ -836,7 +836,7 @@
             multipliers[unit + 's'] = multipliers[unit];
         }
     }
-    
+
     //
     // take a jsDate instance and a format code and return the formatted value.
     // This is a somewhat modified version of Ken Snyder's method.
@@ -853,9 +853,9 @@
                 nbr = addZeros(nbr, getter[1]);
             }
             return nbr;
-        }       
+        }
     };
-    
+
     /**
      * @static
      * Static function for convert a date to a string according to a given format.  Also acts as namespace for strftime format codes.
@@ -864,8 +864,8 @@
      * var formattedDate = jsDate.strftime('Feb 8, 2006 8:48:32', '%Y-%m-%d %H:%M:%S');
      * </pre>
      * @param {String | Number | Array | jsDate&nbsp;Object | Date&nbsp;Object} date A parsable date string, JavaScript time stamp, Array of form [year, month, day, hours, minutes, seconds, milliseconds], jsDate Object or Date object.
-     * @param {String} formatString String with embedded date formatting codes.  
-     * See: {@link jsDate.formats}. 
+     * @param {String} formatString String with embedded date formatting codes.
+     * See: {@link jsDate.formats}.
      * @param {String} syntax Optional syntax to use [default perl].
      * @param {String} locale Optional locale to use.
      * @returns {String} Formatted representation of the date.
@@ -876,7 +876,7 @@
     jsDate.strftime = function(d, formatString, syntax, locale) {
         var syn = 'perl';
         var loc = jsDate.regional.getLocale();
-        
+
         // check if syntax and locale are available or reversed
         if (syntax && jsDate.formats.hasOwnProperty(syntax)) {
             syn = syntax;
@@ -884,14 +884,14 @@
         else if (syntax && jsDate.regional.hasOwnProperty(syntax)) {
             loc = syntax;
         }
-        
+
         if (locale && jsDate.formats.hasOwnProperty(locale)) {
             syn = locale;
         }
         else if (locale && jsDate.regional.hasOwnProperty(locale)) {
             loc = locale;
         }
-        
+
         if (get_type(d) != "[object Object]" || d._type != "jsDate") {
             d = new jsDate(d);
             d.locale = loc;
@@ -900,8 +900,8 @@
             formatString = d.formatString || jsDate.regional[loc]['formatString'];
         }
         // default the format string to year-month-day
-        var source = formatString || '%Y-%m-%d', 
-            result = '', 
+        var source = formatString || '%Y-%m-%d',
+            result = '',
             match;
         // replace each format code
         while (source.length > 0) {
@@ -916,13 +916,13 @@
         }
         return result;
     };
-    
+
     /**
      * @namespace
-     * Namespace to hold format codes and format shortcuts.  "perl" and "php" format codes 
+     * Namespace to hold format codes and format shortcuts.  "perl" and "php" format codes
      * and shortcuts are defined by default.  Additional codes and shortcuts can be
      * added like:
-     * 
+     *
      * <pre class="code">
      * jsDate.formats["perl"] = {
      *     "codes": {
@@ -936,71 +936,71 @@
      *     }
      * };
      * </pre>
-     * 
+     *
      * <p>Additionally, ISO and SQL shortcuts are defined and can be accesses via:
      * <code>jsDate.formats.ISO</code> and <code>jsDate.formats.SQL</code>
      */
-    
+
     jsDate.formats = {
         ISO:'%Y-%m-%dT%H:%M:%S.%N%G',
         SQL:'%Y-%m-%d %H:%M:%S'
     };
-    
+
     /**
      * Perl format codes and shortcuts for strftime.
-     * 
-     * A hash (object) of codes where each code must be an array where the first member is 
+     *
+     * A hash (object) of codes where each code must be an array where the first member is
      * the name of a Date.prototype or jsDate.prototype function to call
      * and optionally a second member indicating the number to pass to addZeros()
-     * 
+     *
      * <p>The following format codes are defined:</p>
-     * 
+     *
      * <pre class="code">
      * Code    Result                    Description
-     * == Years ==           
+     * == Years ==
      * %Y      2008                      Four-digit year
      * %y      08                        Two-digit year
-     * 
-     * == Months ==          
+     *
+     * == Months ==
      * %m      09                        Two-digit month
      * %#m     9                         One or two-digit month
      * %B      September                 Full month name
      * %b      Sep                       Abbreviated month name
-     * 
-     * == Days ==            
+     *
+     * == Days ==
      * %d      05                        Two-digit day of month
      * %#d     5                         One or two-digit day of month
      * %e      5                         One or two-digit day of month
      * %A      Sunday                    Full name of the day of the week
      * %a      Sun                       Abbreviated name of the day of the week
      * %w      0                         Number of the day of the week (0 = Sunday, 6 = Saturday)
-     * 
-     * == Hours ==           
+     *
+     * == Hours ==
      * %H      23                        Hours in 24-hour format (two digits)
      * %#H     3                         Hours in 24-hour integer format (one or two digits)
      * %I      11                        Hours in 12-hour format (two digits)
      * %#I     3                         Hours in 12-hour integer format (one or two digits)
      * %p      PM                        AM or PM
-     * 
-     * == Minutes ==         
+     *
+     * == Minutes ==
      * %M      09                        Minutes (two digits)
      * %#M     9                         Minutes (one or two digits)
-     * 
-     * == Seconds ==         
+     *
+     * == Seconds ==
      * %S      02                        Seconds (two digits)
      * %#S     2                         Seconds (one or two digits)
      * %s      1206567625723             Unix timestamp (Seconds past 1970-01-01 00:00:00)
-     * 
-     * == Milliseconds ==    
+     *
+     * == Milliseconds ==
      * %N      008                       Milliseconds (three digits)
      * %#N     8                         Milliseconds (one to three digits)
-     * 
-     * == Timezone ==        
+     *
+     * == Timezone ==
      * %O      360                       difference in minutes between local time and GMT
      * %Z      Mountain Standard Time    Name of timezone as reported by browser
      * %G      06:00                     Hours and minutes between GMT
-     * 
-     * == Shortcuts ==       
+     *
+     * == Shortcuts ==
      * %F      2008-03-26                %Y-%m-%d
      * %T      05:06:30                  %H:%M:%S
      * %X      05:06:30                  %H:%M:%S
@@ -1010,13 +1010,13 @@
      * %v      3-Sep-2008                %e-%b-%Y
      * %R      15:31                     %H:%M
      * %r      03:31:00 PM               %I:%M:%S %p
-     * 
-     * == Characters ==      
+     *
+     * == Characters ==
      * %n      \n                        Newline
      * %t      \t                        Tab
      * %%      %                         Percent Symbol
      * </pre>
-     * 
+     *
      * <p>Formatting shortcuts that will be translated into their longer version.
      * Be sure that format shortcuts do not refer to themselves: this will cause an infinite loop.</p>
      * 
@@ -1488,6 +1488,4 @@
         return Object.prototype.toString.call(thing);
     }
     
-    $.jsDate = jsDate;
-
-})(jQuery);
+    module.exports = jsDate;

@@ -28,12 +28,13 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     /**
-     * Class: $.jqplot.MekkoRenderer
+     * Class: jqplot.MekkoRenderer
      * Draws a Mekko style chart which shows 3 dimensional data on a 2 dimensional graph.
-     * the <$.jqplot.MekkoAxisRenderer> should be used with mekko charts.  The mekko renderer
-     * overrides the default legend renderer with its own $.jqplot.MekkoLegendRenderer
+     * the <jqplot.MekkoAxisRenderer> should be used with mekko charts.  The mekko renderer
+     * overrides the default legend renderer with its own jqplot.MekkoLegendRenderer
      * which allows more flexibility to specify number of rows and columns in the legend.
      * 
      * Data is specified per bar in the chart.  You can specify data as an array of y values, or as 
@@ -53,8 +54,8 @@
      */
     
     
-    $.jqplot.MekkoRenderer = function(){
-        this.shapeRenderer = new $.jqplot.ShapeRenderer();
+    export const MekkoRenderer = jqplot.MekkoRenderer = function(){
+        this.shapeRenderer = new jqplot.ShapeRenderer();
         // prop: borderColor
         // color of the borders between areas on the chart
         this.borderColor = null;
@@ -65,7 +66,7 @@
     };
     
     // called with scope of series.
-    $.jqplot.MekkoRenderer.prototype.init = function(options, plot) {
+    jqplot.MekkoRenderer.prototype.init = function(options, plot) {
         this.fill = false;
         this.fillRect = true;
         this.strokeRect = true;
@@ -86,7 +87,7 @@
     // in the gridData array.  Will convert user data into appropriate
     // rectangles.
     // Called with scope of a series.
-    $.jqplot.MekkoRenderer.prototype.setGridData = function(plot) {
+    jqplot.MekkoRenderer.prototype.setGridData = function(plot) {
         // recalculate the grid data
         var xp = this._xaxis.series_u2p;
         var yp = this._yaxis.series_u2p;
@@ -118,7 +119,7 @@
     // linerenderer to generate grid data points without overwriting the
     // grid data associated with that series.
     // Called with scope of a series.
-    $.jqplot.MekkoRenderer.prototype.makeGridData = function(data, plot) {
+    jqplot.MekkoRenderer.prototype.makeGridData = function(data, plot) {
         // recalculate the grid data
         // figure out width on x axis.
         var xp = this._xaxis.series_u2p;
@@ -140,11 +141,11 @@
     
 
     // called within scope of series.
-    $.jqplot.MekkoRenderer.prototype.draw = function(ctx, gd, options) {
+    jqplot.MekkoRenderer.prototype.draw = function(ctx, gd, options) {
         var i;
         var opts = (options != undefined) ? options : {};
         var showLine = (opts.showLine != undefined) ? opts.showLine : this.showLine;
-        var colorGenerator = new $.jqplot.ColorGenerator(this.seriesColors);
+        var colorGenerator = new jqplot.ColorGenerator(this.seriesColors);
         ctx.save();
         if (gd.length) {
             if (showLine) {
@@ -164,22 +165,22 @@
         ctx.restore();
     };  
     
-    $.jqplot.MekkoRenderer.prototype.drawShadow = function(ctx, gd, options) {
+    jqplot.MekkoRenderer.prototype.drawShadow = function(ctx, gd, options) {
         // This is a no-op, no shadows on mekko charts.
     };
     
     /**
-     * Class: $.jqplot.MekkoLegendRenderer
+     * Class: jqplot.MekkoLegendRenderer
      * Legend renderer used by mekko charts with options for 
      * controlling number or rows and columns as well as placement
      * outside of plot area.
      * 
      */
-    $.jqplot.MekkoLegendRenderer = function(){
+    export const MekkoLegendRenderer = jqplot.MekkoLegendRenderer = function(){
         //
     };
     
-    $.jqplot.MekkoLegendRenderer.prototype.init = function(options) {
+    jqplot.MekkoLegendRenderer.prototype.init = function(options) {
         // prop: numberRows
         // Maximum number of rows in the legend.  0 or null for unlimited.
         this.numberRows = null;
@@ -192,7 +193,7 @@
     };
     
     // called with scope of legend
-    $.jqplot.MekkoLegendRenderer.prototype.draw = function() {
+    jqplot.MekkoLegendRenderer.prototype.draw = function() {
         var legend = this;
         if (this.show) {
             var series = this._series;
@@ -210,7 +211,7 @@
                 reverse = true,    // mekko charts are always stacked, so reverse
                 nr, nc;
             var s = series[0];
-            var colorGenerator = new $.jqplot.ColorGenerator(s.seriesColors);
+            var colorGenerator = new jqplot.ColorGenerator(s.seriesColors);
             
             if (s.show) {
                 var pd = s.data;
@@ -296,7 +297,7 @@
         return this._elem;
     };
     
-    $.jqplot.MekkoLegendRenderer.prototype.pack = function(offsets) {
+    jqplot.MekkoLegendRenderer.prototype.pack = function(offsets) {
         if (this.show) {
             // fake a grid for positioning
             var grid = {_top:offsets.top, _left:offsets.left, _right:offsets.right, _bottom:this._plotDimensions.height - offsets.bottom};        
@@ -414,24 +415,22 @@
         options.legend = options.legend || {};
         options.seriesDefaults = options.seriesDefaults || {};
         var setopts = false;
-        if (options.seriesDefaults.renderer == $.jqplot.MekkoRenderer) {
+        if (options.seriesDefaults.renderer == jqplot.MekkoRenderer) {
             setopts = true;
         }
         else if (options.series) {
             for (var i=0; i < options.series.length; i++) {
-                if (options.series[i].renderer == $.jqplot.MekkoRenderer) {
+                if (options.series[i].renderer == jqplot.MekkoRenderer) {
                     setopts = true;
                 }
             }
         }
         
         if (setopts) {
-            options.axesDefaults.renderer = $.jqplot.MekkoAxisRenderer;
-            options.legend.renderer = $.jqplot.MekkoLegendRenderer;
+            options.axesDefaults.renderer = jqplot.MekkoAxisRenderer;
+            options.legend.renderer = jqplot.MekkoLegendRenderer;
             options.legend.preDraw = true;
         }
     }
     
-    $.jqplot.preInitHooks.push(preInit);
-    
-})(jQuery);    
+    jqplot.preInitHooks.push(preInit);

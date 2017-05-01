@@ -28,19 +28,20 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // class $.jqplot.EnhancedPieLegendRenderer
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
+    // class jqplot.EnhancedPieLegendRenderer
     // Legend renderer which can specify the number of rows and/or columns in the legend
     // Similar to EnhancedLegendRenderer, but for pie charts
-    $.jqplot.EnhancedPieLegendRenderer = function(){
-        $.jqplot.TableLegendRenderer.call(this);
+    export const EnhancedPieLegendRenderer = jqplot.EnhancedPieLegendRenderer = function(){
+        jqplot.TableLegendRenderer.call(this);
     };
     
-    $.jqplot.EnhancedPieLegendRenderer.prototype = new $.jqplot.TableLegendRenderer();
-    $.jqplot.EnhancedPieLegendRenderer.prototype.constructor = $.jqplot.EnhancedPieLegendRenderer;
+    jqplot.EnhancedPieLegendRenderer.prototype = new jqplot.TableLegendRenderer();
+    jqplot.EnhancedPieLegendRenderer.prototype.constructor = jqplot.EnhancedPieLegendRenderer;
     
     // called with scope of legend.
-    $.jqplot.EnhancedPieLegendRenderer.prototype.init = function(options) {
+    jqplot.EnhancedPieLegendRenderer.prototype.init = function(options) {
         // prop: numberRows
         // Maximum number of rows in the legend.  0 or null for unlimited.
         this.numberRows = null;
@@ -68,12 +69,12 @@
         $.extend(true, this, options);
         
         if (this.seriesToggle) {
-            $.jqplot.postDrawHooks.push(postDraw);
+            jqplot.postDrawHooks.push(postDraw);
         }
     };
     
     // called with scope of legend
-    $.jqplot.EnhancedPieLegendRenderer.prototype.draw = function(offsets, plot) {
+    jqplot.EnhancedPieLegendRenderer.prototype.draw = function(offsets, plot) {
         var legend = this;
         if (this.show) {
             var series = this._series;
@@ -98,7 +99,7 @@
                 nr, nc;
             var s = series[0];
             var slen = s.data.length;
-            var colorGenerator = new $.jqplot.ColorGenerator(s.seriesColors);
+            var colorGenerator = new jqplot.ColorGenerator(s.seriesColors);
 
             if (this.numberRows) {
                 nr = this.numberRows;
@@ -122,7 +123,7 @@
             var idx = 0;
             // check to see if we need to reverse
             for (i=series.length-1; i>=0; i--) {
-                if (nc == 1 && series[i]._stack || series[i].renderer.constructor == $.jqplot.BezierCurveRenderer){
+                if (nc == 1 && series[i]._stack || series[i].renderer.constructor == jqplot.BezierCurveRenderer){
                     reverse = true;
                 }
             }    
@@ -202,7 +203,7 @@
 
                                 var speed;
                                 if (typeof(this.seriesToggle) === 'string' || typeof(this.seriesToggle) === 'number') {
-                                    if (!$.jqplot.use_excanvas || !this.disableIEFading) {
+                                    if (!jqplot.use_excanvas || !this.disableIEFading) {
                                         speed = this.seriesToggle;
                                     }
                                 } 
@@ -253,9 +254,8 @@
 
     // called with scope of plot.
     var postDraw = function () {
-        if (this.legend.renderer.constructor == $.jqplot.EnhancedPieLegendRenderer && this.legend.seriesToggle) {
+        if (this.legend.renderer.constructor == jqplot.EnhancedPieLegendRenderer && this.legend.seriesToggle) {
             var e = this.legend._elem.detach();
             this.eventCanvas._elem.after(e);
         }
     };
-})(jQuery);

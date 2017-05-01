@@ -28,13 +28,14 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     /**
-     * Class: $.jqplot.ciParser
+     * Class: jqplot.ciParser
      * Data Renderer function which converts a custom JSON data object into jqPlot data format.
      * Set this as a callable on the jqplot dataRenderer plot option:
      * 
-     * > plot = $.jqplot('mychart', [data], { dataRenderer: $.jqplot.ciParser, ... });
+     * > plot = jqplot('mychart', [data], { dataRenderer: jqplot.ciParser, ... });
      * 
      * Where data is an object in JSON format or a JSON encoded string conforming to the
      * City Index API spec.
@@ -51,14 +52,14 @@
      * data array in jqPlot format.
      * 
      */
-    $.jqplot.ciParser = function (data, plot) {
+    jqplot.ciParser = function (data, plot) {
         var ret = [],
             line,
             temp,
             i, j, k, kk;
     
          if (typeof(data) == "string") {
-             data =  $.jqplot.JSON.parse(data, handleStrings);
+             data =  jqplot.JSON.parse(data, handleStrings);
          }
  
          else if (typeof(data) == "object") {
@@ -113,4 +114,3 @@
         }
         return ret;
     };
-})(jQuery);

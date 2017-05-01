@@ -12,11 +12,12 @@
  // Much reduced version of jquery ui effects core used
  // for series animation in jqplot.
  //////
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
 
     var backCompat = $.uiBackCompat !== false;
 
-    $.jqplot.effects = {
+    jqplot.effects = {
         effect: {}
     };
 
@@ -27,7 +28,7 @@
     /*********************************** EFFECTS **********************************/
     /******************************************************************************/
 
-    $.extend( $.jqplot.effects, {
+    $.extend( jqplot.effects, {
         version: "1.9pre",
 
         // Saves a set of properties in a data storage
@@ -196,9 +197,9 @@
         }
 
         // invalid strings - treat as "normal" speed
-        if ( typeof speed === "string" && !$.jqplot.effects.effect[ speed ] ) {
+        if ( typeof speed === "string" && !jqplot.effects.effect[ speed ] ) {
             // TODO: remove in 2.0 (#7115)
-            if ( backCompat && $.jqplot.effects[ speed ] ) {
+            if ( backCompat && jqplot.effects[ speed ] ) {
                 return false;
             }
             return true;
@@ -212,10 +213,10 @@
             var args = _normalizeArguments.apply( this, arguments ),
                 mode = args.mode,
                 queue = args.queue,
-                effectMethod = $.jqplot.effects.effect[ args.effect ],
+                effectMethod = jqplot.effects.effect[ args.effect ],
 
                 // DEPRECATED: remove in 2.0 (#7115)
-                oldEffectMethod = !effectMethod && backCompat && $.jqplot.effects[ args.effect ];
+                oldEffectMethod = !effectMethod && backCompat && jqplot.effects[ args.effect ];
 
             if ( $.fx.off || !( effectMethod || oldEffectMethod ) ) {
                 // delegate to the original method (e.g., .show()) if possible
@@ -267,5 +268,3 @@
             }
         }
     });
-
-})(jQuery);

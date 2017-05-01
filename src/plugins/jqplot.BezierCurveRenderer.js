@@ -28,25 +28,26 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // Class: $.jqplot.BezierCurveRenderer.js
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
+    // Class: jqplot.BezierCurveRenderer.js
     // Renderer which draws lines as stacked bezier curves.
     // Data for the line will not be specified as an array of
     // [x, y] data point values, but as a an array of [start piont, bezier curve]
     // So, the line is specified as: [[xstart, ystart], [cp1x, cp1y, cp2x, cp2y, xend, yend]].
-    $.jqplot.BezierCurveRenderer = function(){
-        $.jqplot.LineRenderer.call(this);
+    export const BezierCurveRenderer = jqplot.BezierCurveRenderer = function(){
+        jqplot.LineRenderer.call(this);
     };
     
-    $.jqplot.BezierCurveRenderer.prototype = new $.jqplot.LineRenderer();
-    $.jqplot.BezierCurveRenderer.prototype.constructor = $.jqplot.BezierCurveRenderer;
+    jqplot.BezierCurveRenderer.prototype = new jqplot.LineRenderer();
+    jqplot.BezierCurveRenderer.prototype.constructor = jqplot.BezierCurveRenderer;
 
     
     // Method: setGridData
     // converts the user data values to grid coordinates and stores them
     // in the gridData array.
     // Called with scope of a series.
-    $.jqplot.BezierCurveRenderer.prototype.setGridData = function(plot) {
+    jqplot.BezierCurveRenderer.prototype.setGridData = function(plot) {
         // recalculate the grid data
         var xp = this._xaxis.series_u2p;
         var yp = this._yaxis.series_u2p;
@@ -115,7 +116,7 @@
     // linerenderer to generate grid data points without overwriting the
     // grid data associated with that series.
     // Called with scope of a series.
-    $.jqplot.BezierCurveRenderer.prototype.makeGridData = function(data, plot) {
+    jqplot.BezierCurveRenderer.prototype.makeGridData = function(data, plot) {
         // recalculate the grid data
         var xp = this._xaxis.series_u2p;
         var yp = this._yaxis.series_u2p;
@@ -179,7 +180,7 @@
     
 
     // called within scope of series.
-    $.jqplot.BezierCurveRenderer.prototype.draw = function(ctx, gd, options) {
+    jqplot.BezierCurveRenderer.prototype.draw = function(ctx, gd, options) {
         var i;
         ctx.save();
         if (gd.length) {
@@ -206,20 +207,20 @@
         ctx.restore();
     };  
     
-    $.jqplot.BezierCurveRenderer.prototype.drawShadow = function(ctx, gd, options) {
+    jqplot.BezierCurveRenderer.prototype.drawShadow = function(ctx, gd, options) {
         // This is a no-op, shadows drawn with lines.
     };
     
-    $.jqplot.BezierAxisRenderer = function() {
-        $.jqplot.LinearAxisRenderer.call(this);
+    export const BezierAxisRenderer = jqplot.BezierAxisRenderer = function() {
+        jqplot.LinearAxisRenderer.call(this);
     };
     
-    $.jqplot.BezierAxisRenderer.prototype = new $.jqplot.LinearAxisRenderer();
-    $.jqplot.BezierAxisRenderer.prototype.constructor = $.jqplot.BezierAxisRenderer;
+    jqplot.BezierAxisRenderer.prototype = new jqplot.LinearAxisRenderer();
+    jqplot.BezierAxisRenderer.prototype.constructor = jqplot.BezierAxisRenderer;
         
     
     // Axes on a plot with Bezier Curves
-    $.jqplot.BezierAxisRenderer.prototype.init = function(options){
+    jqplot.BezierAxisRenderer.prototype.init = function(options){
         $.extend(true, this, options);
         var db = this._dataBounds;
         // Go through all the series attached to this axis and find
@@ -293,22 +294,20 @@
         options.legend = $.extend(true, {placement:'outside'}, options.legend);
         // only set these if there is a pie series
         var setopts = false;
-        if (options.seriesDefaults.renderer == $.jqplot.BezierCurveRenderer) {
+        if (options.seriesDefaults.renderer == jqplot.BezierCurveRenderer) {
             setopts = true;
         }
         else if (options.series) {
             for (var i=0; i < options.series.length; i++) {
-                if (options.series[i].renderer == $.jqplot.BezierCurveRenderer) {
+                if (options.series[i].renderer == jqplot.BezierCurveRenderer) {
                     setopts = true;
                 }
             }
         }
         
         if (setopts) {
-            options.axesDefaults.renderer = $.jqplot.BezierAxisRenderer;
+            options.axesDefaults.renderer = jqplot.BezierAxisRenderer;
         }
     }
     
-    $.jqplot.preInitHooks.push(preInit);
-    
-})(jQuery);    
+    jqplot.preInitHooks.push(preInit);

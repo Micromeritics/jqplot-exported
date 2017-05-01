@@ -28,9 +28,10 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     /**
-     * Class: $.jqplot.OHLCRenderer
+     * Class: jqplot.OHLCRenderer
      * jqPlot Plugin to draw Open Hi Low Close, Candlestick and Hi Low Close charts.
      * 
      * To use this plugin, include the renderer js file in 
@@ -45,7 +46,7 @@
      * 
      * Then you set the renderer in the series options on your plot:
      * 
-     * > series: [{renderer:$.jqplot.OHLCRenderer}]
+     * > series: [{renderer:jqplot.OHLCRenderer}]
      * 
      * For OHLC and candlestick charts, data should be specified
      * like so:
@@ -61,12 +62,12 @@
      * To generate a candlestick chart instead of an OHLC chart,
      * set the "candlestick" option to true:
      * 
-     * > series: [{renderer:$.jqplot.OHLCRenderer, rendererOptions:{candleStick:true}}],
+     * > series: [{renderer:jqplot.OHLCRenderer, rendererOptions:{candleStick:true}}],
      * 
      */
-    $.jqplot.OHLCRenderer = function(){
+    export const OHLCRenderer = jqplot.OHLCRenderer = function(){
         // subclass line renderer to make use of some of its methods.
-        $.jqplot.LineRenderer.call(this);
+        jqplot.LineRenderer.call(this);
         // prop: candleStick
         // true to render chart as candleStick.
         // Must have an open price, cannot be a hlc chart.
@@ -116,17 +117,17 @@
         this._bodyWidth;
     };
     
-    $.jqplot.OHLCRenderer.prototype = new $.jqplot.LineRenderer();
-    $.jqplot.OHLCRenderer.prototype.constructor = $.jqplot.OHLCRenderer;
+    jqplot.OHLCRenderer.prototype = new jqplot.LineRenderer();
+    jqplot.OHLCRenderer.prototype.constructor = jqplot.OHLCRenderer;
     
     // called with scope of series.
-    $.jqplot.OHLCRenderer.prototype.init = function(options) {
+    jqplot.OHLCRenderer.prototype.init = function(options) {
         options = options || {};
         // lineWidth has to be set on the series, changes in renderer
         // constructor have no effect.  set the default here
         // if no renderer option for lineWidth is specified.
         this.lineWidth = options.lineWidth || 1.5;
-        $.jqplot.LineRenderer.prototype.init.call(this, options);
+        jqplot.LineRenderer.prototype.init.call(this, options);
         this._type = 'ohlc';
         // set the yaxis data bounds here to account for hi and low values
         var db = this._yaxis._dataBounds;
@@ -158,7 +159,7 @@
     };
     
     // called within scope of series.
-    $.jqplot.OHLCRenderer.prototype.draw = function(ctx, gd, options) {
+    jqplot.OHLCRenderer.prototype.draw = function(ctx, gd, options) {
         var d = this.data;
         var xmin = this._xaxis.min;
         var xmax = this._xaxis.max;
@@ -350,12 +351,12 @@
         ctx.restore();
     };  
     
-    $.jqplot.OHLCRenderer.prototype.drawShadow = function(ctx, gd, options) {
+    jqplot.OHLCRenderer.prototype.drawShadow = function(ctx, gd, options) {
         // This is a no-op, shadows drawn with lines.
     };
     
     // called with scope of plot.
-    $.jqplot.OHLCRenderer.checkOptions = function(target, data, options) {
+    jqplot.OHLCRenderer.checkOptions = function(target, data, options) {
         // provide some sensible highlighter options by default
         // These aren't good for hlc, only for ohlc or candlestick
         if (!options.highlighter) {
@@ -368,6 +369,4 @@
         }
     };
     
-    //$.jqplot.preInitHooks.push($.jqplot.OHLCRenderer.checkOptions);
-    
-})(jQuery);    
+    //jqplot.preInitHooks.push(jqplot.OHLCRenderer.checkOptions);

@@ -2,7 +2,7 @@
     2010-11-01 Chris Leonello
     
     Slightly modified version of the original json2.js to put JSON
-    functions under the $.jqplot namespace.
+    functions under the jqplot namespace.
     
     licensing and orignal comments follow:
     
@@ -26,7 +26,7 @@
     This file creates a global JSON object containing two methods: stringify
     and parse.
 
-        $.jqplot.JSON.stringify(value, replacer, space)
+        jqplot.JSON.stringify(value, replacer, space)
             value       any JavaScript value, usually an object or array.
 
             replacer    an optional parameter that determines how object
@@ -81,7 +81,7 @@
             functions, will not be serialized. Such values in objects will be
             dropped; in arrays they will be replaced with null. You can use
             a replacer function to replace those with JSON values.
-            $.jqplot.JSON.stringify(undefined) returns undefined.
+            jqplot.JSON.stringify(undefined) returns undefined.
 
             The optional space parameter produces a stringification of the
             value that is filled with line breaks and indentation to make it
@@ -93,21 +93,21 @@
 
             Example:
 
-            text = $.jqplot.JSON.stringify(['e', {pluribus: 'unum'}]);
+            text = jqplot.JSON.stringify(['e', {pluribus: 'unum'}]);
             // text is '["e",{"pluribus":"unum"}]'
 
 
-            text = $.jqplot.JSON.stringify(['e', {pluribus: 'unum'}], null, '\t');
+            text = jqplot.JSON.stringify(['e', {pluribus: 'unum'}], null, '\t');
             // text is '[\n\t"e",\n\t{\n\t\t"pluribus": "unum"\n\t}\n]'
 
-            text = $.jqplot.JSON.stringify([new Date()], function (key, value) {
+            text = jqplot.JSON.stringify([new Date()], function (key, value) {
                 return this[key] instanceof Date ?
                     'Date(' + this[key] + ')' : value;
             });
             // text is '["Date(---current time---)"]'
 
 
-        $.jqplot.JSON.parse(text, reviver)
+        jqplot.JSON.parse(text, reviver)
             This method parses a JSON text to produce an object or array.
             It can throw a SyntaxError exception.
 
@@ -122,7 +122,7 @@
             // Parse the text. Values that look like ISO date strings will
             // be converted to Date objects.
 
-            myData = $.jqplot.JSON.parse(text, function (key, value) {
+            myData = jqplot.JSON.parse(text, function (key, value) {
                 var a;
                 if (typeof value === 'string') {
                     a =
@@ -135,7 +135,7 @@
                 return value;
             });
 
-            myData = $.jqplot.JSON.parse('["Date(09/09/2001)"]', function (key, value) {
+            myData = jqplot.JSON.parse('["Date(09/09/2001)"]', function (key, value) {
                 var d;
                 if (typeof value === 'string' &&
                         value.slice(0, 5) === 'Date(' &&
@@ -152,13 +152,13 @@
     This is a reference implementation. You are free to copy, modify, or
     redistribute.
 */
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
 
-(function($) {
-
-    $.jqplot.JSON = window.JSON;
+    jqplot.JSON = window.JSON;
 
     if (!window.JSON) {
-        $.jqplot.JSON = {};
+        jqplot.JSON = {};
     }
     
     function f(n) {
@@ -348,8 +348,8 @@
 
 // If the JSON object does not yet have a stringify method, give it one.
 
-    if (typeof $.jqplot.JSON.stringify !== 'function') {
-        $.jqplot.JSON.stringify = function (value, replacer, space) {
+    if (typeof jqplot.JSON.stringify !== 'function') {
+        jqplot.JSON.stringify = function (value, replacer, space) {
 
 // The stringify method takes a value and an optional replacer, and an optional
 // space parameter, and returns a JSON text. The replacer can be a function
@@ -382,7 +382,7 @@
             if (replacer && typeof replacer !== 'function' &&
                     (typeof replacer !== 'object' ||
                      typeof replacer.length !== 'number')) {
-                throw new Error('$.jqplot.JSON.stringify');
+                throw new Error('jqplot.JSON.stringify');
             }
 
 // Make a fake root object containing our value under the key of ''.
@@ -395,8 +395,8 @@
 
 // If the JSON object does not yet have a parse method, give it one.
 
-    if (typeof $.jqplot.JSON.parse !== 'function') {
-        $.jqplot.JSON.parse = function (text, reviver) {
+    if (typeof jqplot.JSON.parse !== 'function') {
+        jqplot.JSON.parse = function (text, reviver) {
 
 // The parse method takes a text and an optional reviver function, and returns
 // a JavaScript value if the text is a valid JSON text.
@@ -469,7 +469,6 @@
 
 // If the text is not JSON parseable, then a SyntaxError is thrown.
 
-            throw new SyntaxError('$.jqplot.JSON.parse');
+            throw new SyntaxError('jqplot.JSON.parse');
         };
     }
-})(jQuery);

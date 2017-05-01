@@ -1,3 +1,25 @@
+Note: the version number will always match the upstream version number.
+Any changes in this package will increment the "pm" version.
+
+This version of jqplot can be used by simply importing it:
+
+```javascript
+import jqplot from 'jqplot-exported';
+import 'jqplot-exported/dist/jquery.jqplot.css';
+import 'jqplot-exported/dist/plugins/jqplot.canvasTextRenderer';
+import 'jqplot-exported/dist/plugins/jqplot.canvasAxisLabelRenderer';
+import 'jqplot-exported/dist/plugins/jqplot.enhancedLegendRenderer';
+import 'jqplot-exported/dist/plugins/jqplot.logAxisRenderer';
+import 'jqplot-exported/dist/plugins/jqplot.pointLabels';
+```
+
+Plugins are not accessed through the import mechanism though, you must access them like this:
+
+```javascript
+import jqplot from 'jqplot-exported';
+import 'jqplot-exported/dist/plugins/jqplot.logAxisRenderer';
+```
+
 jQPlot
 ======
 

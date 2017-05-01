@@ -19,7 +19,8 @@
  * making a donation at: http://www.jqplot.com/donate.php .
  *
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     function postInit(target, data, options){
         this.bindCustomEvents = function() {
             this.eventCanvas._elem.bind('vclick', {plot:this}, this.onClick);
@@ -41,5 +42,4 @@
         };
         this.plugins.mobile = true;
     }
-    $.jqplot.postInitHooks.push(postInit);
-})(jQuery);
+    jqplot.postInitHooks.push(postInit);

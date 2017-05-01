@@ -28,7 +28,8 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     var arrayMax = function( array ){
         return Math.max.apply( Math, array );
     };
@@ -37,7 +38,7 @@
     };
 
     /**
-     * Class: $.jqplot.BubbleRenderer
+     * Class: jqplot.BubbleRenderer
      * Plugin renderer to draw a bubble chart.  A Bubble chart has data points displayed as
      * colored circles with an optional text label inside.  To use
      * the bubble renderer, you must include the bubble renderer like:
@@ -66,7 +67,7 @@
      * the series options like:
      * 
      * > seriesDefaults: {
-     * >     renderer: $.jqplot.BubbleRenderer,
+     * >     renderer: jqplot.BubbleRenderer,
      * >     rendererOptions: {
      * >         bubbleAlpha: 0.7,
      * >         varyBubbleColors: false
@@ -74,15 +75,15 @@
      * > }
      * 
      */
-    $.jqplot.BubbleRenderer = function(){
-        $.jqplot.LineRenderer.call(this);
+    export const BubbleRenderer = jqplot.BubbleRenderer = function(){
+        jqplot.LineRenderer.call(this);
     };
     
-    $.jqplot.BubbleRenderer.prototype = new $.jqplot.LineRenderer();
-    $.jqplot.BubbleRenderer.prototype.constructor = $.jqplot.BubbleRenderer;
+    jqplot.BubbleRenderer.prototype = new jqplot.LineRenderer();
+    jqplot.BubbleRenderer.prototype.constructor = jqplot.BubbleRenderer;
     
     // called with scope of a series
-    $.jqplot.BubbleRenderer.prototype.init = function(options, plot) {
+    jqplot.BubbleRenderer.prototype.init = function(options, plot) {
         // Group: Properties
         //
         // prop: varyBubbleColors
@@ -185,7 +186,7 @@
             }
             
             if (color && this.bubbleAlpha < 1.0) {
-                comps = $.jqplot.getColorComponents(color);
+                comps = jqplot.getColorComponents(color);
                 color = 'rgba('+comps[0]+', '+comps[1]+', '+comps[2]+', '+this.bubbleAlpha+')';
             }
             
@@ -198,12 +199,12 @@
             this.seriesColors = [this.color];
         }
         
-        this.colorGenerator = new $.jqplot.ColorGenerator(this.seriesColors);
+        this.colorGenerator = new jqplot.ColorGenerator(this.seriesColors);
         
         // set highlight colors if none provided
         if (this.highlightColors.length == 0) {
             for (var i=0; i<this.seriesColors.length; i++){
-                var rgba = $.jqplot.getColorComponents(this.seriesColors[i]);
+                var rgba = jqplot.getColorComponents(this.seriesColors[i]);
                 var newrgb = [rgba[0], rgba[1], rgba[2]];
                 var sum = newrgb[0] + newrgb[1] + newrgb[2];
                 for (var j=0; j<3; j++) {
@@ -215,13 +216,13 @@
             }
         }
         
-        this.highlightColorGenerator = new $.jqplot.ColorGenerator(this.highlightColors);
+        this.highlightColorGenerator = new jqplot.ColorGenerator(this.highlightColors);
         
         var sopts = {fill:true, isarc:true, angle:this.shadowAngle, alpha:this.shadowAlpha, closePath:true};
         
         this.renderer.shadowRenderer.init(sopts);
         
-        this.canvas = new $.jqplot.DivCanvas();
+        this.canvas = new jqplot.DivCanvas();
         this.canvas._plotDimensions = this._plotDimensions;
         
         plot.eventListenerHooks.addOnce('jqplotMouseMove', handleMove);
@@ -237,7 +238,7 @@
     // converts the user data values to grid coordinates and stores them
     // in the gridData array.
     // Called with scope of a series.
-    $.jqplot.BubbleRenderer.prototype.setGridData = function(plot) {
+    jqplot.BubbleRenderer.prototype.setGridData = function(plot) {
         // recalculate the grid data
         var xp = this._xaxis.series_u2p;
         var yp = this._yaxis.series_u2p;
@@ -271,7 +272,7 @@
     // linerenderer to generate grid data points without overwriting the
     // grid data associated with that series.
     // Called with scope of a series.
-    $.jqplot.BubbleRenderer.prototype.makeGridData = function(data, plot) {
+    jqplot.BubbleRenderer.prototype.makeGridData = function(data, plot) {
         // recalculate the grid data
         var xp = this._xaxis.series_u2p;
         var yp = this._yaxis.series_u2p;
@@ -300,7 +301,7 @@
     };
     
     // called with scope of series
-    $.jqplot.BubbleRenderer.prototype.draw = function (ctx, gd, options) {
+    jqplot.BubbleRenderer.prototype.draw = function (ctx, gd, options) {
         if (this.plugins.pointLabels) {
             this.plugins.pointLabels.show = false;
         }
@@ -335,7 +336,7 @@
                 depth = 1 + Math.ceil(gd[2]/15);
                 canvasRadius += offset*depth;
             }
-            this.bubbleCanvases[idx] = new $.jqplot.BubbleCanvas();
+            this.bubbleCanvases[idx] = new jqplot.BubbleCanvas();
             this.canvas._elem.append(this.bubbleCanvases[idx].createElement(gd[0], gd[1], canvasRadius));
             this.bubbleCanvases[idx].setContext();
             var ctx = this.bubbleCanvases[idx]._ctx;
@@ -367,15 +368,15 @@
     };
 
     
-    $.jqplot.DivCanvas = function() {
-        $.jqplot.ElemContainer.call(this);
+    export const DivCanvas = jqplot.DivCanvas = function() {
+        jqplot.ElemContainer.call(this);
         this._ctx;  
     };
     
-    $.jqplot.DivCanvas.prototype = new $.jqplot.ElemContainer();
-    $.jqplot.DivCanvas.prototype.constructor = $.jqplot.DivCanvas;
+    jqplot.DivCanvas.prototype = new jqplot.ElemContainer();
+    jqplot.DivCanvas.prototype.constructor = jqplot.DivCanvas;
     
-    $.jqplot.DivCanvas.prototype.createElement = function(offsets, clss, plotDimensions) {
+    jqplot.DivCanvas.prototype.createElement = function(offsets, clss, plotDimensions) {
         this._offsets = offsets;
         var klass = 'jqplot-DivCanvas';
         if (clss != undefined) {
@@ -403,7 +404,7 @@
         return this._elem;
     };
     
-    $.jqplot.DivCanvas.prototype.setContext = function() {
+    jqplot.DivCanvas.prototype.setContext = function() {
         this._ctx = {
             canvas:{
                 width:0,
@@ -414,16 +415,16 @@
         return this._ctx;
     };
     
-    $.jqplot.BubbleCanvas = function() {
-        $.jqplot.ElemContainer.call(this);
+    export const BubbleCanvas = jqplot.BubbleCanvas = function() {
+        jqplot.ElemContainer.call(this);
         this._ctx;
     };
     
-    $.jqplot.BubbleCanvas.prototype = new $.jqplot.ElemContainer();
-    $.jqplot.BubbleCanvas.prototype.constructor = $.jqplot.BubbleCanvas;
+    jqplot.BubbleCanvas.prototype = new jqplot.ElemContainer();
+    jqplot.BubbleCanvas.prototype.constructor = jqplot.BubbleCanvas;
     
     // initialize with the x,y pont of bubble center and the bubble radius.
-    $.jqplot.BubbleCanvas.prototype.createElement = function(x, y, r) {     
+    jqplot.BubbleCanvas.prototype.createElement = function(x, y, r) {
         var klass = 'jqplot-bubble-point';
 
         var elem;
@@ -443,7 +444,7 @@
         this._elem.css({ position: 'absolute', left: l, top: t });
         
         this._elem.addClass(klass);
-        if ($.jqplot.use_excanvas) {
+        if (jqplot.use_excanvas) {
             window.G_vmlCanvasManager.init_(document);
             elem = window.G_vmlCanvasManager.initElement(elem);
         }
@@ -451,7 +452,7 @@
         return this._elem;
     };
     
-    $.jqplot.BubbleCanvas.prototype.draw = function(r, color, gradients, angle) {
+    jqplot.BubbleCanvas.prototype.draw = function(r, color, gradients, angle) {
         var ctx = this._ctx;
         // r = Math.floor(r*1.04);
         // var x = Math.round(ctx.canvas.width/2);
@@ -459,9 +460,9 @@
         var x = ctx.canvas.width/2;
         var y = ctx.canvas.height/2;
         ctx.save();
-        if (gradients && !$.jqplot.use_excanvas) {
+        if (gradients && !jqplot.use_excanvas) {
             r = r*1.04;
-            var comps = $.jqplot.getColorComponents(color);
+            var comps = jqplot.getColorComponents(color);
             var colorinner = 'rgba('+Math.round(comps[0]+0.8*(255-comps[0]))+', '+Math.round(comps[1]+0.8*(255-comps[1]))+', '+Math.round(comps[2]+0.8*(255-comps[2]))+', '+comps[3]+')';
             var colorend = 'rgba('+comps[0]+', '+comps[1]+', '+comps[2]+', 0)';
             // var rinner = Math.round(0.35 * r);
@@ -492,20 +493,20 @@
         ctx.restore();
     };
     
-    $.jqplot.BubbleCanvas.prototype.setContext = function() {
+    jqplot.BubbleCanvas.prototype.setContext = function() {
         this._ctx = this._elem.get(0).getContext("2d");
         return this._ctx;
     };
     
-    $.jqplot.BubbleAxisRenderer = function() {
-        $.jqplot.LinearAxisRenderer.call(this);
+    export const BubbleAxisRenderer = jqplot.BubbleAxisRenderer = function() {
+        jqplot.LinearAxisRenderer.call(this);
     };
     
-    $.jqplot.BubbleAxisRenderer.prototype = new $.jqplot.LinearAxisRenderer();
-    $.jqplot.BubbleAxisRenderer.prototype.constructor = $.jqplot.BubbleAxisRenderer;
+    jqplot.BubbleAxisRenderer.prototype = new jqplot.LinearAxisRenderer();
+    jqplot.BubbleAxisRenderer.prototype.constructor = jqplot.BubbleAxisRenderer;
         
     // called with scope of axis object.
-    $.jqplot.BubbleAxisRenderer.prototype.init = function(options){
+    jqplot.BubbleAxisRenderer.prototype.init = function(options){
         $.extend(true, this, options);
         var db = this._dataBounds;
         var minsidx = 0,
@@ -711,7 +712,7 @@
         }
         
         this.plugins.bubbleRenderer = {highlightedSeriesIndex:null};
-        this.plugins.bubbleRenderer.highlightCanvas = new $.jqplot.GenericCanvas();
+        this.plugins.bubbleRenderer.highlightCanvas = new jqplot.GenericCanvas();
         this.plugins.bubbleRenderer.highlightLabel = null;
         this.plugins.bubbleRenderer.highlightLabelCanvas = $('<div style="position:absolute;"></div>');
         var top = this._gridPadding.top;
@@ -735,25 +736,21 @@
         options.seriesDefaults = options.seriesDefaults || {};
         // only set these if there is a Bubble series
         var setopts = false;
-        if (options.seriesDefaults.renderer == $.jqplot.BubbleRenderer) {
+        if (options.seriesDefaults.renderer == jqplot.BubbleRenderer) {
             setopts = true;
         }
         else if (options.series) {
             for (var i=0; i < options.series.length; i++) {
-                if (options.series[i].renderer == $.jqplot.BubbleRenderer) {
+                if (options.series[i].renderer == jqplot.BubbleRenderer) {
                     setopts = true;
                 }
             }
         }
         
         if (setopts) {
-            options.axesDefaults.renderer = $.jqplot.BubbleAxisRenderer;
+            options.axesDefaults.renderer = jqplot.BubbleAxisRenderer;
             options.sortData = false;
         }
     }
     
-    $.jqplot.preInitHooks.push(preInit);
-    
-})(jQuery);
-    
-    
+    jqplot.preInitHooks.push(preInit);

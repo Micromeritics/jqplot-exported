@@ -28,9 +28,10 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     /**
-    *  class: $.jqplot.LogAxisRenderer
+    *  class: jqplot.LogAxisRenderer
     *  A plugin for a jqPlot to render a logarithmic axis.
     * 
     *  To use this renderer, include the plugin in your source
@@ -38,10 +39,10 @@
     *  
     *  and supply the appropriate options to your plot
     *  
-    *  > {axes:{xaxis:{renderer:$.jqplot.LogAxisRenderer}}}
+    *  > {axes:{xaxis:{renderer:jqplot.LogAxisRenderer}}}
     **/ 
-    $.jqplot.LogAxisRenderer = function() {
-        $.jqplot.LinearAxisRenderer.call(this);
+    export const LogAxisRenderer = jqplot.LogAxisRenderer = function() {
+        jqplot.LinearAxisRenderer.call(this);
         // prop: axisDefaults
         // Default properties which will be applied directly to the series.
         //
@@ -58,10 +59,10 @@
         };
     };
     
-    $.jqplot.LogAxisRenderer.prototype = new $.jqplot.LinearAxisRenderer();
-    $.jqplot.LogAxisRenderer.prototype.constructor = $.jqplot.LogAxisRenderer;
+    jqplot.LogAxisRenderer.prototype = new jqplot.LinearAxisRenderer();
+    jqplot.LogAxisRenderer.prototype.constructor = jqplot.LogAxisRenderer;
     
-    $.jqplot.LogAxisRenderer.prototype.init = function(options) {
+    jqplot.LogAxisRenderer.prototype.init = function(options) {
         // prop: drawBaseline
         // True to draw the axis baseline.
         this.drawBaseline = true;
@@ -86,7 +87,7 @@
         this.resetDataBounds();
     };
     
-    $.jqplot.LogAxisRenderer.prototype.createTicks = function(plot) {
+    jqplot.LogAxisRenderer.prototype.createTicks = function(plot) {
         // we're are operating on an axis here
         var ticks = this._ticks;
         var userTicks = this.ticks;
@@ -321,7 +322,7 @@
                 var tdim = Math.max(dim, threshold+1);
                 var nttarget =  Math.ceil((tdim-threshold)/35 + 1);
 
-                var ret = $.jqplot.LinearTickGenerator.bestConstrainedInterval(this.min, this.max, nttarget);
+                var ret = jqplot.LinearTickGenerator.bestConstrainedInterval(this.min, this.max, nttarget);
 
                 this._autoFormatString = ret[3];
                 nt = ret[2];
@@ -368,7 +369,7 @@
         }
     };
     
-    $.jqplot.LogAxisRenderer.prototype.pack = function(pos, offsets) {
+    jqplot.LogAxisRenderer.prototype.pack = function(pos, offsets) {
         var lb = parseInt(this.base, 10);
         var ticks = this._ticks;
         var trans = function (v) { return Math.log(v)/Math.log(lb); };
@@ -422,7 +423,7 @@
                     if (t.show && t.showLabel) {
                         var shim;
                         
-                        if (t.constructor == $.jqplot.CanvasAxisTickRenderer && t.angle) {
+                        if (t.constructor == jqplot.CanvasAxisTickRenderer && t.angle) {
                             switch (t.labelPosition) {
                                 case 'auto':
                                     // position at end
@@ -474,7 +475,7 @@
                     var t = ticks[i];
                     if (t.show && t.showLabel) {                        
                         var shim;
-                        if (t.constructor == $.jqplot.CanvasAxisTickRenderer && t.angle) {
+                        if (t.constructor == jqplot.CanvasAxisTickRenderer && t.angle) {
                             switch (t.labelPosition) {
                                 case 'auto':
                                     // position at end
@@ -531,4 +532,3 @@
             }
         }        
     };
-})(jQuery);

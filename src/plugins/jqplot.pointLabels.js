@@ -28,10 +28,11 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     
     /**
-     * Class: $.jqplot.PointLabels
+     * Class: jqplot.PointLabels
      * Plugin for putting labels at the data points.
      * 
      * To use this plugin, include the js
@@ -75,12 +76,12 @@
      * set the "escapeHTML" option to false.
      * 
      */
-    $.jqplot.PointLabels = function(options) {
+    export const PointLabels = jqplot.PointLabels = function(options) {
         // Group: Properties
         //
         // prop: show
         // show the labels or not.
-        this.show = $.jqplot.config.enablePlugins;
+        this.show = jqplot.config.enablePlugins;
         // prop: location
         // compass location where to position the label around the point.
         // 'n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'
@@ -119,7 +120,7 @@
         this.edgeTolerance = -5;
         // prop: formatter
         // A class of a formatter for the tick text.  sprintf by default.
-        this.formatter = $.jqplot.DefaultTickFormatter;
+        this.formatter = jqplot.DefaultTickFormatter;
         // prop: formatString
         // string passed to the formatter.
         this.formatString = '';
@@ -136,25 +137,25 @@
     var oppositeLocations = ['se', 's', 'sw', 'w', 'nw', 'n', 'ne', 'e'];
     
     // called with scope of a series
-    $.jqplot.PointLabels.init = function (target, data, seriesDefaults, opts, plot){
+    jqplot.PointLabels.init = function (target, data, seriesDefaults, opts, plot){
         var options = $.extend(true, {}, seriesDefaults, opts);
         options.pointLabels = options.pointLabels || {};
-        if (this.renderer.constructor === $.jqplot.BarRenderer && this.barDirection === 'horizontal' && !options.pointLabels.location) {
+        if (this.renderer.constructor === jqplot.BarRenderer && this.barDirection === 'horizontal' && !options.pointLabels.location) {
             options.pointLabels.location = 'e';
         }
         // add a pointLabels attribute to the series plugins
-        this.plugins.pointLabels = new $.jqplot.PointLabels(options.pointLabels);
+        this.plugins.pointLabels = new jqplot.PointLabels(options.pointLabels);
         this.plugins.pointLabels.setLabels.call(this);
     };
     
     // called with scope of series
-    $.jqplot.PointLabels.prototype.setLabels = function() {   
+    jqplot.PointLabels.prototype.setLabels = function() {
         var p = this.plugins.pointLabels; 
         var labelIdx;
         if (p.seriesLabelIndex != null) {
             labelIdx = p.seriesLabelIndex;
         }
-        else if (this.renderer.constructor === $.jqplot.BarRenderer && this.barDirection === 'horizontal') {
+        else if (this.renderer.constructor === jqplot.BarRenderer && this.barDirection === 'horizontal') {
            labelIdx = (this._plotData[0].length < 3) ? 0 : this._plotData[0].length -1;
         }
         else {
@@ -173,7 +174,7 @@
             else {
                 // var d = this._plotData;
                 var d = this.data;
-                if (this.renderer.constructor === $.jqplot.BarRenderer && this.waterfall) {
+                if (this.renderer.constructor === jqplot.BarRenderer && this.waterfall) {
                     d = this._data;
                 }
                 if (d.length && d[0].length) {
@@ -190,7 +191,7 @@
         }
     };
     
-    $.jqplot.PointLabels.prototype.xOffset = function(elem, location, padding) {
+    jqplot.PointLabels.prototype.xOffset = function(elem, location, padding) {
         location = location || this.location;
         padding = padding || this.xpadding;
         var offset;
@@ -227,7 +228,7 @@
         return offset; 
     };
     
-    $.jqplot.PointLabels.prototype.yOffset = function(elem, location, padding) {
+    jqplot.PointLabels.prototype.yOffset = function(elem, location, padding) {
         location = location || this.location;
         padding = padding || this.xpadding;
         var offset;
@@ -265,7 +266,7 @@
     };
     
     // called with scope of series
-    $.jqplot.PointLabels.draw = function (sctx, options, plot) {
+    jqplot.PointLabels.draw = function (sctx, options, plot) {
         var p = this.plugins.pointLabels;
         // set labels again in case they have changed.
         p.setLabels.call(this);
@@ -338,7 +339,7 @@
                     }
                 }
 
-                if (this.renderer.constructor == $.jqplot.BarRenderer) {
+                if (this.renderer.constructor == jqplot.BarRenderer) {
                     if (this.barDirection == "vertical") {
                         ell += this._barNudge;
                     }
@@ -374,6 +375,5 @@
         }
     };
     
-    $.jqplot.postSeriesInitHooks.push($.jqplot.PointLabels.init);
-    $.jqplot.postDrawSeriesHooks.push($.jqplot.PointLabels.draw);
-})(jQuery);
+    jqplot.postSeriesInitHooks.push(jqplot.PointLabels.init);
+    jqplot.postDrawSeriesHooks.push(jqplot.PointLabels.draw);

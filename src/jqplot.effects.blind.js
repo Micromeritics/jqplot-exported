@@ -14,16 +14,17 @@
  //////
  // jquery ui blind effect used for series animation in jqplot.
  //////
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
 
     var rvertical = /up|down|vertical/,
         rpositivemotion = /up|left|vertical|horizontal/;
 
-    $.jqplot.effects.effect.blind = function( o, done ) {
+    jqplot.effects.effect.blind = function( o, done ) {
         // Create element
         var el = $( this ),
             props = [ "position", "top", "bottom", "left", "right", "height", "width" ],
-            mode = $.jqplot.effects.setMode( el, o.mode || "hide" ),
+            mode = jqplot.effects.setMode( el, o.mode || "hide" ),
             direction = o.direction || "up",
             vertical = rvertical.test( direction ),
             ref = vertical ? "height" : "width",
@@ -35,13 +36,13 @@
 
         // // if already wrapped, the wrapper's properties are my property. #6245
         if ( el.parent().is( ".ui-effects-wrapper" ) ) {
-            $.jqplot.effects.save( el.parent(), props );
+            jqplot.effects.save( el.parent(), props );
         } else {
-            $.jqplot.effects.save( el, props );
+            jqplot.effects.save( el, props );
         }
         el.show();
         top = parseInt(el.css('top'), 10);
-        wrapper = $.jqplot.effects.createWrapper( el ).css({
+        wrapper = jqplot.effects.createWrapper( el ).css({
             overflow: "hidden"
         });
 
@@ -73,12 +74,10 @@
                 if ( mode === "hide" ) {
                     el.hide();
                 }
-                $.jqplot.effects.restore( el, props );
-                $.jqplot.effects.removeWrapper( el );
+                jqplot.effects.restore( el, props );
+                jqplot.effects.removeWrapper( el );
                 done();
             }
         });
 
     };
-
-})(jQuery);

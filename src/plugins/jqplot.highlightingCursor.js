@@ -20,49 +20,50 @@
  *
  * 
  */
-(function($) {
-    $.jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMove]);
-    $.jqplot.eventListenerHooks.push(['jqplotMouseEnter', handleEnter]);
-    $.jqplot.eventListenerHooks.push(['jqplotMouseLeave', handleLeave]);
-    $.jqplot.eventListenerHooks.push(['jqplotClick', handleClick]);
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
+    jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMove]);
+    jqplot.eventListenerHooks.push(['jqplotMouseEnter', handleEnter]);
+    jqplot.eventListenerHooks.push(['jqplotMouseLeave', handleLeave]);
+    jqplot.eventListenerHooks.push(['jqplotClick', handleClick]);
     
     /**
      */
-    $.jqplot.HighlightingCursor = function(options) {
-        this.show = $.jqplot.config.enablePlugins;
+    export const HighlightingCursor = jqplot.HighlightingCursor = function(options) {
+        this.show = jqplot.config.enablePlugins;
         this.showVerticalLine = true;
         this.freezeCursorOnClick = false;
         this.frozenCursor = false;
-        this.shapeRenderer = new $.jqplot.ShapeRenderer();
+        this.shapeRenderer = new jqplot.ShapeRenderer();
         $.extend(true, this, options);
     };
     
     // called with scope of plot
-    $.jqplot.HighlightingCursor.init = function (target, data, opts) {
+    jqplot.HighlightingCursor.init = function (target, data, opts) {
         var options = opts || {};
         // add a highlighter attribute to the plot
         if (this.plugins.highlighter == null) {
-            this.plugins.highlighter = new $.jqplot.Highlighter(options.highlighter);
+            this.plugins.highlighter = new jqplot.Highlighter(options.highlighter);
         }
-        this.plugins.highlightingCursor = new $.jqplot.HighlightingCursor(options.highlightingCursor);
+        this.plugins.highlightingCursor = new jqplot.HighlightingCursor(options.highlightingCursor);
     };
     
     // called within context of plot
     // create a canvas which we can draw on.
     // insert it before the eventCanvas, so eventCanvas will still capture events.
-    $.jqplot.HighlightingCursor.postPlotDraw = function() {
+    jqplot.HighlightingCursor.postPlotDraw = function() {
         var c = this.plugins.highlightingCursor;
         if (c.showVerticalLine) {
-            c.cursorCanvas = new $.jqplot.GenericCanvas();
+            c.cursorCanvas = new jqplot.GenericCanvas();
             this.eventCanvas._elem.before(c.cursorCanvas.createElement(this._gridPadding, 'jqplot-highlighthingCursor-canvas', this._plotDimensions, this));
             c.cursorCanvas.setContext();
         }
     };
     
-    $.jqplot.preInitHooks.push($.jqplot.HighlightingCursor.init);
-    $.jqplot.postDrawHooks.push($.jqplot.HighlightingCursor.postPlotDraw);
+    jqplot.preInitHooks.push(jqplot.HighlightingCursor.init);
+    jqplot.postDrawHooks.push(jqplot.HighlightingCursor.postPlotDraw);
     
-    // This is the draw function from the $.jqplot.Highlighter plugin.
+    // This is the draw function from the jqplot.Highlighter plugin.
     function draw(plot, neighbor) {
         var c = plot.plugins.highlightingCursor;
         var hl = plot.plugins.highlighter;
@@ -72,7 +73,7 @@
         mr.style = smr.style;
         mr.lineWidth = smr.lineWidth + hl.lineWidthAdjust;
         mr.size = smr.size + hl.sizeAdjust;
-        var rgba = $.jqplot.getColorComponents(smr.color);
+        var rgba = jqplot.getColorComponents(smr.color);
         var newrgb = [rgba[0], rgba[1], rgba[2]];
         var alpha = (rgba[3] >= 0.6) ? rgba[3]*0.6 : rgba[3]*(2-rgba[3]);
         mr.color = 'rgba('+newrgb[0]+','+newrgb[1]+','+newrgb[2]+','+alpha+')';
@@ -80,7 +81,7 @@
         var x_pos = s.gridData[neighbor.pointIndex][0];
         var y_pos = s.gridData[neighbor.pointIndex][1];
         // Adjusting with s._barNudge
-        if (s.renderer.constructor == $.jqplot.BarRenderer) {
+        if (s.renderer.constructor == jqplot.BarRenderer) {
             if (s.barDirection == "vertical") {
                 x_pos += s._barNudge;
             }
@@ -168,4 +169,3 @@
             c.update(ev, 'move', gridpos, datapos, seriesDataPoints, plot);
         }
     }
-})(jQuery);

@@ -28,7 +28,8 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import jqplot from './jqplot.core';
+
     /**
     * The following code was generaously given to me a while back by Scott Prahl.
     * He did a good job at computing axes min, max and number of ticks for the 
@@ -109,7 +110,7 @@
         var temp;
         var sd;
         var bestNT;
-        var gsf = $.jqplot.getSignificantFigures;
+        var gsf = jqplot.getSignificantFigures;
         var fsd;
         var fs;
         var currentNT;
@@ -283,7 +284,7 @@
     // for the graphing, a good number for the number of ticks, and a
     // format string so that extraneous digits are not displayed.
     // returned is an array containing [min, max, nTicks, format]
-    $.jqplot.LinearTickGenerator = function(axis_min, axis_max, scalefact, numberTicks, keepMin, keepMax) {
+    export const LinearTickGenerator = jqplot.LinearTickGenerator = function(axis_min, axis_max, scalefact, numberTicks, keepMin, keepMax) {
         // Set to preserve EITHER min OR max.
         // If min is preserved, max must be free.
         keepMin = (keepMin === null) ? false : keepMin;
@@ -305,7 +306,7 @@
         var r = [];
         var ss = bestLinearInterval(axis_max - axis_min, scalefact);
 
-        var gsf = $.jqplot.getSignificantFigures;
+        var gsf = jqplot.getSignificantFigures;
         
         if (numberTicks == null) {
 
@@ -385,9 +386,7 @@
         return r;
     };
 
-    $.jqplot.LinearTickGenerator.bestLinearInterval = bestLinearInterval;
-    $.jqplot.LinearTickGenerator.bestInterval = bestInterval;
-    $.jqplot.LinearTickGenerator.bestLinearComponents = bestLinearComponents;
-    $.jqplot.LinearTickGenerator.bestConstrainedInterval = bestConstrainedInterval;
-
-})(jQuery);
+    jqplot.LinearTickGenerator.bestLinearInterval = bestLinearInterval;
+    jqplot.LinearTickGenerator.bestInterval = bestInterval;
+    jqplot.LinearTickGenerator.bestLinearComponents = bestLinearComponents;
+    jqplot.LinearTickGenerator.bestConstrainedInterval = bestConstrainedInterval;

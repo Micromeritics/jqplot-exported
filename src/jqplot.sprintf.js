@@ -28,7 +28,9 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {      
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
+
     /**
      * JavaScript printf/sprintf functions.
      * 
@@ -86,12 +88,12 @@
       * Format: '%.4g', Input: 4.321e-5, Output: 4.3210e-5
       * 
       * Example:
-      * >>> $.jqplot.sprintf('%.2f, %d', 23.3452, 43.23)
+      * >>> jqplot.sprintf('%.2f, %d', 23.3452, 43.23)
       * "23.35, 43"
-      * >>> $.jqplot.sprintf("no value: %n, decimal with thousands separator: %'d", 23.3452, 433524)
+      * >>> jqplot.sprintf("no value: %n, decimal with thousands separator: %'d", 23.3452, 433524)
       * "no value: , decimal with thousands separator: 433,524"
       */
-    $.jqplot.sprintf = function() {
+    jqplot.sprintf = function() {
         function pad(str, len, chr, leftJustify) {
             var padding = (str.length >= len) ? '' : Array(1 + len - str.length >>> 0).join(chr);
             return leftJustify ? str + padding : padding + str;
@@ -101,7 +103,7 @@
         function thousand_separate(value) {
             var value_str = new String(value);
             for (var i=10; i>0; i--) {
-                if (value_str == (value_str = value_str.replace(/^(\d+)(\d{3})/, "$1"+$.jqplot.sprintf.thousandsSeparator+"$2"))) break;
+                if (value_str == (value_str = value_str.replace(/^(\d+)(\d{3})/, "$1"+jqplot.sprintf.thousandsSeparator+"$2"))) break;
             }
             return value_str; 
         }
@@ -137,7 +139,7 @@
 
         var a = arguments, i = 0, format = a[i++];
 
-        return format.replace($.jqplot.sprintf.regex, function(substring, valueIndex, flags, minWidth, _, precision, type) {
+        return format.replace(jqplot.sprintf.regex, function(substring, valueIndex, flags, minWidth, _, precision, type) {
             if (substring == '%%') { return '%'; }
 
             // parse flags
@@ -175,7 +177,7 @@
             }
 
             if (!isFinite(minWidth)) {
-                throw new Error('$.jqplot.sprintf: (minimum-)width must be finite');
+                throw new Error('jqplot.sprintf: (minimum-)width must be finite');
             }
 
             if (!precision) {
@@ -249,7 +251,7 @@
                       //   back in.
                       var parts = number_str.toString().split('.');
                       parts[0] = thousandSeparation ? thousand_separate(parts[0]) : parts[0];
-                      number_str = parts.join($.jqplot.sprintf.decimalMark);
+                      number_str = parts.join(jqplot.sprintf.decimalMark);
                       
                       value = prefix + number_str;
                       var justified = justify(value, prefix, leftJustify, minWidth, zeroPad, htmlSpace)[textTransform]();
@@ -296,16 +298,16 @@
         });
     };
 
-    $.jqplot.sprintf.thousandsSeparator = ',';
+    jqplot.sprintf.thousandsSeparator = ',';
     // Specifies the decimal mark for floating point values. By default a period '.'
     // is used. If you change this value to for example a comma be sure to also
     // change the thousands separator or else this won't work since a simple String
     // replace is used (replacing all periods with the mark specified here).
-    $.jqplot.sprintf.decimalMark = '.';
+    jqplot.sprintf.decimalMark = '.';
     
-    $.jqplot.sprintf.regex = /%%|%(\d+\$)?([-+#0&\' ]*)(\*\d+\$|\*|\d+)?(\.(\*\d+\$|\*|\d+))?([nAscboxXuidfegpEGP])/g;
+    jqplot.sprintf.regex = /%%|%(\d+\$)?([-+#0&\' ]*)(\*\d+\$|\*|\d+)?(\.(\*\d+\$|\*|\d+))?([nAscboxXuidfegpEGP])/g;
 
-    $.jqplot.getSignificantFigures = function(number) {
+    jqplot.getSignificantFigures = function(number) {
         var parts = String(Number(Math.abs(number)).toExponential()).split(/e|E/);
         // total significant digits
         var sd = (parts[0].indexOf('.') != -1) ? parts[0].length - 1 : parts[0].length;
@@ -319,8 +321,6 @@
         return {significantDigits: sd, digitsLeft: dleft, digitsRight: dright, zeros: zeros, exponent: expn} ;
     };
 
-    $.jqplot.getPrecision = function(number) {
-        return $.jqplot.getSignificantFigures(number).digitsRight;
+    jqplot.getPrecision = function(number) {
+        return jqplot.getSignificantFigures(number).digitsRight;
     };
-
-})(jQuery);  

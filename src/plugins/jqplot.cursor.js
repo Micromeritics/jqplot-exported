@@ -28,13 +28,14 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     
     /**
-     * Class: $.jqplot.Cursor
+     * Class: jqplot.Cursor
      * Plugin class representing the cursor as displayed on the plot.
      */
-    $.jqplot.Cursor = function(options) {
+    export const Cursor = jqplot.Cursor = function(options) {
         // Group: Properties
         //
         // prop: style
@@ -43,7 +44,7 @@
         this.previousCursor = 'auto';
         // prop: show
         // whether to show the cursor or not.
-        this.show = $.jqplot.config.enablePlugins;
+        this.show = jqplot.config.enablePlugins;
         // prop: showTooltip
         // show a cursor position tooltip.  Location of the tooltip
         // will be controlled by followMouse and tooltipLocation.
@@ -118,7 +119,7 @@
         // // when a constrained axis is specified, true will
         // // auatoscale the adjacent axis.
         // this.autoscaleConstraint = true;
-        this.shapeRenderer = new $.jqplot.ShapeRenderer();
+        this.shapeRenderer = new jqplot.ShapeRenderer();
         this._zoom = {start:[], end:[], started: false, zooming:false, isZoomed:false, axes:{start:{}, end:{}}, gridpos:{}, datapos:{}};
         this._tooltipElem;
         this.zoomCanvas;
@@ -133,7 +134,7 @@
         // prop: cursorLegendFormatString
         // Format string used in the cursor legend.  If showTooltipDataPosition is true,
         // this will also be the default format string used by tooltipFormatString.
-        this.cursorLegendFormatString = $.jqplot.Cursor.cursorLegendFormatString;
+        this.cursorLegendFormatString = jqplot.Cursor.cursorLegendFormatString;
         // whether the cursor is over the grid or not.
         this._oldHandlers = {onselectstart: null, ondrag: null, onmousedown: null};
         // prop: constrainOutsideZoom
@@ -148,36 +149,36 @@
         $.extend(true, this, options);
     };
     
-    $.jqplot.Cursor.cursorLegendFormatString = '%s x:%s, y:%s';
+    jqplot.Cursor.cursorLegendFormatString = '%s x:%s, y:%s';
     
     // called with scope of plot
-    $.jqplot.Cursor.init = function (target, data, opts){
+    jqplot.Cursor.init = function (target, data, opts){
         // add a cursor attribute to the plot
         var options = opts || {};
-        this.plugins.cursor = new $.jqplot.Cursor(options.cursor);
+        this.plugins.cursor = new jqplot.Cursor(options.cursor);
         var c = this.plugins.cursor;
 
         if (c.show) {
-            $.jqplot.eventListenerHooks.push(['jqplotMouseEnter', handleMouseEnter]);
-            $.jqplot.eventListenerHooks.push(['jqplotMouseLeave', handleMouseLeave]);
-            $.jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMouseMove]);
+            jqplot.eventListenerHooks.push(['jqplotMouseEnter', handleMouseEnter]);
+            jqplot.eventListenerHooks.push(['jqplotMouseLeave', handleMouseLeave]);
+            jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMouseMove]);
             
             if (c.showCursorLegend) {              
                 opts.legend = opts.legend || {};
-                opts.legend.renderer =  $.jqplot.CursorLegendRenderer;
+                opts.legend.renderer =  jqplot.CursorLegendRenderer;
                 opts.legend.formatString = this.plugins.cursor.cursorLegendFormatString;
                 opts.legend.show = true;
             }
             
             if (c.zoom) {
-                $.jqplot.eventListenerHooks.push(['jqplotMouseDown', handleMouseDown]);
+                jqplot.eventListenerHooks.push(['jqplotMouseDown', handleMouseDown]);
                 
                 if (c.clickReset) {
-                    $.jqplot.eventListenerHooks.push(['jqplotClick', handleClick]);
+                    jqplot.eventListenerHooks.push(['jqplotClick', handleClick]);
                 }
                 
                 if (c.dblClickReset) {
-                    $.jqplot.eventListenerHooks.push(['jqplotDblClick', handleDblClick]);
+                    jqplot.eventListenerHooks.push(['jqplotDblClick', handleDblClick]);
                 }             
             }
     
@@ -209,14 +210,14 @@
                 c.showTooltipUnitPosition = false;
                 c.showTooltipGridPosition = false;
                 if (options.cursor.tooltipFormatString == undefined) {
-                    c.tooltipFormatString = $.jqplot.Cursor.cursorLegendFormatString;
+                    c.tooltipFormatString = jqplot.Cursor.cursorLegendFormatString;
                 }
             }
         }
     };
     
     // called with context of plot
-    $.jqplot.Cursor.postDraw = function() {
+    jqplot.Cursor.postDraw = function() {
         var c = this.plugins.cursor;
         
         // Memory Leaks patch
@@ -237,7 +238,7 @@
 
         
         if (c.zoom) {
-            c.zoomCanvas = new $.jqplot.GenericCanvas();
+            c.zoomCanvas = new jqplot.GenericCanvas();
             this.eventCanvas._elem.before(c.zoomCanvas.createElement(this._gridPadding, 'jqplot-zoom-canvas', this._plotDimensions, this));
             c.zoomCanvas.setContext();
         }
@@ -258,7 +259,7 @@
         }
 
         if (c.showVerticalLine || c.showHorizontalLine) {
-            c.cursorCanvas = new $.jqplot.GenericCanvas();
+            c.cursorCanvas = new jqplot.GenericCanvas();
             this.eventCanvas._elem.before(c.cursorCanvas.createElement(this._gridPadding, 'jqplot-cursor-canvas', this._plotDimensions, this));
             c.cursorCanvas.setContext();
         }
@@ -286,13 +287,13 @@
     
     // Group: methods
     //
-    // method: $.jqplot.Cursor.zoomProxy
+    // method: jqplot.Cursor.zoomProxy
     // links targetPlot to controllerPlot so that plot zooming of
     // targetPlot will be controlled by zooming on the controllerPlot.
     // controllerPlot will not actually zoom, but acts as an
     // overview plot.  Note, the zoom options must be set to true for
     // zoomProxy to work.
-    $.jqplot.Cursor.zoomProxy = function(targetPlot, controllerPlot) {
+    jqplot.Cursor.zoomProxy = function(targetPlot, controllerPlot) {
         var tc = targetPlot.plugins.cursor;
         var cc = controllerPlot.plugins.cursor;
         tc.zoomTarget = true;
@@ -314,7 +315,7 @@
         }
     };
     
-    $.jqplot.Cursor.prototype.resetZoom = function(plot, cursor) {
+    jqplot.Cursor.prototype.resetZoom = function(plot, cursor) {
         var axes = plot.axes;
         var cax = cursor._zoom.axes;
         if (!plot.plugins.cursor.zoomProxy && cursor._zoom.isZoomed) {
@@ -343,11 +344,11 @@
         plot.target.trigger('jqplotResetZoom', [plot, cursor]);
     };
     
-    $.jqplot.Cursor.resetZoom = function(plot) {
+    jqplot.Cursor.resetZoom = function(plot) {
         plot.resetZoom();
     };
     
-    $.jqplot.Cursor.prototype.doZoom = function (gridpos, datapos, plot, cursor) {
+    jqplot.Cursor.prototype.doZoom = function (gridpos, datapos, plot, cursor) {
         var c = cursor;
         var axes = plot.axes;
         var zaxes = c._zoom.axes;
@@ -401,9 +402,9 @@
                                 }
                             }
                             
-                            if (this.looseZoom && (axes[ax].renderer.constructor === $.jqplot.LinearAxisRenderer || axes[ax].renderer.constructor === $.jqplot.LogAxisRenderer )) { //} || axes[ax].renderer.constructor === $.jqplot.DateAxisRenderer)) {
+                            if (this.looseZoom && (axes[ax].renderer.constructor === jqplot.LinearAxisRenderer || axes[ax].renderer.constructor === jqplot.LogAxisRenderer )) { //} || axes[ax].renderer.constructor === jqplot.DateAxisRenderer)) {
 
-                                ret = $.jqplot.LinearTickGenerator(newmin, newmax, curax._scalefact, _numberTicks);
+                                ret = jqplot.LinearTickGenerator(newmin, newmax, curax._scalefact, _numberTicks);
 
                                 // if new minimum is less than "true" minimum of axis display, adjust it
                                 if (axes[ax].tickInset && ret[0] < axes[ax].min + axes[ax].tickInset * axes[ax].tickInterval) {
@@ -418,7 +419,7 @@
                                 }
 
                                 // for log axes, don't fall below current minimum, this will look bad and can't have 0 in range anyway.
-                                if (axes[ax].renderer.constructor === $.jqplot.LogAxisRenderer && ret[0] < axes[ax].min) {
+                                if (axes[ax].renderer.constructor === jqplot.LogAxisRenderer && ret[0] < axes[ax].min) {
                                     // remove a tick and shift min up
                                     ret[0] += ret[4];
                                     ret[2] -= 1;
@@ -482,7 +483,7 @@
                                 if (axes[ax]._options.max != null) {
                                     seriesMax = axes[ax]._options.max;
                                 }
-                                var r = $.jqplot.LinearTickGenerator(seriesMin, seriesMax, null, null, (axes[ax]._options.min != null), (axes[ax]._options.max != null));
+                                var r = jqplot.LinearTickGenerator(seriesMin, seriesMax, null, null, (axes[ax]._options.min != null), (axes[ax]._options.max != null));
                                 curax.min = r[0];
                                 curax.max = r[1];
                                 curax.tickInterval = null;
@@ -500,8 +501,8 @@
         }
     };
     
-    $.jqplot.preInitHooks.push($.jqplot.Cursor.init);
-    $.jqplot.postDrawHooks.push($.jqplot.Cursor.postDraw);
+    jqplot.preInitHooks.push(jqplot.Cursor.init);
+    jqplot.postDrawHooks.push(jqplot.Cursor.postDraw);
     
     function updateTooltip(gridpos, datapos, plot) {
         var c = plot.plugins.cursor;
@@ -529,7 +530,7 @@
                     }
                 }
                 else {
-                    s += $.jqplot.sprintf(c.tooltipFormatString, datapos[g[0]], datapos[g[1]]);
+                    s += jqplot.sprintf(c.tooltipFormatString, datapos[g[0]], datapos[g[1]]);
                 }
                 addbr = true;
             }
@@ -564,7 +565,7 @@
                         if (addbr) {
                             s += '<br />';
                         }
-                        s += $.jqplot.sprintf(c.tooltipFormatString, label, sx, sy);
+                        s += jqplot.sprintf(c.tooltipFormatString, label, sx, sy);
                         addbr = true;
                     }
                 }
@@ -610,10 +611,10 @@
                     }
                 }
                 if (plot.legend.escapeHtml) {
-                    $(cells[i]).text($.jqplot.sprintf(c.cursorLegendFormatString, label, sx, sy));
+                    $(cells[i]).text(jqplot.sprintf(c.cursorLegendFormatString, label, sx, sy));
                 }
                 else {
-                    $(cells[i]).html($.jqplot.sprintf(c.cursorLegendFormatString, label, sx, sy));
+                    $(cells[i]).html(jqplot.sprintf(c.cursorLegendFormatString, label, sx, sy));
                 }
             }        
         }
@@ -813,10 +814,10 @@
                     var series = plot.series[idx];
                     var label = series.label.toString();
                     if (plot.legend.escapeHtml) {
-                        $(cells[i]).text($.jqplot.sprintf(c.cursorLegendFormatString, label, undefined, undefined));
+                        $(cells[i]).text(jqplot.sprintf(c.cursorLegendFormatString, label, undefined, undefined));
                     }
                     else {
-                        $(cells[i]).html($.jqplot.sprintf(c.cursorLegendFormatString, label, undefined, undefined));
+                        $(cells[i]).html(jqplot.sprintf(c.cursorLegendFormatString, label, undefined, undefined));
                     }
                 
                 }        
@@ -1069,16 +1070,16 @@
         ctx = null;
     }
     
-    $.jqplot.CursorLegendRenderer = function(options) {
-        $.jqplot.TableLegendRenderer.call(this, options);
+    export const CursorLegendRenderer = jqplot.CursorLegendRenderer = function(options) {
+        jqplot.TableLegendRenderer.call(this, options);
         this.formatString = '%s';
     };
     
-    $.jqplot.CursorLegendRenderer.prototype = new $.jqplot.TableLegendRenderer();
-    $.jqplot.CursorLegendRenderer.prototype.constructor = $.jqplot.CursorLegendRenderer;
+    jqplot.CursorLegendRenderer.prototype = new jqplot.TableLegendRenderer();
+    jqplot.CursorLegendRenderer.prototype.constructor = jqplot.CursorLegendRenderer;
     
     // called in context of a Legend
-    $.jqplot.CursorLegendRenderer.prototype.draw = function() {
+    jqplot.CursorLegendRenderer.prototype.draw = function() {
         if (this._elem) {
             this._elem.emptyForce();
             this._elem = null;
@@ -1096,7 +1097,7 @@
             for (var i = 0; i< series.length; i++) {
                 s = series[i];
                 if (s.show && s.showLabel) {
-                    var lt = $.jqplot.sprintf(this.formatString, s.label.toString());
+                    var lt = jqplot.sprintf(this.formatString, s.label.toString());
                     if (lt) {
                         var color = s.color;
                         if (s._stack && !s.fill) {
@@ -1106,8 +1107,8 @@
                         pad = true;
                     }
                     // let plugins add more rows to legend.  Used by trend line plugin.
-                    for (var j=0; j<$.jqplot.addLegendRowHooks.length; j++) {
-                        var item = $.jqplot.addLegendRowHooks[j].call(this, s);
+                    for (var j=0; j<jqplot.addLegendRowHooks.length; j++) {
+                        var item = jqplot.addLegendRowHooks[j].call(this, s);
                         if (item) {
                             addrow.call(this, item.label, item.color, pad);
                             pad = true;
@@ -1116,8 +1117,8 @@
                 }
             }
             series = s = null;
-            delete series;
-            delete s;
+
+
         }
         
         function addrow(label, color, pad, idx) {
@@ -1142,5 +1143,3 @@
         }
         return this._elem;
     };
-    
-})(jQuery);

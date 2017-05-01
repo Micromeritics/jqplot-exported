@@ -28,18 +28,19 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // class $.jqplot.EnhancedLegendRenderer
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
+    // class jqplot.EnhancedLegendRenderer
     // Legend renderer which can specify the number of rows and/or columns in the legend.
-    $.jqplot.EnhancedLegendRenderer = function(){
-        $.jqplot.TableLegendRenderer.call(this);
+    export const EnhancedLegendRenderer = jqplot.EnhancedLegendRenderer = function(){
+        jqplot.TableLegendRenderer.call(this);
     };
     
-    $.jqplot.EnhancedLegendRenderer.prototype = new $.jqplot.TableLegendRenderer();
-    $.jqplot.EnhancedLegendRenderer.prototype.constructor = $.jqplot.EnhancedLegendRenderer;
+    jqplot.EnhancedLegendRenderer.prototype = new jqplot.TableLegendRenderer();
+    jqplot.EnhancedLegendRenderer.prototype.constructor = jqplot.EnhancedLegendRenderer;
     
     // called with scope of legend.
-    $.jqplot.EnhancedLegendRenderer.prototype.init = function(options) {
+    jqplot.EnhancedLegendRenderer.prototype.init = function(options) {
         // prop: numberRows
         // Maximum number of rows in the legend.  0 or null for unlimited.
         this.numberRows = null;
@@ -64,12 +65,12 @@
         $.extend(true, this, options);
         
         if (this.seriesToggle) {
-            $.jqplot.postDrawHooks.push(postDraw);
+            jqplot.postDrawHooks.push(postDraw);
         }
     };
     
     // called with scope of legend
-    $.jqplot.EnhancedLegendRenderer.prototype.draw = function(offsets, plot) {
+    jqplot.EnhancedLegendRenderer.prototype.draw = function(offsets, plot) {
         var legend = this;
         if (this.show) {
             var series = this._series;
@@ -114,7 +115,7 @@
             var idx = 0;
             // check to see if we need to reverse
             for (i=series.length-1; i>=0; i--) {
-                if (nc == 1 && series[i]._stack || series[i].renderer.constructor == $.jqplot.BezierCurveRenderer){
+                if (nc == 1 && series[i]._stack || series[i].renderer.constructor == jqplot.BezierCurveRenderer){
                     reverse = true;
                 }
             }    
@@ -197,7 +198,7 @@
 
                                 var speed;
                                 if (typeof(this.seriesToggle) === 'string' || typeof(this.seriesToggle) === 'number') {
-                                    if (!$.jqplot.use_excanvas || !this.disableIEFading) {
+                                    if (!jqplot.use_excanvas || !this.disableIEFading) {
                                         speed = this.seriesToggle;
                                     }
                                 } 
@@ -297,9 +298,8 @@
     
     // called with scope of plot.
     var postDraw = function () {
-        if (this.legend.renderer.constructor == $.jqplot.EnhancedLegendRenderer && this.legend.seriesToggle){
+        if (this.legend.renderer.constructor == jqplot.EnhancedLegendRenderer && this.legend.seriesToggle){
             var e = this.legend._elem.detach();
             this.eventCanvas._elem.after(e);
         }
     };
-})(jQuery);

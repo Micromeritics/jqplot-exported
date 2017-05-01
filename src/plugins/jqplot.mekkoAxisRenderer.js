@@ -28,17 +28,18 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // class: $.jqplot.MekkoAxisRenderer
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
+    // class: jqplot.MekkoAxisRenderer
     // An axis renderer for a Mekko chart.
     // Should be used with a Mekko chart where the mekkoRenderer is used on the series.
     // Displays the Y axis as a range from 0 to 1 (0 to 100%) and the x axis with a tick
     // for each series scaled to the sum of all the y values.
-    $.jqplot.MekkoAxisRenderer = function() {
+    export const MekkoAxisRenderer = jqplot.MekkoAxisRenderer = function() {
     };
     
     // called with scope of axis object.
-    $.jqplot.MekkoAxisRenderer.prototype.init = function(options){
+    jqplot.MekkoAxisRenderer.prototype.init = function(options){
         // prop: tickMode
         // How to space the ticks on the axis.
         // 'bar' will place a tick at the width of each bar.  
@@ -48,7 +49,7 @@
         this.tickMode;
         // prop: barLabelRenderer
         // renderer to use to draw labels under each bar.
-        this.barLabelRenderer = $.jqplot.AxisLabelRenderer;
+        this.barLabelRenderer = jqplot.AxisLabelRenderer;
         // prop: barLabels
         // array of labels to put under each bar.
         this.barLabels = this.barLabels || [];
@@ -84,7 +85,7 @@
     };
     
     // called with scope of axis
-    $.jqplot.MekkoAxisRenderer.prototype.draw = function(ctx, plot) {
+    jqplot.MekkoAxisRenderer.prototype.draw = function(ctx, plot) {
         if (this.show) {
             // populate the axis label and value properties.
             // createTicks is a method on the renderer, but
@@ -151,7 +152,7 @@
     };
     
     // called with scope of an axis
-    $.jqplot.MekkoAxisRenderer.prototype.reset = function() {
+    jqplot.MekkoAxisRenderer.prototype.reset = function() {
         this.min = this._min;
         this.max = this._max;
         this.tickInterval = this._tickInterval;
@@ -160,7 +161,7 @@
     };
     
     // called with scope of axis
-    $.jqplot.MekkoAxisRenderer.prototype.set = function() { 
+    jqplot.MekkoAxisRenderer.prototype.set = function() {
         var dim = 0;
         var temp;
         var w = 0;
@@ -198,14 +199,14 @@
             else if (this.name == 'yaxis') {
                 dim = dim + w;
                 this._elem.css({'width':dim+'px', left:'0px', top:'0px'});
-                if (lshow && this._label.constructor == $.jqplot.AxisLabelRenderer) {
+                if (lshow && this._label.constructor == jqplot.AxisLabelRenderer) {
                     this._label._elem.css('width', w+'px');
                 }
             }
             else {
                 dim = dim + w;
                 this._elem.css({'width':dim+'px', right:'0px', top:'0px'});
-                if (lshow && this._label.constructor == $.jqplot.AxisLabelRenderer) {
+                if (lshow && this._label.constructor == jqplot.AxisLabelRenderer) {
                     this._label._elem.css('width', w+'px');
                 }
             }
@@ -213,7 +214,7 @@
     };    
     
     // called with scope of axis
-    $.jqplot.MekkoAxisRenderer.prototype.createTicks = function() {
+    jqplot.MekkoAxisRenderer.prototype.createTicks = function() {
         // we're are operating on an axis here
         var ticks = this._ticks;
         var userTicks = this.ticks;
@@ -346,7 +347,7 @@
                 for (var i=0; i<this.numberTicks; i++){
                     tt = this.min + i * this.tickInterval;
                     t = new this.tickRenderer(this.tickOptions);
-                    // var t = new $.jqplot.AxisTickRenderer(this.tickOptions);
+                    // var t = new jqplot.AxisTickRenderer(this.tickOptions);
                     if (!this.showTicks) {
                         t.showLabel = false;
                         t.showMark = false;
@@ -420,7 +421,7 @@
                 for (i=0; i<this.numberTicks; i++){
                     tt = this.min + i * this.tickInterval;
                     t = new this.tickRenderer(this.tickOptions);
-                    // var t = new $.jqplot.AxisTickRenderer(this.tickOptions);
+                    // var t = new jqplot.AxisTickRenderer(this.tickOptions);
                     if (!this.showTicks) {
                         t.showLabel = false;
                         t.showMark = false;
@@ -437,7 +438,7 @@
     };
     
     // called with scope of axis
-    $.jqplot.MekkoAxisRenderer.prototype.pack = function(pos, offsets) {
+    jqplot.MekkoAxisRenderer.prototype.pack = function(pos, offsets) {
         var ticks = this._ticks;
         var max = this.max;
         var min = this.min;
@@ -488,7 +489,7 @@
                     if (t.show && t.showLabel) {
                         var shim;
                         
-                        if (t.constructor == $.jqplot.CanvasAxisTickRenderer && t.angle) {
+                        if (t.constructor == jqplot.CanvasAxisTickRenderer && t.angle) {
                             // will need to adjust auto positioning based on which axis this is.
                             var temp = (this.name == 'xaxis') ? 1 : -1;
                             switch (t.labelPosition) {
@@ -555,7 +556,7 @@
                     var t = ticks[i];
                     if (t.show && t.showLabel) {                        
                         var shim;
-                        if (t.constructor == $.jqplot.CanvasAxisTickRenderer && t.angle) {
+                        if (t.constructor == jqplot.CanvasAxisTickRenderer && t.angle) {
                             // will need to adjust auto positioning based on which axis this is.
                             var temp = (this.name == 'yaxis') ? 1 : -1;
                             switch (t.labelPosition) {
@@ -608,4 +609,3 @@
             }
         }
     };
-})(jQuery);

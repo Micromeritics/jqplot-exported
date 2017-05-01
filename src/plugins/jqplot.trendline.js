@@ -28,18 +28,19 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     
     /**
-     * Class: $.jqplot.Trendline
+     * Class: jqplot.Trendline
      * Plugin which will automatically compute and draw trendlines for plotted data.
      */
-    $.jqplot.Trendline = function() {
+    export const Trendline = jqplot.Trendline = function() {
         // Group: Properties
         
         // prop: show
         // Wether or not to show the trend line.
-        this.show = $.jqplot.config.enablePlugins;
+        this.show = jqplot.config.enablePlugins;
         // prop: color
         // CSS color spec for the trend line.
         // By default this wil be the same color as the primary line.
@@ -48,7 +49,7 @@
         // Renderer to use to draw the trend line.
         // The data series that is plotted may not be rendered as a line.
         // Therefore, we use our own line renderer here to draw a trend line.
-        this.renderer = new $.jqplot.LineRenderer();
+        this.renderer = new jqplot.LineRenderer();
         // prop: rendererOptions
         // Options to pass to the line renderer.
         // By default, markers are not shown on trend lines.
@@ -85,9 +86,9 @@
         
     };
     
-    $.jqplot.postSeriesInitHooks.push(parseTrendLineOptions);
-    $.jqplot.postDrawSeriesHooks.push(drawTrendline);
-    $.jqplot.addLegendRowHooks.push(addTrendlineLegend);
+    jqplot.postSeriesInitHooks.push(parseTrendLineOptions);
+    jqplot.postDrawSeriesHooks.push(drawTrendline);
+    jqplot.addLegendRowHooks.push(addTrendlineLegend);
     
     // called witin scope of the legend object
     // current series passed in
@@ -106,7 +107,7 @@
     // called within scope of a series
     function parseTrendLineOptions (target, data, seriesDefaults, options, plot) {
         if (this._type && (this._type === 'line' || this._type == 'bar')) {
-            this.trendline = new $.jqplot.Trendline();
+            this.trendline = new jqplot.Trendline();
             options = options || {};
             $.extend(true, this.trendline, {color:this.color}, seriesDefaults.trendline, options.trendline);
             this.trendline.renderer.init.call(this.trendline, null);
@@ -218,6 +219,4 @@
             }
         }
         return {data: ypred, slope: ret[0], intercept: ret[1]};
-    } 
-
-})(jQuery);
+    }

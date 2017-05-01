@@ -35,16 +35,17 @@
   * contribution of code and input which proved a more powerful and
   * elegant solution.
   */
-    
-(function($) {
+ 
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
 
     var dotlen = 0.1;
 
-    $.jqplot.LinePattern = function (ctx, pattern) {
+    export const LinePattern = jqplot.LinePattern = function (ctx, pattern) {
 
         var defaultLinePatterns = {
-            dotted: [ dotlen, $.jqplot.config.dotGapLength ],
-            dashed: [ $.jqplot.config.dashLength, $.jqplot.config.gapLength ],
+            dotted: [ dotlen, jqplot.config.dotGapLength ],
+            dashed: [ jqplot.config.dashLength, jqplot.config.gapLength ],
             solid: null
         };
 
@@ -57,12 +58,12 @@
                         pattern.push( dotlen );
                     }
                     else if (s[i] === '-') {
-                        pattern.push( $.jqplot.config.dashLength );
+                        pattern.push( jqplot.config.dashLength );
                     }
                     else {
                         continue;
                     }
-                    pattern.push( $.jqplot.config.gapLength );
+                    pattern.push( jqplot.config.gapLength );
                 }
             }
             else {
@@ -146,4 +147,3 @@
             closePath: closePath
         };
     };
-})(jQuery);

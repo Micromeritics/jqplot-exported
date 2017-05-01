@@ -28,37 +28,38 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
 
     // Need to ensure pyramid axis and grid renderers are loaded.
     // You should load these with script tags in the html head, that is more efficient
     // as the browser will cache the request.
     // Note, have to block with synchronous request in order to execute bar renderer code.
-    if ($.jqplot.PyramidAxisRenderer === undefined) {
+    if (jqplot.PyramidAxisRenderer === undefined) {
         $.ajax({
-            url: $.jqplot.pluginLocation + 'jqplot.pyramidAxisRenderer.js',
+            url: jqplot.pluginLocation + 'jqplot.pyramidAxisRenderer.js',
             dataType: "script",
             async: false
         });
     }
     
-    if ($.jqplot.PyramidGridRenderer === undefined) {
+    if (jqplot.PyramidGridRenderer === undefined) {
         $.ajax({
-            url: $.jqplot.pluginLocation + 'jqplot.pyramidGridRenderer.js',
+            url: jqplot.pluginLocation + 'jqplot.pyramidGridRenderer.js',
             dataType: "script",
             async: false
         });
     }
 
-    $.jqplot.PyramidRenderer = function(){
-        $.jqplot.LineRenderer.call(this);
+    export const PyramidRenderer = jqplot.PyramidRenderer = function(){
+        jqplot.LineRenderer.call(this);
     };
     
-    $.jqplot.PyramidRenderer.prototype = new $.jqplot.LineRenderer();
-    $.jqplot.PyramidRenderer.prototype.constructor = $.jqplot.PyramidRenderer;
+    jqplot.PyramidRenderer.prototype = new jqplot.LineRenderer();
+    jqplot.PyramidRenderer.prototype.constructor = jqplot.PyramidRenderer;
     
     // called with scope of a series
-    $.jqplot.PyramidRenderer.prototype.init = function(options, plot) {
+    jqplot.PyramidRenderer.prototype.init = function(options, plot) {
         options = options || {};
         this._type = 'pyramid';
         // Group: Properties
@@ -161,7 +162,7 @@
     // converts the user data values to grid coordinates and stores them
     // in the gridData array.
     // Called with scope of a series.
-    $.jqplot.PyramidRenderer.prototype.setGridData = function(plot) {
+    jqplot.PyramidRenderer.prototype.setGridData = function(plot) {
         // recalculate the grid data
         var xp = this._xaxis.series_u2p;
         var yp = this._yaxis.series_u2p;
@@ -210,7 +211,7 @@
     // linerenderer to generate grid data points without overwriting the
     // grid data associated with that series.
     // Called with scope of a series.
-    $.jqplot.PyramidRenderer.prototype.makeGridData = function(data, plot) {
+    jqplot.PyramidRenderer.prototype.makeGridData = function(data, plot) {
         // recalculate the grid data
         var xp = this._xaxis.series_u2p;
         var yp = this._yaxis.series_u2p;
@@ -252,7 +253,7 @@
         return gd;
     };
 
-    $.jqplot.PyramidRenderer.prototype.setBarWidth = function() {
+    jqplot.PyramidRenderer.prototype.setBarWidth = function() {
         // need to know how many data values we have on the approprate axis and figure it out.
         var i;
         var nvals = 0;
@@ -277,7 +278,7 @@
         }
     };
     
-    $.jqplot.PyramidRenderer.prototype.draw = function(ctx, gridData, options) {
+    jqplot.PyramidRenderer.prototype.draw = function(ctx, gridData, options) {
         var i;
         // Ughhh, have to make a copy of options b/c it may be modified later.
         var opts = $.extend({}, options);
@@ -306,8 +307,8 @@
         // this._barNudge = 0;
 
         if (showLine) {
-            var negativeColors = new $.jqplot.ColorGenerator(this.negativeSeriesColors);
-            var positiveColors = new $.jqplot.ColorGenerator(this.seriesColors);
+            var negativeColors = new jqplot.ColorGenerator(this.negativeSeriesColors);
+            var positiveColors = new jqplot.ColorGenerator(this.seriesColors);
             var negativeColor = negativeColors.get(this.index);
             if (! this.useNegativeColors) {
                 negativeColor = opts.fillStyle;
@@ -398,7 +399,7 @@
         }        
         
         if (this.highlightColors.length == 0) {
-            this.highlightColors = $.jqplot.computeHighlightColors(this._dataColors);
+            this.highlightColors = jqplot.computeHighlightColors(this._dataColors);
         }
         
         else if (typeof(this.highlightColors) == 'string') {
@@ -421,20 +422,20 @@
         options.seriesDefaults = options.seriesDefaults || {};
         // only set these if there is a pie series
         var setopts = false;
-        if (options.seriesDefaults.renderer === $.jqplot.PyramidRenderer) {
+        if (options.seriesDefaults.renderer === jqplot.PyramidRenderer) {
             setopts = true;
         }
         else if (options.series) {
             for (var i=0; i < options.series.length; i++) {
-                if (options.series[i].renderer === $.jqplot.PyramidRenderer) {
+                if (options.series[i].renderer === jqplot.PyramidRenderer) {
                     setopts = true;
                 }
             }
         }
         
         if (setopts) {
-            options.axesDefaults.renderer = $.jqplot.PyramidAxisRenderer;
-            options.grid.renderer = $.jqplot.PyramidGridRenderer;
+            options.axesDefaults.renderer = jqplot.PyramidAxisRenderer;
+            options.grid.renderer = jqplot.PyramidGridRenderer;
             options.seriesDefaults.pointLabels = {show: false};
         }
     }
@@ -451,7 +452,7 @@
         }
          
         this.plugins.pyramidRenderer = {highlightedSeriesIndex:null};
-        this.plugins.pyramidRenderer.highlightCanvas = new $.jqplot.GenericCanvas();
+        this.plugins.pyramidRenderer.highlightCanvas = new jqplot.GenericCanvas();
         
         this.eventCanvas._elem.before(this.plugins.pyramidRenderer.highlightCanvas.createElement(this._gridPadding, 'jqplot-pyramidRenderer-highlight-canvas', this._plotDimensions, this));
         this.plugins.pyramidRenderer.highlightCanvas.setContext();
@@ -508,7 +509,4 @@
     }
 
     // Have to add hook here, becuase it needs called before series is inited.
-    $.jqplot.preInitHooks.push(preInit);
-    
-
-})(jQuery);
+    jqplot.preInitHooks.push(preInit);

@@ -28,18 +28,20 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // class $.jqplot.TableLegendRenderer
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
+
+    // class jqplot.TableLegendRenderer
     // The default legend renderer for jqPlot.
-    $.jqplot.TableLegendRenderer = function(){
+    export const TableLegendRenderer = jqplot.TableLegendRenderer = function(){
         //
     };
     
-    $.jqplot.TableLegendRenderer.prototype.init = function(options) {
+    jqplot.TableLegendRenderer.prototype.init = function(options) {
         $.extend(true, this, options);
     };
         
-    $.jqplot.TableLegendRenderer.prototype.addrow = function (label, color, pad, reverse) {
+    jqplot.TableLegendRenderer.prototype.addrow = function (label, color, pad, reverse) {
         var rs = (pad) ? this.rowSpacing+'px' : '0px';
         var tr;
         var td;
@@ -99,7 +101,7 @@
     };
     
     // called with scope of legend
-    $.jqplot.TableLegendRenderer.prototype.draw = function() {
+    jqplot.TableLegendRenderer.prototype.draw = function() {
         if (this._elem) {
             this._elem.emptyForce();
             this._elem = null;
@@ -147,7 +149,7 @@
                 s;
             for (var i = 0; i< series.length; i++) {
                 s = series[i];
-                if (s._stack || s.renderer.constructor == $.jqplot.BezierCurveRenderer){
+                if (s._stack || s.renderer.constructor == jqplot.BezierCurveRenderer){
                     reverse = true;
                 }
                 if (s.show && s.showLabel) {
@@ -164,8 +166,8 @@
                         pad = true;
                     }
                     // let plugins add more rows to legend.  Used by trend line plugin.
-                    for (var j=0; j<$.jqplot.addLegendRowHooks.length; j++) {
-                        var item = $.jqplot.addLegendRowHooks[j].call(this, s);
+                    for (var j=0; j<jqplot.addLegendRowHooks.length; j++) {
+                        var item = jqplot.addLegendRowHooks[j].call(this, s);
                         if (item) {
                             this.renderer.addrow.call(this, item.label, item.color, pad);
                             pad = true;
@@ -178,7 +180,7 @@
         return this._elem;
     };
     
-    $.jqplot.TableLegendRenderer.prototype.pack = function(offsets) {
+    jqplot.TableLegendRenderer.prototype.pack = function(offsets) {
         if (this.show) {       
             if (this.placement == 'insideGrid') {
                 switch (this.location) {
@@ -320,4 +322,3 @@
             }
         } 
     };
-})(jQuery);

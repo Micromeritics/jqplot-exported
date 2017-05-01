@@ -28,17 +28,19 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // Class: $.jqplot.DivTitleRenderer
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
+
+    // Class: jqplot.DivTitleRenderer
     // The default title renderer for jqPlot.  This class has no options beyond the <Title> class. 
-    $.jqplot.DivTitleRenderer = function() {
+    export const DivTitleRenderer = jqplot.DivTitleRenderer = function() {
     };
     
-    $.jqplot.DivTitleRenderer.prototype.init = function(options) {
+    jqplot.DivTitleRenderer.prototype.init = function(options) {
         $.extend(true, this, options);
     };
     
-    $.jqplot.DivTitleRenderer.prototype.draw = function() {
+    jqplot.DivTitleRenderer.prototype.draw = function() {
         // Memory Leaks patch
         if (this._elem) {
             this._elem.emptyForce();
@@ -114,7 +116,6 @@
         return this._elem;
     };
     
-    $.jqplot.DivTitleRenderer.prototype.pack = function() {
+    jqplot.DivTitleRenderer.prototype.pack = function() {
         // nothing to do here
     };
-})(jQuery);  

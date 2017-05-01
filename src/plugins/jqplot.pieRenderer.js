@@ -28,9 +28,10 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     /**
-     * Class: $.jqplot.PieRenderer
+     * Class: jqplot.PieRenderer
      * Plugin renderer to draw a pie chart.
      * x values, if present, will be used as slice labels.
      * y values give slice size.
@@ -40,12 +41,12 @@
      * 
      * > <script type="text/javascript" src="plugins/jqplot.pieRenderer.js"></script>
      * 
-     * Properties described here are passed into the $.jqplot function
+     * Properties described here are passed into the jqplot function
      * as options on the series renderer.  For example:
      * 
-     * > plot2 = $.jqplot('chart2', [s1, s2], {
+     * > plot2 = jqplot('chart2', [s1, s2], {
      * >     seriesDefaults: {
-     * >         renderer:$.jqplot.PieRenderer,
+     * >         renderer:jqplot.PieRenderer,
      * >         rendererOptions:{
      * >              sliceMargin: 2,
      * >              startAngle: -90
@@ -71,15 +72,15 @@
      * 'jqplotDataRightClick' - tiggered when the user right clicks on a slice if
      * the "captureRightClick" option is set to true on the plot.
      */
-    $.jqplot.PieRenderer = function(){
-        $.jqplot.LineRenderer.call(this);
+    export const PieRenderer = jqplot.PieRenderer = function(){
+        jqplot.LineRenderer.call(this);
     };
     
-    $.jqplot.PieRenderer.prototype = new $.jqplot.LineRenderer();
-    $.jqplot.PieRenderer.prototype.constructor = $.jqplot.PieRenderer;
+    jqplot.PieRenderer.prototype = new jqplot.LineRenderer();
+    jqplot.PieRenderer.prototype.constructor = jqplot.PieRenderer;
     
     // called with scope of a series
-    $.jqplot.PieRenderer.prototype.init = function(options, plot) {
+    jqplot.PieRenderer.prototype.init = function(options, plot) {
         // Group: Properties
         //
         // prop: diameter
@@ -149,7 +150,7 @@
         // 90 = on the negaive y axis.
         // 180 or - 180 = on the negative x axis.
         this.startAngle = 0;
-        this.tickRenderer = $.jqplot.PieTickRenderer;
+        this.tickRenderer = jqplot.PieTickRenderer;
         // prop: showSlice
         // Array for whether the pie chart slice for a data element should be displayed.
         // Containsg true or false for each data element.  If not specified, defaults to true.
@@ -179,7 +180,7 @@
         // set highlight colors if none provided
         if (this.highlightColors.length == 0) {
             for (var i=0; i<this.seriesColors.length; i++){
-                var rgba = $.jqplot.getColorComponents(this.seriesColors[i]);
+                var rgba = jqplot.getColorComponents(this.seriesColors[i]);
                 var newrgb = [rgba[0], rgba[1], rgba[2]];
                 var sum = newrgb[0] + newrgb[1] + newrgb[2];
                 for (var j=0; j<3; j++) {
@@ -191,7 +192,7 @@
             }
         }
         
-        this.highlightColorGenerator = new $.jqplot.ColorGenerator(this.highlightColors);
+        this.highlightColorGenerator = new jqplot.ColorGenerator(this.highlightColors);
         
         plot.postParseOptionsHooks.addOnce(postParseOptions);
         plot.postInitHooks.addOnce(postInit);
@@ -203,7 +204,7 @@
         plot.postDrawHooks.addOnce(postPlotDraw);
     };
     
-    $.jqplot.PieRenderer.prototype.setGridData = function(plot) {
+    jqplot.PieRenderer.prototype.setGridData = function(plot) {
         // set gridData property.  This will hold angle in radians of each data point.
         var stack = [];
         var td = [];
@@ -235,7 +236,7 @@
         this.gridData = td;
     };
     
-    $.jqplot.PieRenderer.prototype.makeGridData = function(data, plot) {
+    jqplot.PieRenderer.prototype.makeGridData = function(data, plot) {
         var stack = [];
         var td = [];
         var tot = 0;
@@ -283,7 +284,7 @@
         return rprime;
     }
     
-    $.jqplot.PieRenderer.prototype.drawSlice = function (ctx, ang1, ang2, color, isShadow) {
+    jqplot.PieRenderer.prototype.drawSlice = function (ctx, ang1, ang2, color, isShadow) {
         if (this._drawData) {
             var r = this._radius;
             var fill = this.fill;
@@ -360,14 +361,14 @@
     };
     
     // called with scope of series
-    $.jqplot.PieRenderer.prototype.draw = function (ctx, gd, options, plot) {
+    jqplot.PieRenderer.prototype.draw = function (ctx, gd, options, plot) {
         var i;
         var opts = (options != undefined) ? options : {};
         // offset and direction of offset due to legend placement
         var offx = 0;
         var offy = 0;
         var trans = 1;
-        var colorGenerator = new $.jqplot.ColorGenerator(this.seriesColors);
+        var colorGenerator = new jqplot.ColorGenerator(this.seriesColors);
         var sliceColor;
 
         if (options.legendInfo && options.legendInfo.placement == 'insideGrid') {
@@ -458,7 +459,7 @@
         // Need to check for undersized pie.  This can happen if
         // plot area too small and legend is too big.
         if (this._diameter < 6) {
-            $.jqplot.log('Diameter of pie too small, not rendering.');
+            jqplot.log('Diameter of pie too small, not rendering.');
             return;
         }
 
@@ -485,19 +486,19 @@
                 
                     if (this.dataLabels == 'label') {
                         fstr = this.dataLabelFormatString || '%s';
-                        label = $.jqplot.sprintf(fstr, gd[i][0]);
+                        label = jqplot.sprintf(fstr, gd[i][0]);
                     }
                     else if (this.dataLabels == 'value') {
                         fstr = this.dataLabelFormatString || '%d';
-                        label = $.jqplot.sprintf(fstr, this.data[i][1]);
+                        label = jqplot.sprintf(fstr, this.data[i][1]);
                     }
                     else if (this.dataLabels == 'percent') {
                         fstr = this.dataLabelFormatString || '%d%%';
-                        label = $.jqplot.sprintf(fstr, gd[i][2]*100);
+                        label = jqplot.sprintf(fstr, gd[i][2]*100);
                     }
                     else if (this.dataLabels.constructor == Array) {
                         fstr = this.dataLabelFormatString || '%s';
-                        label = $.jqplot.sprintf(fstr, this.dataLabels[i]);
+                        label = jqplot.sprintf(fstr, this.dataLabels[i]);
                     }
                 
                     var fact = (this._radius ) * this.dataLabelPositionFactor + this.sliceMargin + this.dataLabelNudge;
@@ -522,20 +523,20 @@
         }            
     };
     
-    $.jqplot.PieAxisRenderer = function() {
-        $.jqplot.LinearAxisRenderer.call(this);
+    export const PieAxisRenderer = jqplot.PieAxisRenderer = function() {
+        jqplot.LinearAxisRenderer.call(this);
     };
     
-    $.jqplot.PieAxisRenderer.prototype = new $.jqplot.LinearAxisRenderer();
-    $.jqplot.PieAxisRenderer.prototype.constructor = $.jqplot.PieAxisRenderer;
+    jqplot.PieAxisRenderer.prototype = new jqplot.LinearAxisRenderer();
+    jqplot.PieAxisRenderer.prototype.constructor = jqplot.PieAxisRenderer;
         
     
     // There are no traditional axes on a pie chart.  We just need to provide
     // dummy objects with properties so the plot will render.
     // called with scope of axis object.
-    $.jqplot.PieAxisRenderer.prototype.init = function(options){
+    jqplot.PieAxisRenderer.prototype.init = function(options){
         //
-        this.tickRenderer = $.jqplot.PieTickRenderer;
+        this.tickRenderer = jqplot.PieTickRenderer;
         $.extend(true, this, options);
         // I don't think I'm going to need _dataBounds here.
         // have to go Axis scaling in a way to fit chart onto plot area
@@ -554,19 +555,19 @@
     
     
     
-    $.jqplot.PieLegendRenderer = function(){
-        $.jqplot.TableLegendRenderer.call(this);
+    export const PieLegendRenderer = jqplot.PieLegendRenderer = function(){
+        jqplot.TableLegendRenderer.call(this);
     };
     
-    $.jqplot.PieLegendRenderer.prototype = new $.jqplot.TableLegendRenderer();
-    $.jqplot.PieLegendRenderer.prototype.constructor = $.jqplot.PieLegendRenderer;
+    jqplot.PieLegendRenderer.prototype = new jqplot.TableLegendRenderer();
+    jqplot.PieLegendRenderer.prototype.constructor = jqplot.PieLegendRenderer;
     
     /**
-     * Class: $.jqplot.PieLegendRenderer
+     * Class: jqplot.PieLegendRenderer
      * Legend Renderer specific to pie plots.  Set by default
      * when user creates a pie plot.
      */
-    $.jqplot.PieLegendRenderer.prototype.init = function(options) {
+    jqplot.PieLegendRenderer.prototype.init = function(options) {
         // Group: Properties
         //
         // prop: numberRows
@@ -582,7 +583,7 @@
     };
     
     // called with context of legend
-    $.jqplot.PieLegendRenderer.prototype.draw = function() {
+    jqplot.PieLegendRenderer.prototype.draw = function() {
         var legend = this;
         if (this.show) {
             var series = this._series;
@@ -630,7 +631,7 @@
                 nr, 
                 nc;
             var s = series[0];
-            var colorGenerator = new $.jqplot.ColorGenerator(s.seriesColors);
+            var colorGenerator = new jqplot.ColorGenerator(s.seriesColors);
             
             if (s.show) {
                 var pd = s.data;
@@ -749,7 +750,7 @@
         return this._elem;                
     };
     
-    $.jqplot.PieRenderer.prototype.handleMove = function(ev, gridpos, datapos, neighbor, plot) {
+    jqplot.PieRenderer.prototype.handleMove = function(ev, gridpos, datapos, neighbor, plot) {
         if (neighbor) {
             var ins = [neighbor.seriesIndex, neighbor.pointIndex, neighbor.data];
             plot.target.trigger('jqplotDataMouseOver', ins);
@@ -764,7 +765,7 @@
     };
     
     
-    // this.eventCanvas._elem.bind($.jqplot.eventListenerHooks[i][0], {plot:this}, $.jqplot.eventListenerHooks[i][1]);
+    // this.eventCanvas._elem.bind(jqplot.eventListenerHooks[i][0], {plot:this}, jqplot.eventListenerHooks[i][1]);
     
     // setup default renderers for axes and legend so user doesn't have to
     // called with scope of plot
@@ -775,20 +776,20 @@
         options.seriesDefaults = options.seriesDefaults || {};
         // only set these if there is a pie series
         var setopts = false;
-        if (options.seriesDefaults.renderer == $.jqplot.PieRenderer) {
+        if (options.seriesDefaults.renderer == jqplot.PieRenderer) {
             setopts = true;
         }
         else if (options.series) {
             for (var i=0; i < options.series.length; i++) {
-                if (options.series[i].renderer == $.jqplot.PieRenderer) {
+                if (options.series[i].renderer == jqplot.PieRenderer) {
                     setopts = true;
                 }
             }
         }
         
         if (setopts) {
-            options.axesDefaults.renderer = $.jqplot.PieAxisRenderer;
-            options.legend.renderer = options.legend.renderer || $.jqplot.PieLegendRenderer;
+            options.axesDefaults.renderer = jqplot.PieAxisRenderer;
+            options.legend.renderer = options.legend.renderer || jqplot.PieLegendRenderer;
             options.legend.preDraw = true;
             options.seriesDefaults.pointLabels = {show: false};
         }
@@ -796,7 +797,7 @@
     
     function postInit(target, data, options) {
         for (var i=0; i<this.series.length; i++) {
-            if (this.series[i].renderer.constructor == $.jqplot.PieRenderer) {
+            if (this.series[i].renderer.constructor == jqplot.PieRenderer) {
                 // don't allow mouseover and mousedown at same time.
                 if (this.series[i].highlightMouseOver) {
                     this.series[i].highlightMouseDown = false;
@@ -809,7 +810,7 @@
     function postParseOptions(options) {
         for (var i=0; i<this.series.length; i++) {
             this.series[i].seriesColors = this.seriesColors;
-            this.series[i].colorGenerator = $.jqplot.colorGenerator;
+            this.series[i].colorGenerator = jqplot.colorGenerator;
         }
     }
     
@@ -916,7 +917,7 @@
         }
 
         this.plugins.pieRenderer = {highlightedSeriesIndex:null};
-        this.plugins.pieRenderer.highlightCanvas = new $.jqplot.GenericCanvas();
+        this.plugins.pieRenderer.highlightCanvas = new jqplot.GenericCanvas();
         
         // do we have any data labels?  if so, put highlight canvas before those
         var labels = $(this.targetId+' .jqplot-data-label');
@@ -932,15 +933,11 @@
         this.eventCanvas._elem.bind('mouseleave', {plot:this}, function (ev) { unhighlight(ev.data.plot); });
     }
     
-    $.jqplot.preInitHooks.push(preInit);
+    jqplot.preInitHooks.push(preInit);
     
-    $.jqplot.PieTickRenderer = function() {
-        $.jqplot.AxisTickRenderer.call(this);
+    export const PieTickRenderer = jqplot.PieTickRenderer = function() {
+        jqplot.AxisTickRenderer.call(this);
     };
     
-    $.jqplot.PieTickRenderer.prototype = new $.jqplot.AxisTickRenderer();
-    $.jqplot.PieTickRenderer.prototype.constructor = $.jqplot.PieTickRenderer;
-    
-})(jQuery);
-    
-    
+    jqplot.PieTickRenderer.prototype = new jqplot.AxisTickRenderer();
+    jqplot.PieTickRenderer.prototype.constructor = jqplot.PieTickRenderer;

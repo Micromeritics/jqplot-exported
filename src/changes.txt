@@ -65,7 +65,7 @@ Title: Change Log
 * Add colorpicker.js to distribution
 * Fix some problems with examples when viewing with local file system
 * Add "minified" copyright notice for minified files, similar to jquery's notice.
-* Pull Request #25: jqplot.sprintf.js is no longer the last file in the concatenated jquery.jqplot.js
+* Pull Request #25: jqplot.sprintf.js is no longer the last file in the concatenated jqplot.js
 * Pull Request #17: Fixed bug causing custom pointLabels passed with plot data to be ignored for horizontal bar graphs.
 * Pull Request #10: Build error by invalid encoding.
 * Issue #714: handle tickColor in meterGaugeRenderer

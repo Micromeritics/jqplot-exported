@@ -28,9 +28,10 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     /**
-     * Class: $.jqplot.BlockRenderer
+     * Class: jqplot.BlockRenderer
      * Plugin renderer to draw a x-y block chart.  A Block chart has data points displayed as
      * colored squares with a text label inside.  Data must be supplied in the form:
      * 
@@ -48,15 +49,15 @@
      * specified with the series.
      * 
      */
-    $.jqplot.BlockRenderer = function(){
-        $.jqplot.LineRenderer.call(this);
+    export const BlockRenderer = jqplot.BlockRenderer = function(){
+        jqplot.LineRenderer.call(this);
     };
     
-    $.jqplot.BlockRenderer.prototype = new $.jqplot.LineRenderer();
-    $.jqplot.BlockRenderer.prototype.constructor = $.jqplot.BlockRenderer;
+    jqplot.BlockRenderer.prototype = new jqplot.LineRenderer();
+    jqplot.BlockRenderer.prototype.constructor = jqplot.BlockRenderer;
     
     // called with scope of a series
-    $.jqplot.BlockRenderer.prototype.init = function(options) {
+    jqplot.BlockRenderer.prototype.init = function(options) {
         // Group: Properties
         //
         // prop: css
@@ -86,8 +87,8 @@
         else if (!this.varyBlockColors) {
             this.css.background = this.color;
         }
-        this.canvas = new $.jqplot.BlockCanvas();
-        this.shadowCanvas =  new $.jqplot.BlockCanvas();
+        this.canvas = new jqplot.BlockCanvas();
+        this.shadowCanvas =  new jqplot.BlockCanvas();
         this.canvas._plotDimensions = this._plotDimensions;
         this.shadowCanvas._plotDimensions = this._plotDimensions;
         this._type = 'block';
@@ -134,13 +135,13 @@
     };
     
     // called with scope of series
-    $.jqplot.BlockRenderer.prototype.draw = function (ctx, gd, options) {
+    jqplot.BlockRenderer.prototype.draw = function (ctx, gd, options) {
         if (this.plugins.pointLabels) {
             this.plugins.pointLabels.show = false;
         }
         var i, el, d, gd, t, css, w, h, left, top;
         var opts = (options != undefined) ? options : {};
-        var colorGenerator = new $.jqplot.ColorGenerator(this.seriesColors);
+        var colorGenerator = new jqplot.ColorGenerator(this.seriesColors);
         this.canvas._elem.empty();
         for (i=0; i<this.gridData.length; i++) {
             d = this.data[i];
@@ -183,15 +184,15 @@
         }
     };
     
-    $.jqplot.BlockCanvas = function() {
-        $.jqplot.ElemContainer.call(this);
+    export const BlockCanvas = jqplot.BlockCanvas = function() {
+        jqplot.ElemContainer.call(this);
         this._ctx;  
     };
     
-    $.jqplot.BlockCanvas.prototype = new $.jqplot.ElemContainer();
-    $.jqplot.BlockCanvas.prototype.constructor = $.jqplot.BlockCanvas;
+    jqplot.BlockCanvas.prototype = new jqplot.ElemContainer();
+    jqplot.BlockCanvas.prototype.constructor = jqplot.BlockCanvas;
     
-    $.jqplot.BlockCanvas.prototype.createElement = function(offsets, clss, plotDimensions) {
+    jqplot.BlockCanvas.prototype.createElement = function(offsets, clss, plotDimensions) {
         this._offsets = offsets;
         var klass = 'jqplot-blockCanvas';
         if (clss != undefined) {
@@ -219,7 +220,7 @@
         return this._elem;
     };
     
-    $.jqplot.BlockCanvas.prototype.setContext = function() {
+    jqplot.BlockCanvas.prototype.setContext = function() {
         this._ctx = {
             canvas:{
                 width:0,
@@ -229,7 +230,3 @@
         };
         return this._ctx;
     };
-    
-})(jQuery);
-    
-    

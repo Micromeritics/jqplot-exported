@@ -28,19 +28,20 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {     
-    // Class: $.jqplot.CanvasGridRenderer
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
+    // Class: jqplot.CanvasGridRenderer
     // The default jqPlot grid renderer, creating a grid on a canvas element.
     // The renderer has no additional options beyond the <Grid> class.
-    $.jqplot.PyramidGridRenderer = function(){
-        $.jqplot.CanvasGridRenderer.call(this);
+    export const PyramidGridRenderer = jqplot.PyramidGridRenderer = function(){
+        jqplot.CanvasGridRenderer.call(this);
     };
 
-    $.jqplot.PyramidGridRenderer.prototype = new $.jqplot.CanvasGridRenderer();
-    $.jqplot.PyramidGridRenderer.prototype.constructor = $.jqplot.PyramidGridRenderer;
+    jqplot.PyramidGridRenderer.prototype = new jqplot.CanvasGridRenderer();
+    jqplot.PyramidGridRenderer.prototype.constructor = jqplot.PyramidGridRenderer;
     
     // called with context of Grid object
-    $.jqplot.CanvasGridRenderer.prototype.init = function(options) {
+    jqplot.CanvasGridRenderer.prototype.init = function(options) {
         this._ctx;
         this.plotBands = {
             show: false,
@@ -55,7 +56,7 @@
         this.renderer.shadowRenderer.init(sopts);
     };
     
-    $.jqplot.PyramidGridRenderer.prototype.draw = function() {
+    jqplot.PyramidGridRenderer.prototype.draw = function() {
         this._ctx = this._elem.get(0).getContext("2d");
         var ctx = this._ctx;
         var axes = this._axes;
@@ -426,4 +427,3 @@
         ctx =  null;
         axes = null;
     };
-})(jQuery); 

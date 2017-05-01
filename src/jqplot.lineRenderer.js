@@ -28,17 +28,19 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // Class: $.jqplot.LineRenderer
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
+
+    // Class: jqplot.LineRenderer
     // The default line renderer for jqPlot, this class has no options beyond the <Series> class.
     // Draws series as a line.
-    $.jqplot.LineRenderer = function(){
-        this.shapeRenderer = new $.jqplot.ShapeRenderer();
-        this.shadowRenderer = new $.jqplot.ShadowRenderer();
+    export const LineRenderer = jqplot.LineRenderer = function(){
+        this.shapeRenderer = new jqplot.ShapeRenderer();
+        this.shadowRenderer = new jqplot.ShadowRenderer();
     };
     
     // called with scope of series.
-    $.jqplot.LineRenderer.prototype.init = function(options, plot) {
+    jqplot.LineRenderer.prototype.init = function(options, plot) {
         // Group: Properties
         //
         options = options || {};
@@ -208,7 +210,7 @@
             
             if (!this.highlightColor) {
                 var fc = (this.renderer.bands.show) ? this.renderer.bands.fillColor : this.fillColor;
-                this.highlightColor = $.jqplot.computeHighlightColors(fc);
+                this.highlightColor = jqplot.computeHighlightColors(fc);
             }
             // turn off (disable) the highlighter plugin
             if (this.highlighter) {
@@ -229,7 +231,7 @@
 
     };
 
-    $.jqplot.LineRenderer.prototype.initBands = function(options, plot) {
+    jqplot.LineRenderer.prototype.initBands = function(options, plot) {
         // use bandData if no data specified in bands option
         //var bd = this.renderer.bandData;
         var bd = options.bandData || [];
@@ -416,7 +418,7 @@
         // }
 
         if (bands.fillColor === null) {
-            var c = $.jqplot.getColorComponents(bands.color);
+            var c = jqplot.getColorComponents(bands.color);
             // now adjust alpha to differentiate fill
             c[3] = c[3] * 0.5;
             bands.fillColor = 'rgba(' + c[0] +', '+ c[1] +', '+ c[2] +', '+ c[3] + ')';
@@ -673,7 +675,7 @@
     // converts the user data values to grid coordinates and stores them
     // in the gridData array.
     // Called with scope of a series.
-    $.jqplot.LineRenderer.prototype.setGridData = function(plot) {
+    jqplot.LineRenderer.prototype.setGridData = function(plot) {
         // recalculate the grid data
         var xp = this._xaxis.series_u2p;
         var yp = this._yaxis.series_u2p;
@@ -773,7 +775,7 @@
     // linerenderer to generate grid data points without overwriting the
     // grid data associated with that series.
     // Called with scope of a series.
-    $.jqplot.LineRenderer.prototype.makeGridData = function(data, plot) {
+    jqplot.LineRenderer.prototype.makeGridData = function(data, plot) {
         // recalculate the grid data
         var xp = this._xaxis.series_u2p;
         var yp = this._yaxis.series_u2p;
@@ -859,7 +861,7 @@
     
 
     // called within scope of series.
-    $.jqplot.LineRenderer.prototype.draw = function(ctx, gd, options, plot) {
+    jqplot.LineRenderer.prototype.draw = function(ctx, gd, options, plot) {
         var i;
         // get a copy of the options, so we don't modify the original object.
         var opts = $.extend(true, {}, options);
@@ -1102,7 +1104,7 @@
         ctx.restore();
     };  
     
-    $.jqplot.LineRenderer.prototype.drawShadow = function(ctx, gd, options) {
+    jqplot.LineRenderer.prototype.drawShadow = function(ctx, gd, options) {
         // This is a no-op, shadows drawn with lines.
     };
     
@@ -1110,7 +1112,7 @@
     // make sure to not leave anything highlighted.
     function postInit(target, data, options) {
         for (var i=0; i<this.series.length; i++) {
-            if (this.series[i].renderer.constructor == $.jqplot.LineRenderer) {
+            if (this.series[i].renderer.constructor == jqplot.LineRenderer) {
                 // don't allow mouseover and mousedown at same time.
                 if (this.series[i].highlightMouseOver) {
                     this.series[i].highlightMouseDown = false;
@@ -1130,7 +1132,7 @@
         }
         
         this.plugins.lineRenderer.highlightedSeriesIndex = null;
-        this.plugins.lineRenderer.highlightCanvas = new $.jqplot.GenericCanvas();
+        this.plugins.lineRenderer.highlightCanvas = new jqplot.GenericCanvas();
         
         this.eventCanvas._elem.before(this.plugins.lineRenderer.highlightCanvas.createElement(this._gridPadding, 'jqplot-lineRenderer-highlight-canvas', this._plotDimensions, this));
         this.plugins.lineRenderer.highlightCanvas.setContext();
@@ -1234,5 +1236,3 @@
             plot.target.trigger(evt, ins);
         }
     }
-    
-})(jQuery);    

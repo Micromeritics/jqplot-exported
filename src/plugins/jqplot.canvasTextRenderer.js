@@ -55,14 +55,14 @@
  * 
  * 
  */
-
-(function($) {    
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     // This code is a modified version of the canvastext.js code, copyright below:
     //
     // This code is released to the public domain by Jim Studt, 2007.
     // He may keep some sort of up to date copy at http://www.federated.com/~jim/canvastext/
     //
-    $.jqplot.CanvasTextRenderer = function(options){
+    export const CanvasTextRenderer = jqplot.CanvasTextRenderer = function(options){
         this.fontStyle = 'normal';  // normal, italic, oblique [not implemented]
         this.fontVariant = 'normal';    // normal, small caps [not implemented]
         this.fontWeight = 'normal'; // normal, bold, bolder, lighter, 100 - 900
@@ -83,7 +83,7 @@
         this.setHeight();
     };
     
-    $.jqplot.CanvasTextRenderer.prototype.init = function(options) {
+    jqplot.CanvasTextRenderer.prototype.init = function(options) {
         $.extend(true, this, options);
         this.normalizedFontSize = this.normalizeFontSize(this.fontSize);
         this.setHeight();
@@ -91,7 +91,7 @@
     
     // convert css spec into point size
     // returns float
-    $.jqplot.CanvasTextRenderer.prototype.normalizeFontSize = function(sz) {
+    jqplot.CanvasTextRenderer.prototype.normalizeFontSize = function(sz) {
         sz = String(sz);
         var n = parseFloat(sz);
         if (sz.indexOf('px') > -1) {
@@ -113,7 +113,7 @@
     };
     
     
-    $.jqplot.CanvasTextRenderer.prototype.fontWeight2Float = function(w) {
+    jqplot.CanvasTextRenderer.prototype.fontWeight2Float = function(w) {
         // w = normal | bold | bolder | lighter | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
         // return values adjusted for Hershey font.
         if (Number(w)) {
@@ -140,21 +140,21 @@
         }
     };
     
-    $.jqplot.CanvasTextRenderer.prototype.getText = function() {
+    jqplot.CanvasTextRenderer.prototype.getText = function() {
         return this.text;
     };
     
-    $.jqplot.CanvasTextRenderer.prototype.setText = function(t, ctx) {
+    jqplot.CanvasTextRenderer.prototype.setText = function(t, ctx) {
         this.text = t;
         this.setWidth(ctx);
         return this;
     };
     
-    $.jqplot.CanvasTextRenderer.prototype.getWidth = function(ctx) {
+    jqplot.CanvasTextRenderer.prototype.getWidth = function(ctx) {
         return this.width;
     };
     
-    $.jqplot.CanvasTextRenderer.prototype.setWidth = function(ctx, w) {
+    jqplot.CanvasTextRenderer.prototype.setWidth = function(ctx, w) {
         if (!w) {
             this.width = this.measure(ctx, this.text);
         }
@@ -165,13 +165,13 @@
     };
     
     // return height in pixels.
-    $.jqplot.CanvasTextRenderer.prototype.getHeight = function(ctx) {
+    jqplot.CanvasTextRenderer.prototype.getHeight = function(ctx) {
         return this.height;
     };
     
     // w - height in pt
     // set heigh in px
-    $.jqplot.CanvasTextRenderer.prototype.setHeight = function(w) {
+    jqplot.CanvasTextRenderer.prototype.setHeight = function(w) {
         if (!w) {
             //height = this.fontSize /0.75;
             this.height = this.normalizedFontSize * this.pt2px;
@@ -182,22 +182,22 @@
         return this;
     };
 
-    $.jqplot.CanvasTextRenderer.prototype.letter = function (ch)
+    jqplot.CanvasTextRenderer.prototype.letter = function (ch)
     {
         return this.letters[ch];
     };
 
-    $.jqplot.CanvasTextRenderer.prototype.ascent = function()
+    jqplot.CanvasTextRenderer.prototype.ascent = function()
     {
         return this.normalizedFontSize;
     };
 
-    $.jqplot.CanvasTextRenderer.prototype.descent = function()
+    jqplot.CanvasTextRenderer.prototype.descent = function()
     {
         return 7.0*this.normalizedFontSize/25.0;
     };
 
-    $.jqplot.CanvasTextRenderer.prototype.measure = function(ctx, str)
+    jqplot.CanvasTextRenderer.prototype.measure = function(ctx, str)
     {
         var total = 0;
         var len = str.length;
@@ -211,7 +211,7 @@
         return total;
     };
 
-    $.jqplot.CanvasTextRenderer.prototype.draw = function(ctx,str)
+    jqplot.CanvasTextRenderer.prototype.draw = function(ctx,str)
     {
         var x = 0;
         // leave room at bottom for descenders.
@@ -283,7 +283,7 @@
          return total;
     };
 
-    $.jqplot.CanvasTextRenderer.prototype.letters = {
+    jqplot.CanvasTextRenderer.prototype.letters = {
          ' ': { width: 16, points: [] },
          '!': { width: 10, points: [[5,21],[5,7],[-1,-1],[5,2],[4,1],[5,0],[6,1],[5,2]] },
          '"': { width: 16, points: [[4,21],[4,14],[-1,-1],[12,21],[12,14]] },
@@ -381,18 +381,18 @@
          '~': { width: 24, points: [[3,6],[3,8],[4,11],[6,12],[8,12],[10,11],[14,8],[16,7],[18,7],[20,8],[21,10],[-1,-1],[3,8],[4,10],[6,11],[8,11],[10,10],[14,7],[16,6],[18,6],[20,7],[21,10],[21,12]] }
      };
      
-    $.jqplot.CanvasFontRenderer = function(options) {
+    export const CanvasFontRenderer = jqplot.CanvasFontRenderer = function(options) {
         options = options || {};
         if (!options.pt2px) {
             options.pt2px = 1.5;
         }
-        $.jqplot.CanvasTextRenderer.call(this, options);
+        jqplot.CanvasTextRenderer.call(this, options);
     };
     
-    $.jqplot.CanvasFontRenderer.prototype = new $.jqplot.CanvasTextRenderer({});
-    $.jqplot.CanvasFontRenderer.prototype.constructor = $.jqplot.CanvasFontRenderer;
+    jqplot.CanvasFontRenderer.prototype = new jqplot.CanvasTextRenderer({});
+    jqplot.CanvasFontRenderer.prototype.constructor = jqplot.CanvasFontRenderer;
 
-    $.jqplot.CanvasFontRenderer.prototype.measure = function(ctx, str)
+    jqplot.CanvasFontRenderer.prototype.measure = function(ctx, str)
     {
         // var fstyle = this.fontStyle+' '+this.fontVariant+' '+this.fontWeight+' '+this.fontSize+' '+this.fontFamily;
         var fstyle = this.fontSize+' '+this.fontFamily;
@@ -403,7 +403,7 @@
         return w;
     };
 
-    $.jqplot.CanvasFontRenderer.prototype.draw = function(ctx, str)
+    jqplot.CanvasFontRenderer.prototype.draw = function(ctx, str)
     {
         var x = 0;
         // leave room at bottom for descenders.
@@ -445,5 +445,3 @@
 
          ctx.restore();
     };
-    
-})(jQuery);

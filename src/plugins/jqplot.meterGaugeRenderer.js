@@ -28,9 +28,10 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     /**
-     * Class: $.jqplot.MeterGaugeRenderer
+     * Class: jqplot.MeterGaugeRenderer
      * Plugin renderer to draw a meter gauge chart.
      * 
      * Data consists of a single series with 1 data point to position the gauge needle.
@@ -40,13 +41,13 @@
      * 
      * > <script type="text/javascript" src="plugins/jqplot.meterGaugeRenderer.js"></script>
      * 
-     * Properties described here are passed into the $.jqplot function
+     * Properties described here are passed into the jqplot function
      * as options on the series renderer.  For example:
      * 
-     * > plot0 = $.jqplot('chart0',[[18]],{
+     * > plot0 = jqplot('chart0',[[18]],{
      * >     title: 'Network Speed',
      * >     seriesDefaults: {
-     * >         renderer: $.jqplot.MeterGaugeRenderer,
+     * >         renderer: jqplot.MeterGaugeRenderer,
      * >         rendererOptions: {
      * >             label: 'MB/s'
      * >         }
@@ -55,15 +56,15 @@
      * 
      * A meterGauge plot does not support events.
      */
-    $.jqplot.MeterGaugeRenderer = function(){
-        $.jqplot.LineRenderer.call(this);
+    export const MeterGaugeRenderer = jqplot.MeterGaugeRenderer = function(){
+        jqplot.LineRenderer.call(this);
     };
     
-    $.jqplot.MeterGaugeRenderer.prototype = new $.jqplot.LineRenderer();
-    $.jqplot.MeterGaugeRenderer.prototype.constructor = $.jqplot.MeterGaugeRenderer;
+    jqplot.MeterGaugeRenderer.prototype = new jqplot.LineRenderer();
+    jqplot.MeterGaugeRenderer.prototype.constructor = jqplot.MeterGaugeRenderer;
     
     // called with scope of a series
-    $.jqplot.MeterGaugeRenderer.prototype.init = function(options) {
+    jqplot.MeterGaugeRenderer.prototype.init = function(options) {
         // Group: Properties
         //
         // prop: diameter
@@ -137,7 +138,7 @@
         // prop: intervalOuterRadius
         // Radius of the outer circle of the interval ring.
         this.intervalOuterRadius = null;
-        this.tickRenderer = $.jqplot.MeterGaugeTickRenderer;
+        this.tickRenderer = jqplot.MeterGaugeTickRenderer;
         // ticks spaced every 1, 2, 2.5, 5, 10, 20, .1, .2, .25, .5, etc.
         this.tickPositions = [1, 2, 2.5, 5, 10];
         // prop: tickSpacing
@@ -261,7 +262,7 @@
         }
     };
     
-    $.jqplot.MeterGaugeRenderer.prototype.setGridData = function(plot) {
+    jqplot.MeterGaugeRenderer.prototype.setGridData = function(plot) {
         // set gridData property.  This will hold angle in radians of each data point.
         var stack = [];
         var td = [];
@@ -281,7 +282,7 @@
         this.gridData = td;
     };
     
-    $.jqplot.MeterGaugeRenderer.prototype.makeGridData = function(data, plot) {
+    jqplot.MeterGaugeRenderer.prototype.makeGridData = function(data, plot) {
         var stack = [];
         var td = [];
         var sa = this.startAngle;
@@ -313,7 +314,7 @@
     }
     
     // called with scope of series
-    $.jqplot.MeterGaugeRenderer.prototype.draw = function (ctx, gd, options) {
+    jqplot.MeterGaugeRenderer.prototype.draw = function (ctx, gd, options) {
         var i;
         var opts = (options != undefined) ? options : {};
         // offset and direction of offset due to legend placement
@@ -822,20 +823,20 @@
         }               
     };
     
-    $.jqplot.MeterGaugeAxisRenderer = function() {
-        $.jqplot.LinearAxisRenderer.call(this);
+    export const MeterGaugeAxisRenderer = jqplot.MeterGaugeAxisRenderer = function() {
+        jqplot.LinearAxisRenderer.call(this);
     };
     
-    $.jqplot.MeterGaugeAxisRenderer.prototype = new $.jqplot.LinearAxisRenderer();
-    $.jqplot.MeterGaugeAxisRenderer.prototype.constructor = $.jqplot.MeterGaugeAxisRenderer;
+    jqplot.MeterGaugeAxisRenderer.prototype = new jqplot.LinearAxisRenderer();
+    jqplot.MeterGaugeAxisRenderer.prototype.constructor = jqplot.MeterGaugeAxisRenderer;
         
     
     // There are no traditional axes on a gauge chart.  We just need to provide
     // dummy objects with properties so the plot will render.
     // called with scope of axis object.
-    $.jqplot.MeterGaugeAxisRenderer.prototype.init = function(options){
+    jqplot.MeterGaugeAxisRenderer.prototype.init = function(options){
         //
-        this.tickRenderer = $.jqplot.MeterGaugeTickRenderer;
+        this.tickRenderer = jqplot.MeterGaugeTickRenderer;
         $.extend(true, this, options);
         // I don't think I'm going to need _dataBounds here.
         // have to go Axis scaling in a way to fit chart onto plot area
@@ -851,18 +852,18 @@
         this.show = false; 
     };
     
-    $.jqplot.MeterGaugeLegendRenderer = function(){
-        $.jqplot.TableLegendRenderer.call(this);
+    export const MeterGaugeLegendRenderer = jqplot.MeterGaugeLegendRenderer = function(){
+        jqplot.TableLegendRenderer.call(this);
     };
     
-    $.jqplot.MeterGaugeLegendRenderer.prototype = new $.jqplot.TableLegendRenderer();
-    $.jqplot.MeterGaugeLegendRenderer.prototype.constructor = $.jqplot.MeterGaugeLegendRenderer;
+    jqplot.MeterGaugeLegendRenderer.prototype = new jqplot.TableLegendRenderer();
+    jqplot.MeterGaugeLegendRenderer.prototype.constructor = jqplot.MeterGaugeLegendRenderer;
     
     /**
-     * Class: $.jqplot.MeterGaugeLegendRenderer
+     * Class: jqplot.MeterGaugeLegendRenderer
      *Meter gauges don't typically have a legend, this overrides the default legend renderer.
      */
-    $.jqplot.MeterGaugeLegendRenderer.prototype.init = function(options) {
+    jqplot.MeterGaugeLegendRenderer.prototype.init = function(options) {
         // Maximum number of rows in the legend.  0 or null for unlimited.
         this.numberRows = null;
         // Maximum number of columns in the legend.  0 or null for unlimited.
@@ -871,7 +872,7 @@
     };
     
     // called with context of legend
-    $.jqplot.MeterGaugeLegendRenderer.prototype.draw = function() {
+    jqplot.MeterGaugeLegendRenderer.prototype.draw = function() {
         if (this.show) {
             var series = this._series;
             var ss = 'position:absolute;';
@@ -987,20 +988,20 @@
            
         // only set these if there is a gauge series
         var setopts = false;
-        if (options.seriesDefaults.renderer == $.jqplot.MeterGaugeRenderer) {
+        if (options.seriesDefaults.renderer == jqplot.MeterGaugeRenderer) {
             setopts = true;
         }
         else if (options.series) {
             for (var i=0; i < options.series.length; i++) {
-                if (options.series[i].renderer == $.jqplot.MeterGaugeRenderer) {
+                if (options.series[i].renderer == jqplot.MeterGaugeRenderer) {
                     setopts = true;
                 }
             }
         }
         
         if (setopts) {
-            options.axesDefaults.renderer = $.jqplot.MeterGaugeAxisRenderer;
-            options.legend.renderer = $.jqplot.MeterGaugeLegendRenderer;
+            options.axesDefaults.renderer = jqplot.MeterGaugeAxisRenderer;
+            options.legend.renderer = jqplot.MeterGaugeLegendRenderer;
             options.legend.preDraw = true;
             options.grid.background = options.grid.background || 'white';
             options.grid.drawGridlines = false;
@@ -1014,16 +1015,12 @@
         //
     }
     
-    $.jqplot.preInitHooks.push(preInit);
-    $.jqplot.postParseOptionsHooks.push(postParseOptions);
+    jqplot.preInitHooks.push(preInit);
+    jqplot.postParseOptionsHooks.push(postParseOptions);
     
-    $.jqplot.MeterGaugeTickRenderer = function() {
-        $.jqplot.AxisTickRenderer.call(this);
+    export const MeterGaugeTickRenderer = jqplot.MeterGaugeTickRenderer = function() {
+        jqplot.AxisTickRenderer.call(this);
     };
     
-    $.jqplot.MeterGaugeTickRenderer.prototype = new $.jqplot.AxisTickRenderer();
-    $.jqplot.MeterGaugeTickRenderer.prototype.constructor = $.jqplot.MeterGaugeTickRenderer;
-    
-})(jQuery);
-    
-    
+    jqplot.MeterGaugeTickRenderer.prototype = new jqplot.AxisTickRenderer();
+    jqplot.MeterGaugeTickRenderer.prototype.constructor = jqplot.MeterGaugeTickRenderer;

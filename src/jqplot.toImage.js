@@ -57,8 +57,8 @@
  * 
  * 
  */
-
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
 
     $.fn.jqplotChildText = function() {
         return $(this).contents().filter(function() {
@@ -100,7 +100,7 @@
         }
 
         // excanvas and hence IE < 9 do not support toDataURL and cannot export images.
-        if ($.jqplot.use_excanvas) {
+        if (jqplot.use_excanvas) {
             return null;
         }
         
@@ -352,5 +352,3 @@
             w = null;
         }
     };
-    
-})(jQuery);

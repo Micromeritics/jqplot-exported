@@ -28,16 +28,17 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     
     /**
-     * Class: $.jqplot.Dragable
+     * Class: jqplot.Dragable
      * Plugin to make plotted points dragable by the user.
      */
-    $.jqplot.Dragable = function(options) {
+    export const Dragable = jqplot.Dragable = function(options) {
         // Group: Properties
-        this.markerRenderer = new $.jqplot.MarkerRenderer({shadow:false});
-        this.shapeRenderer = new $.jqplot.ShapeRenderer();
+        this.markerRenderer = new jqplot.MarkerRenderer({shadow:false});
+        this.shapeRenderer = new jqplot.ShapeRenderer();
         this.isDragging = false;
         this.isOver = false;
         this._ctx;
@@ -55,31 +56,31 @@
     };
     
     function DragCanvas() {
-        $.jqplot.GenericCanvas.call(this);
+        jqplot.GenericCanvas.call(this);
         this.isDragging = false;
         this.isOver = false;
         this._neighbor;
         this._cursors = [];
     }
     
-    DragCanvas.prototype = new $.jqplot.GenericCanvas();
+    DragCanvas.prototype = new jqplot.GenericCanvas();
     DragCanvas.prototype.constructor = DragCanvas;
     
     
     // called within scope of series
-    $.jqplot.Dragable.parseOptions = function (defaults, opts) {
+    jqplot.Dragable.parseOptions = function (defaults, opts) {
         var options = opts || {};
-        this.plugins.dragable = new $.jqplot.Dragable(options.dragable);
+        this.plugins.dragable = new jqplot.Dragable(options.dragable);
         // since this function is called before series options are parsed,
         // we can set this here and it will be overridden if needed.
-        this.isDragable = $.jqplot.config.enablePlugins;
+        this.isDragable = jqplot.config.enablePlugins;
     };
     
     // called within context of plot
     // create a canvas which we can draw on.
     // insert it before the eventCanvas, so eventCanvas will still capture events.
     // add a new DragCanvas object to the plot plugins to handle drawing on this new canvas.
-    $.jqplot.Dragable.postPlotDraw = function() {
+    jqplot.Dragable.postPlotDraw = function() {
         // Memory Leaks patch    
         if (this.plugins.dragable && this.plugins.dragable.highlightCanvas) {
             this.plugins.dragable.highlightCanvas.resetCanvas();
@@ -93,12 +94,12 @@
         var dctx = this.plugins.dragable.dragCanvas.setContext();
     };
     
-    //$.jqplot.preInitHooks.push($.jqplot.Dragable.init);
-    $.jqplot.preParseSeriesOptionsHooks.push($.jqplot.Dragable.parseOptions);
-    $.jqplot.postDrawHooks.push($.jqplot.Dragable.postPlotDraw);
-    $.jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMove]);
-    $.jqplot.eventListenerHooks.push(['jqplotMouseDown', handleDown]);
-    $.jqplot.eventListenerHooks.push(['jqplotMouseUp', handleUp]);
+    //jqplot.preInitHooks.push(jqplot.Dragable.init);
+    jqplot.preParseSeriesOptionsHooks.push(jqplot.Dragable.parseOptions);
+    jqplot.postDrawHooks.push(jqplot.Dragable.postPlotDraw);
+    jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMove]);
+    jqplot.eventListenerHooks.push(['jqplotMouseDown', handleDown]);
+    jqplot.eventListenerHooks.push(['jqplotMouseUp', handleUp]);
 
     
     function initDragPoint(plot, neighbor) {
@@ -112,7 +113,7 @@
         mr.lineWidth = smr.lineWidth + 2.5;
         mr.size = smr.size + 5;
         if (!drag.color) {
-            var rgba = $.jqplot.getColorComponents(smr.color);
+            var rgba = jqplot.getColorComponents(smr.color);
             var newrgb = [rgba[0], rgba[1], rgba[2]];
             var alpha = (rgba[3] >= 0.6) ? rgba[3]*0.6 : rgba[3]*(2-rgba[3]);
             drag.color = 'rgba('+newrgb[0]+','+newrgb[1]+','+newrgb[2]+','+alpha+')';
@@ -222,4 +223,3 @@
             plot.target.trigger('jqplotDragStop', [gridpos, datapos]);
         }
     }
-})(jQuery);

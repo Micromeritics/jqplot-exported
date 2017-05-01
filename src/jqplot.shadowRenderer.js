@@ -28,10 +28,12 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // class: $.jqplot.shadowRenderer
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
+
+    // class: jqplot.shadowRenderer
     // The default jqPlot shadow renderer, rendering shadows behind shapes.
-    $.jqplot.ShadowRenderer = function(options){ 
+    export const ShadowRenderer = jqplot.ShadowRenderer = function(options){
         // Group: Properties
         
         // prop: angle
@@ -69,7 +71,7 @@
         $.extend(true, this, options);
     };
     
-    $.jqplot.ShadowRenderer.prototype.init = function(options) {
+    jqplot.ShadowRenderer.prototype.init = function(options) {
         $.extend(true, this, options);
     };
     
@@ -78,7 +80,7 @@
     //
     // ctx - canvas drawing context
     // points - array of points or [x, y, radius, start angle (rad), end angle (rad)]
-    $.jqplot.ShadowRenderer.prototype.draw = function(ctx, points, options) {
+    jqplot.ShadowRenderer.prototype.draw = function(ctx, points, options) {
         ctx.save();
         var opts = (options != null) ? options : {};
         var fill = (opts.fill != null) ? opts.fill : this.fill;
@@ -95,7 +97,7 @@
         ctx.strokeStyle = opts.strokeStyle || this.strokeStyle || 'rgba(0,0,0,'+alpha+')';
         ctx.fillStyle = opts.fillStyle || this.fillStyle || 'rgba(0,0,0,'+alpha+')';
         for (var j=0; j<depth; j++) {
-            var ctxPattern = $.jqplot.LinePattern(ctx, linePattern);
+            var ctxPattern = jqplot.LinePattern(ctx, linePattern);
             ctx.translate(Math.cos(this.angle*Math.PI/180)*offset, Math.sin(this.angle*Math.PI/180)*offset);
             ctxPattern.beginPath();
             if (isarc) {
@@ -137,4 +139,3 @@
         }
         ctx.restore();
     };
-})(jQuery);    

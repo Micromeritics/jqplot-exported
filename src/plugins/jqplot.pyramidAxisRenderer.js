@@ -28,16 +28,17 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    $.jqplot.PyramidAxisRenderer = function() {
-        $.jqplot.LinearAxisRenderer.call(this);
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
+    export const PyramidAxisRenderer = jqplot.PyramidAxisRenderer = function() {
+        jqplot.LinearAxisRenderer.call(this);
     };
     
-    $.jqplot.PyramidAxisRenderer.prototype = new $.jqplot.LinearAxisRenderer();
-    $.jqplot.PyramidAxisRenderer.prototype.constructor = $.jqplot.PyramidAxisRenderer;
+    jqplot.PyramidAxisRenderer.prototype = new jqplot.LinearAxisRenderer();
+    jqplot.PyramidAxisRenderer.prototype.constructor = jqplot.PyramidAxisRenderer;
         
     // called with scope of axis
-    $.jqplot.PyramidAxisRenderer.prototype.init = function(options){
+    jqplot.PyramidAxisRenderer.prototype.init = function(options){
         // Group: Properties
         //
         // prop: position
@@ -69,7 +70,7 @@
 
     };
 
-    $.jqplot.PyramidAxisRenderer.prototype.resetDataBounds = function() {
+    jqplot.PyramidAxisRenderer.prototype.resetDataBounds = function() {
         // Go through all the series attached to this axis and find
         // the min/max bounds for this axis.
         var db = this._dataBounds;
@@ -104,7 +105,7 @@
     };
     
     // called with scope of axis
-    $.jqplot.PyramidAxisRenderer.prototype.draw = function(ctx, plot) {
+    jqplot.PyramidAxisRenderer.prototype.draw = function(ctx, plot) {
         if (this.show) {
             // populate the axis label and value properties.
             // createTicks is a method on the renderer, but
@@ -169,7 +170,7 @@
     }
 
     // called with scope of axis
-    $.jqplot.PyramidAxisRenderer.prototype.createTicks = function(plot) {
+    jqplot.PyramidAxisRenderer.prototype.createTicks = function(plot) {
         // we're are operating on an axis here
         var userTicks = this.ticks;
         // databounds were set on axis initialization.
@@ -348,7 +349,7 @@
                 threshold = 30;
                 tdim = Math.max(dim, threshold+1);
                 scalefact =  (tdim-threshold)/300.0;
-                ret = $.jqplot.LinearTickGenerator(min, max, scalefact); 
+                ret = jqplot.LinearTickGenerator(min, max, scalefact);
                 // calculate a padded max and min, points should be less than these
                 // so that they aren't too close to the edges of the plot.
                 // User can adjust how much padding is allowed with pad, padMin and PadMax options. 
@@ -358,7 +359,7 @@
                 if (min < tumin || max > tumax) {
                     tumin = min - range*(this.padMin - 1);
                     tumax = max + range*(this.padMax - 1);
-                    ret = $.jqplot.LinearTickGenerator(tumin, tumax, scalefact);
+                    ret = jqplot.LinearTickGenerator(tumin, tumax, scalefact);
                 }
 
                 this.min = ret[0];
@@ -443,7 +444,7 @@
     };
     
     // called with scope of axis
-    $.jqplot.PyramidAxisRenderer.prototype.set = function() { 
+    jqplot.PyramidAxisRenderer.prototype.set = function() {
         var dim = 0;
         var temp;
         var w = 0;
@@ -497,7 +498,7 @@
             else if (this.name === 'yaxis') {
                 dim = dim + w;
                 this._elem.css({'width':dim+'px', left:'0px', top:'0px'});
-                if (lshow && this._label.constructor == $.jqplot.AxisLabelRenderer) {
+                if (lshow && this._label.constructor == jqplot.AxisLabelRenderer) {
                     this._label._elem.css('width', w+'px');
                 }
             }
@@ -506,21 +507,21 @@
                 // dim = (dim > w) ? dim : w;
                 var temp = dim/2.0 - w/2.0;
                 this._elem.css({'width':dim+'px', top:'0px'});
-                if (lshow && this._label.constructor == $.jqplot.AxisLabelRenderer) {
+                if (lshow && this._label.constructor == jqplot.AxisLabelRenderer) {
                     this._label._elem.css({width: w, left: temp, top: 0});
                 }
             }
             else {
                 dim = dim + w;
                 this._elem.css({'width':dim+'px', right:'0px', top:'0px'});
-                if (lshow && this._label.constructor == $.jqplot.AxisLabelRenderer) {
+                if (lshow && this._label.constructor == jqplot.AxisLabelRenderer) {
                     this._label._elem.css('width', w+'px');
                 }
             }
         }  
     };
     
-    $.jqplot.PyramidAxisRenderer.prototype.pack = function(pos, offsets) { 
+    jqplot.PyramidAxisRenderer.prototype.pack = function(pos, offsets) {
         // Add defaults for repacking from resetTickValues function.
         pos = pos || {};
         offsets = offsets || this._offsets;
@@ -609,7 +610,7 @@
                     if (t.show && t.showLabel) {
                         var shim;
                         
-                        if (t.constructor == $.jqplot.CanvasAxisTickRenderer && t.angle) {
+                        if (t.constructor == jqplot.CanvasAxisTickRenderer && t.angle) {
                             // will need to adjust auto positioning based on which axis this is.
                             var temp = (this.name == 'xaxis') ? 1 : -1;
                             switch (t.labelPosition) {
@@ -662,7 +663,7 @@
                     var t = ticks[i];
                     if (t.show && t.showLabel && !t.isMinorTick) {                        
                         var shim;
-                        if (t.constructor == $.jqplot.CanvasAxisTickRenderer && t.angle) {
+                        if (t.constructor == jqplot.CanvasAxisTickRenderer && t.angle) {
                             // will need to adjust auto positioning based on which axis this is.
                             var temp = (this.name == 'yaxis') ? 1 : -1;
                             switch (t.labelPosition) {
@@ -725,4 +726,3 @@
 
         ticks = null;
     };
-})(jQuery);

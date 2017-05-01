@@ -28,11 +28,12 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    $.jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMove]);
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
+    jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMove]);
     
     /**
-     * Class: $.jqplot.Highlighter
+     * Class: jqplot.Highlighter
      * Plugin which will highlight data points when they are moused over.
      * 
      * To use this plugin, include the js
@@ -72,18 +73,18 @@
      * > }
      * 
      */
-    $.jqplot.Highlighter = function(options) {
+    export const Highlighter = jqplot.Highlighter = function(options) {
         // Group: Properties
         //
         //prop: show
         // true to show the highlight.
-        this.show = $.jqplot.config.enablePlugins;
+        this.show = jqplot.config.enablePlugins;
         // prop: markerRenderer
         // Renderer used to draw the marker of the highlighted point.
         // Renderer will assimilate attributes from the data point being highlighted,
         // so no attributes need set on the renderer directly.
         // Default is to turn off shadow drawing on the highlighted point.
-        this.markerRenderer = new $.jqplot.MarkerRenderer({shadow:false});
+        this.markerRenderer = new jqplot.MarkerRenderer({shadow:false});
         // prop: showMarker
         // true to show the marker
         this.showMarker  = true;
@@ -164,14 +165,14 @@
     // axis.renderer.tickrenderer.formatter
     
     // called with scope of plot
-    $.jqplot.Highlighter.init = function (target, data, opts){
+    jqplot.Highlighter.init = function (target, data, opts){
         var options = opts || {};
         // add a highlighter attribute to the plot
-        this.plugins.highlighter = new $.jqplot.Highlighter(options.highlighter);
+        this.plugins.highlighter = new jqplot.Highlighter(options.highlighter);
     };
     
     // called within scope of series
-    $.jqplot.Highlighter.parseOptions = function (defaults, options) {
+    jqplot.Highlighter.parseOptions = function (defaults, options) {
         // Add a showHighlight option to the series 
         // and set it to true by default.
         this.showHighlight = true;
@@ -180,7 +181,7 @@
     // called within context of plot
     // create a canvas which we can draw on.
     // insert it before the eventCanvas, so eventCanvas will still capture events.
-    $.jqplot.Highlighter.postPlotDraw = function() {
+    jqplot.Highlighter.postPlotDraw = function() {
         // Memory Leaks patch    
         if (this.plugins.highlighter && this.plugins.highlighter.highlightCanvas) {
             this.plugins.highlighter.highlightCanvas.resetCanvas();
@@ -192,7 +193,7 @@
             this.plugins.highlighter._tooltipElem = null;
         }
 
-        this.plugins.highlighter.highlightCanvas = new $.jqplot.GenericCanvas();
+        this.plugins.highlighter.highlightCanvas = new jqplot.GenericCanvas();
         
         this.eventCanvas._elem.before(this.plugins.highlighter.highlightCanvas.createElement(this._gridPadding, 'jqplot-highlight-canvas', this._plotDimensions, this));
         this.plugins.highlighter.highlightCanvas.setContext();
@@ -206,9 +207,9 @@
         this.eventCanvas._elem.before(this.plugins.highlighter._tooltipElem);
     };
     
-    $.jqplot.preInitHooks.push($.jqplot.Highlighter.init);
-    $.jqplot.preParseSeriesOptionsHooks.push($.jqplot.Highlighter.parseOptions);
-    $.jqplot.postDrawHooks.push($.jqplot.Highlighter.postPlotDraw);
+    jqplot.preInitHooks.push(jqplot.Highlighter.init);
+    jqplot.preParseSeriesOptionsHooks.push(jqplot.Highlighter.parseOptions);
+    jqplot.postDrawHooks.push(jqplot.Highlighter.postPlotDraw);
     
     function draw(plot, neighbor) {
         var hl = plot.plugins.highlighter;
@@ -218,7 +219,7 @@
         mr.style = smr.style;
         mr.lineWidth = smr.lineWidth + hl.lineWidthAdjust;
         mr.size = smr.size + hl.sizeAdjust;
-        var rgba = $.jqplot.getColorComponents(smr.color);
+        var rgba = jqplot.getColorComponents(smr.color);
         var newrgb = [rgba[0], rgba[1], rgba[2]];
         var alpha = (rgba[3] >= 0.6) ? rgba[3]*0.6 : rgba[3]*(2-rgba[3]);
         mr.color = 'rgba('+newrgb[0]+','+newrgb[1]+','+newrgb[2]+','+alpha+')';
@@ -226,7 +227,7 @@
         var x_pos = s.gridData[neighbor.pointIndex][0];
         var y_pos = s.gridData[neighbor.pointIndex][1];
         // Adjusting with s._barNudge
-        if (s.renderer.constructor == $.jqplot.BarRenderer) {
+        if (s.renderer.constructor == jqplot.BarRenderer) {
             if (s.barDirection == "vertical") {
                 x_pos += s._barNudge;
             }
@@ -264,24 +265,24 @@
                     case 'xy':
                         ystrs.unshift(xstr);
                         ystrs.unshift(opts.formatString);
-                        str = $.jqplot.sprintf.apply($.jqplot.sprintf, ystrs);
+                        str = jqplot.sprintf.apply(jqplot.sprintf, ystrs);
                         break;
                     case 'yx':
                         ystrs.push(xstr);
                         ystrs.unshift(opts.formatString);
-                        str = $.jqplot.sprintf.apply($.jqplot.sprintf, ystrs);
+                        str = jqplot.sprintf.apply(jqplot.sprintf, ystrs);
                         break;
                     case 'x':
-                        str = $.jqplot.sprintf.apply($.jqplot.sprintf, [opts.formatString, xstr]);
+                        str = jqplot.sprintf.apply(jqplot.sprintf, [opts.formatString, xstr]);
                         break;
                     case 'y':
                         ystrs.unshift(opts.formatString);
-                        str = $.jqplot.sprintf.apply($.jqplot.sprintf, ystrs);
+                        str = jqplot.sprintf.apply(jqplot.sprintf, ystrs);
                         break;
                     default: // same as xy
                         ystrs.unshift(xstr);
                         ystrs.unshift(opts.formatString);
-                        str = $.jqplot.sprintf.apply($.jqplot.sprintf, ystrs);
+                        str = jqplot.sprintf.apply(jqplot.sprintf, ystrs);
                         break;
                 } 
             }
@@ -320,21 +321,21 @@
         else {
             var str;
             if (typeof opts.formatString ===  'string') {
-                str = $.jqplot.sprintf.apply($.jqplot.sprintf, [opts.formatString].concat(neighbor.data));
+                str = jqplot.sprintf.apply(jqplot.sprintf, [opts.formatString].concat(neighbor.data));
             }
 
             else {
                 if (opts.tooltipAxes == 'both' || opts.tooltipAxes == 'xy') {
-                    str = $.jqplot.sprintf(opts.tooltipFormatString, neighbor.data[0]) + opts.tooltipSeparator + $.jqplot.sprintf(opts.tooltipFormatString, neighbor.data[1]);
+                    str = jqplot.sprintf(opts.tooltipFormatString, neighbor.data[0]) + opts.tooltipSeparator + jqplot.sprintf(opts.tooltipFormatString, neighbor.data[1]);
                 }
                 else if (opts.tooltipAxes == 'yx') {
-                    str = $.jqplot.sprintf(opts.tooltipFormatString, neighbor.data[1]) + opts.tooltipSeparator + $.jqplot.sprintf(opts.tooltipFormatString, neighbor.data[0]);
+                    str = jqplot.sprintf(opts.tooltipFormatString, neighbor.data[1]) + opts.tooltipSeparator + jqplot.sprintf(opts.tooltipFormatString, neighbor.data[0]);
                 }
                 else if (opts.tooltipAxes == 'x') {
-                    str = $.jqplot.sprintf(opts.tooltipFormatString, neighbor.data[0]);
+                    str = jqplot.sprintf(opts.tooltipFormatString, neighbor.data[0]);
                 }
                 else if (opts.tooltipAxes == 'y') {
-                    str = $.jqplot.sprintf(opts.tooltipFormatString, neighbor.data[1]);
+                    str = jqplot.sprintf(opts.tooltipFormatString, neighbor.data[1]);
                 } 
             }
         }
@@ -394,7 +395,7 @@
                 var y = gridpos.y + plot._gridPadding.top - opts.tooltipOffset - elem.outerHeight(true) - fact * ms;
                 break;
         }
-        if (series.renderer.constructor == $.jqplot.BarRenderer) {        
+        if (series.renderer.constructor == jqplot.BarRenderer) {
     	    if (series.barDirection == 'vertical') {                        
     	        x += series._barNudge;
     	    }
@@ -481,4 +482,3 @@
             }
         }
     }
-})(jQuery);

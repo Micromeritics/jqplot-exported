@@ -4,3 +4,6 @@ NDdata/**
 node_modules/
 tests/
 *.zip
+.idea/
+build/
+dist/

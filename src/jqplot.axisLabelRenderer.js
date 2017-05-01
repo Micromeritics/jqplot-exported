@@ -28,12 +28,15 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // class: $.jqplot.AxisLabelRenderer
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
+
+
+    // class: jqplot.AxisLabelRenderer
     // Renderer to place labels on the axes.
-    $.jqplot.AxisLabelRenderer = function(options) {
+    export const AxisLabelRenderer = jqplot.AxisLabelRenderer = function(options) {
         // Group: Properties
-        $.jqplot.ElemContainer.call(this);
+        jqplot.ElemContainer.call(this);
         // name of the axis associated with this tick
         this.axis;
         // prop: show
@@ -53,14 +56,14 @@
         $.extend(true, this, options);
     };
     
-    $.jqplot.AxisLabelRenderer.prototype = new $.jqplot.ElemContainer();
-    $.jqplot.AxisLabelRenderer.prototype.constructor = $.jqplot.AxisLabelRenderer;
+    jqplot.AxisLabelRenderer.prototype = new jqplot.ElemContainer();
+    jqplot.AxisLabelRenderer.prototype.constructor = jqplot.AxisLabelRenderer;
     
-    $.jqplot.AxisLabelRenderer.prototype.init = function(options) {
+    jqplot.AxisLabelRenderer.prototype.init = function(options) {
         $.extend(true, this, options);
     };
     
-    $.jqplot.AxisLabelRenderer.prototype.draw = function(ctx, plot) {
+    jqplot.AxisLabelRenderer.prototype.draw = function(ctx, plot) {
         // Memory Leaks patch
         if (this._elem) {
             this._elem.emptyForce();
@@ -92,6 +95,5 @@
         return this._elem;
     };
     
-    $.jqplot.AxisLabelRenderer.prototype.pack = function() {
+    jqplot.AxisLabelRenderer.prototype.pack = function() {
     };
-})(jQuery);

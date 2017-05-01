@@ -28,21 +28,22 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     
-    // Class: $.jqplot.BarRenderer
+    // Class: jqplot.BarRenderer
     // A plugin renderer for jqPlot to draw a bar plot.
     // Draws series as a line.
     
-    $.jqplot.BarRenderer = function(){
-        $.jqplot.LineRenderer.call(this);
+    export const BarRenderer = jqplot.BarRenderer = function(){
+        jqplot.LineRenderer.call(this);
     };
     
-    $.jqplot.BarRenderer.prototype = new $.jqplot.LineRenderer();
-    $.jqplot.BarRenderer.prototype.constructor = $.jqplot.BarRenderer;
+    jqplot.BarRenderer.prototype = new jqplot.LineRenderer();
+    jqplot.BarRenderer.prototype.constructor = jqplot.BarRenderer;
     
     // called with scope of series.
-    $.jqplot.BarRenderer.prototype.init = function(options, plot) {
+    jqplot.BarRenderer.prototype.init = function(options, plot) {
         // Group: Properties
         //
         // prop: barPadding
@@ -217,10 +218,10 @@
         }
     }
     
-    $.jqplot.preSeriesInitHooks.push(barPreInit);
+    jqplot.preSeriesInitHooks.push(barPreInit);
     
     // needs to be called with scope of series, not renderer.
-    $.jqplot.BarRenderer.prototype.calcSeriesNumbers = function() {
+    jqplot.BarRenderer.prototype.calcSeriesNumbers = function() {
         var nvals = 0;
         var nseries = 0;
         var paxis = this[this._primaryAxis];
@@ -232,7 +233,7 @@
                 pos = i;
             }
             // is the series rendered as a bar?
-            if (series.renderer.constructor == $.jqplot.BarRenderer) {
+            if (series.renderer.constructor == jqplot.BarRenderer) {
                 // gridData may not be computed yet, use data length insted
                 nvals += series.data.length;
                 nseries += 1;
@@ -242,7 +243,7 @@
         return [nvals, nseries, pos];
     };
 
-    $.jqplot.BarRenderer.prototype.setBarWidth = function() {
+    jqplot.BarRenderer.prototype.setBarWidth = function() {
         // need to know how many data values we have on the approprate axis and figure it out.
         var i;
         var nvals = 0;
@@ -279,7 +280,7 @@
     function computeHighlightColors (colors) {
         var ret = [];
         for (var i=0; i<colors.length; i++){
-            var rgba = $.jqplot.getColorComponents(colors[i]);
+            var rgba = jqplot.getColorComponents(colors[i]);
             var newrgb = [rgba[0], rgba[1], rgba[2]];
             var sum = newrgb[0] + newrgb[1] + newrgb[2];
             for (var j=0; j<3; j++) {
@@ -326,7 +327,7 @@
     }
 
     
-    $.jqplot.BarRenderer.prototype.draw = function(ctx, gridData, options, plot) {
+    jqplot.BarRenderer.prototype.draw = function(ctx, gridData, options, plot) {
         var i;
         // Ughhh, have to make a copy of options b/c it may be modified later.
         var opts = $.extend({}, options);
@@ -359,8 +360,8 @@
             this._barNudge = (-Math.abs(nseries/2 - 0.5) + pos) * (this.barWidth + this.barPadding);
         }
         if (showLine) {
-            var negativeColors = new $.jqplot.ColorGenerator(this.negativeSeriesColors);
-            var positiveColors = new $.jqplot.ColorGenerator(this.seriesColors);
+            var negativeColors = new jqplot.ColorGenerator(this.negativeSeriesColors);
+            var positiveColors = new jqplot.ColorGenerator(this.seriesColors);
             var negativeColor = negativeColors.get(this.index);
             if (! this.useNegativeColors) {
                 negativeColor = opts.fillStyle;
@@ -565,7 +566,7 @@
         }                
         
         if (this.highlightColors.length == 0) {
-            this.highlightColors = $.jqplot.computeHighlightColors(this._dataColors);
+            this.highlightColors = jqplot.computeHighlightColors(this._dataColors);
         }
         
         else if (typeof(this.highlightColors) == 'string') {
@@ -580,7 +581,7 @@
     
      
     // for stacked plots, shadows will be pre drawn by drawShadow.
-    $.jqplot.BarRenderer.prototype.drawShadow = function(ctx, gridData, options, plot) {
+    jqplot.BarRenderer.prototype.drawShadow = function(ctx, gridData, options, plot) {
         var i;
         var opts = (options != undefined) ? options : {};
         var shadow = (opts.shadow != undefined) ? opts.shadow : this.shadow;
@@ -674,7 +675,7 @@
     
     function postInit(target, data, options) {
         for (var i=0; i<this.series.length; i++) {
-            if (this.series[i].renderer.constructor == $.jqplot.BarRenderer) {
+            if (this.series[i].renderer.constructor == jqplot.BarRenderer) {
                 // don't allow mouseover and mousedown at same time.
                 if (this.series[i].highlightMouseOver) {
                     this.series[i].highlightMouseDown = false;
@@ -695,7 +696,7 @@
         }
          
         this.plugins.barRenderer = {highlightedSeriesIndex:null};
-        this.plugins.barRenderer.highlightCanvas = new $.jqplot.GenericCanvas();
+        this.plugins.barRenderer.highlightCanvas = new jqplot.GenericCanvas();
         
         this.eventCanvas._elem.before(this.plugins.barRenderer.highlightCanvas.createElement(this._gridPadding, 'jqplot-barRenderer-highlight-canvas', this._plotDimensions, this));
         this.plugins.barRenderer.highlightCanvas.setContext();
@@ -796,6 +797,3 @@
             plot.target.trigger(evt, ins);
         }
     }
-    
-    
-})(jQuery);

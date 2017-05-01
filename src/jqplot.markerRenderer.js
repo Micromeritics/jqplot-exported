@@ -28,10 +28,12 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // class: $.jqplot.MarkerRenderer
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
+
+    // class: jqplot.MarkerRenderer
     // The default jqPlot marker renderer, rendering the points on the line.
-    $.jqplot.MarkerRenderer = function(options){
+    export const MarkerRenderer = jqplot.MarkerRenderer = function(options){
         // Group: Properties
         
         // prop: show
@@ -66,10 +68,10 @@
         this.shadowAlpha = '0.07';
         // prop: shadowRenderer
         // Renderer that will draws the shadows on the marker.
-        this.shadowRenderer = new $.jqplot.ShadowRenderer();
+        this.shadowRenderer = new jqplot.ShadowRenderer();
         // prop: shapeRenderer
         // Renderer that will draw the marker.
-        this.shapeRenderer = new $.jqplot.ShapeRenderer();
+        this.shapeRenderer = new jqplot.ShapeRenderer();
         
         $.extend(true, this, options);
     };
@@ -98,11 +100,11 @@
         return $.extend(true, {}, shopt);
     }
     
-    $.jqplot.MarkerRenderer.prototype.init = function(options) {
+    jqplot.MarkerRenderer.prototype.init = function(options) {
         $.extend(true, this, options);
     };
     
-    $.jqplot.MarkerRenderer.prototype.drawDiamond = function(x, y, ctx, fill, options) {
+    jqplot.MarkerRenderer.prototype.drawDiamond = function(x, y, ctx, fill, options) {
         var opts;
         if (options == null || $.isEmptyObject(options)) {
             opts = this;
@@ -119,7 +121,7 @@
         this.shapeRenderer.draw(ctx, points, getShapeRendererOptions(opts));
     };
     
-    $.jqplot.MarkerRenderer.prototype.drawPlus = function(x, y, ctx, fill, options) {
+    jqplot.MarkerRenderer.prototype.drawPlus = function(x, y, ctx, fill, options) {
         var opts = $.extend(true, {}, this, options, {closePath:false});
         var stretch = 1.0;
         var dx = opts.size/2*stretch;
@@ -134,7 +136,7 @@
         this.shapeRenderer.draw(ctx, points2, opts);
     };
     
-    $.jqplot.MarkerRenderer.prototype.drawX = function(x, y, ctx, fill, options) {
+    jqplot.MarkerRenderer.prototype.drawX = function(x, y, ctx, fill, options) {
         var opts = $.extend(true, {}, this, options, {closePath:false});
         var stretch = 1.0;
         var dx = opts.size/2*stretch;
@@ -149,7 +151,7 @@
         this.shapeRenderer.draw(ctx, points2, getShapeRendererOptions(opts));
     };
     
-    $.jqplot.MarkerRenderer.prototype.drawDash = function(x, y, ctx, fill, options) {
+    jqplot.MarkerRenderer.prototype.drawDash = function(x, y, ctx, fill, options) {
         var opts;
         if (options == null || $.isEmptyObject(options)) {
             opts = this;
@@ -166,7 +168,7 @@
         this.shapeRenderer.draw(ctx, points, getShapeRendererOptions(opts));
     };
     
-    $.jqplot.MarkerRenderer.prototype.drawLine = function(p1, p2, ctx, fill, options) {
+    jqplot.MarkerRenderer.prototype.drawLine = function(p1, p2, ctx, fill, options) {
         var opts;
         if (options == null || $.isEmptyObject(options)) {
             opts = this;
@@ -180,7 +182,7 @@
         this.shapeRenderer.draw(ctx, points, getShapeRendererOptions(opts));
     };
     
-    $.jqplot.MarkerRenderer.prototype.drawSquare = function(x, y, ctx, fill, options) {
+    jqplot.MarkerRenderer.prototype.drawSquare = function(x, y, ctx, fill, options) {
         var opts;
         if (options == null || $.isEmptyObject(options)) {
             opts = this;
@@ -197,7 +199,7 @@
         this.shapeRenderer.draw(ctx, points, getShapeRendererOptions(opts));
     };
     
-    $.jqplot.MarkerRenderer.prototype.drawCircle = function(x, y, ctx, fill, options) {
+    jqplot.MarkerRenderer.prototype.drawCircle = function(x, y, ctx, fill, options) {
         var opts;
         if (options == null || $.isEmptyObject(options)) {
             opts = this;
@@ -213,7 +215,7 @@
         this.shapeRenderer.draw(ctx, points, getShapeRendererOptions(opts));
     };
     
-    $.jqplot.MarkerRenderer.prototype.draw = function(x, y, ctx, options) {
+    jqplot.MarkerRenderer.prototype.draw = function(x, y, ctx, options) {
         options = options || {};
         // hack here b/c shape renderer uses canvas based color style options
         // and marker uses css style names.
@@ -262,4 +264,3 @@
             }
         }
     };
-})(jQuery);    

@@ -28,20 +28,21 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     var objCounter = 0;
-    // class: $.jqplot.CanvasOverlay
-    $.jqplot.CanvasOverlay = function(opts){
+    // class: jqplot.CanvasOverlay
+    export const CanvasOverlay = jqplot.CanvasOverlay = function(opts){
         var options = opts || {};
         this.options = {
-            show: $.jqplot.config.enablePlugins,
+            show: jqplot.config.enablePlugins,
             deferDraw: false
         };
         // prop: objects
         this.objects = [];
         this.objectNames = [];
         this.canvas = null;
-        this.markerRenderer = new $.jqplot.MarkerRenderer({style:'line'});
+        this.markerRenderer = new jqplot.MarkerRenderer({style:'line'});
         this.markerRenderer.init();
         this.highlightObjectIndex = null;
         if (options.objects) {
@@ -79,10 +80,10 @@
     };
     
     // called with scope of a plot object
-    $.jqplot.CanvasOverlay.postPlotInit = function (target, data, opts) {
+    jqplot.CanvasOverlay.postPlotInit = function (target, data, opts) {
         var options = opts || {};
         // add a canvasOverlay attribute to the plot
-        this.plugins.canvasOverlay = new $.jqplot.CanvasOverlay(options.canvasOverlay);     
+        this.plugins.canvasOverlay = new jqplot.CanvasOverlay(options.canvasOverlay);
     };
 
 
@@ -340,49 +341,49 @@
     DashedVerticalLine.prototype = new LineBase();
     DashedVerticalLine.prototype.constructor = DashedVerticalLine;
     
-    $.jqplot.CanvasOverlay.prototype.addLine = function(opts) {
+    jqplot.CanvasOverlay.prototype.addLine = function(opts) {
         var line = new Line(opts);
         line.uid = objCounter++;
         this.objects.push(line);
         this.objectNames.push(line.options.name);
     };
     
-    $.jqplot.CanvasOverlay.prototype.addHorizontalLine = function(opts) {
+    jqplot.CanvasOverlay.prototype.addHorizontalLine = function(opts) {
         var line = new HorizontalLine(opts);
         line.uid = objCounter++;
         this.objects.push(line);
         this.objectNames.push(line.options.name);
     };
     
-    $.jqplot.CanvasOverlay.prototype.addDashedHorizontalLine = function(opts) {
+    jqplot.CanvasOverlay.prototype.addDashedHorizontalLine = function(opts) {
         var line = new DashedHorizontalLine(opts);
         line.uid = objCounter++;
         this.objects.push(line);
         this.objectNames.push(line.options.name);
     };
     
-    $.jqplot.CanvasOverlay.prototype.addVerticalLine = function(opts) {
+    jqplot.CanvasOverlay.prototype.addVerticalLine = function(opts) {
         var line = new VerticalLine(opts);
         line.uid = objCounter++;
         this.objects.push(line);
         this.objectNames.push(line.options.name);
     };
     
-    $.jqplot.CanvasOverlay.prototype.addDashedVerticalLine = function(opts) {
+    jqplot.CanvasOverlay.prototype.addDashedVerticalLine = function(opts) {
         var line = new DashedVerticalLine(opts);
         line.uid = objCounter++;
         this.objects.push(line);
         this.objectNames.push(line.options.name);
     };
     
-    $.jqplot.CanvasOverlay.prototype.addRectangle = function(opts) {
+    jqplot.CanvasOverlay.prototype.addRectangle = function(opts) {
         var line = new Rectangle(opts);
         line.uid = objCounter++;
         this.objects.push(line);
         this.objectNames.push(line.options.name);
     };
     
-    $.jqplot.CanvasOverlay.prototype.removeObject = function(idx) {
+    jqplot.CanvasOverlay.prototype.removeObject = function(idx) {
         // check if integer, remove by index
         if ($.type(idx) == 'number') {
             this.objects.splice(idx, 1);
@@ -398,7 +399,7 @@
         }
     };
     
-    $.jqplot.CanvasOverlay.prototype.getObject = function(idx) {
+    jqplot.CanvasOverlay.prototype.getObject = function(idx) {
         // check if integer, remove by index
         if ($.type(idx) == 'number') {
             return this.objects[idx];
@@ -413,13 +414,13 @@
     };
     
     // Set get as alias for getObject.
-    $.jqplot.CanvasOverlay.prototype.get = $.jqplot.CanvasOverlay.prototype.getObject;
+    jqplot.CanvasOverlay.prototype.get = jqplot.CanvasOverlay.prototype.getObject;
     
-    $.jqplot.CanvasOverlay.prototype.clear = function(plot) {
+    jqplot.CanvasOverlay.prototype.clear = function(plot) {
         this.canvas._ctx.clearRect(0,0,this.canvas.getWidth(), this.canvas.getHeight());
     };
     
-    $.jqplot.CanvasOverlay.prototype.draw = function(plot) {
+    jqplot.CanvasOverlay.prototype.draw = function(plot) {
         var obj, 
             objs = this.objects,
             mr = this.markerRenderer,
@@ -751,14 +752,14 @@
     // called within context of plot
     // create a canvas which we can draw on.
     // insert it before the eventCanvas, so eventCanvas will still capture events.
-    $.jqplot.CanvasOverlay.postPlotDraw = function() {
+    jqplot.CanvasOverlay.postPlotDraw = function() {
         var co = this.plugins.canvasOverlay;
         // Memory Leaks patch    
         if (co && co.highlightCanvas) {
             co.highlightCanvas.resetCanvas();
             co.highlightCanvas = null;
         }
-        co.canvas = new $.jqplot.GenericCanvas();
+        co.canvas = new jqplot.GenericCanvas();
         
         this.eventCanvas._elem.before(co.canvas.createElement(this._gridPadding, 'jqplot-overlayCanvas-canvas', this._plotDimensions, this));
         co.canvas.setContext();
@@ -785,7 +786,7 @@
 
         var opts = obj.options, x, y;
 
-        elem.html($.jqplot.sprintf(opts.tooltipFormatString, datapos[0], datapos[1]));
+        elem.html(jqplot.sprintf(opts.tooltipFormatString, datapos[0], datapos[1]));
         
         switch (opts.tooltipLocation) {
             case 'nw':
@@ -1014,8 +1015,6 @@
         }
     }
     
-    $.jqplot.postInitHooks.push($.jqplot.CanvasOverlay.postPlotInit);
-    $.jqplot.postDrawHooks.push($.jqplot.CanvasOverlay.postPlotDraw);
-    $.jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMove]);
-
-})(jQuery);
+    jqplot.postInitHooks.push(jqplot.CanvasOverlay.postPlotInit);
+    jqplot.postDrawHooks.push(jqplot.CanvasOverlay.postPlotDraw);
+    jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMove]);

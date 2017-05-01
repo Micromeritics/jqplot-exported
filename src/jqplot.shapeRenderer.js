@@ -28,13 +28,15 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // class: $.jqplot.shapeRenderer
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
+
+    // class: jqplot.shapeRenderer
     // The default jqPlot shape renderer.  Given a set of points will
     // plot them and either stroke a line (fill = false) or fill them (fill = true).
     // If a filled shape is desired, closePath = true must also be set to close
     // the shape.
-    $.jqplot.ShapeRenderer = function(options){
+    export const ShapeRenderer = jqplot.ShapeRenderer = function(options){
         
         this.lineWidth = 1.5;
         // prop: linePattern
@@ -77,7 +79,7 @@
         $.extend(true, this, options);
     };
     
-    $.jqplot.ShapeRenderer.prototype.init = function(options) {
+    jqplot.ShapeRenderer.prototype.init = function(options) {
         $.extend(true, this, options);
     };
     
@@ -88,7 +90,7 @@
     // points - array of points for shapes or 
     // [x, y, width, height] for rectangles or
     // [x, y, radius, start angle (rad), end angle (rad)] for circles and arcs.
-    $.jqplot.ShapeRenderer.prototype.draw = function(ctx, points, options) {
+    jqplot.ShapeRenderer.prototype.draw = function(ctx, points, options) {
         ctx.save();
         var opts = (options != null) ? options : {};
         var fill = (opts.fill != null) ? opts.fill : this.fill;
@@ -98,7 +100,7 @@
         var clearRect = (opts.clearRect != null) ? opts.clearRect : this.clearRect;
         var isarc = (opts.isarc != null) ? opts.isarc : this.isarc;
         var linePattern = (opts.linePattern != null) ? opts.linePattern : this.linePattern;
-        var ctxPattern = $.jqplot.LinePattern(ctx, linePattern);
+        var ctxPattern = jqplot.LinePattern(ctx, linePattern);
         ctx.lineWidth = opts.lineWidth || this.lineWidth;
         ctx.lineJoin = opts.lineJoin || this.lineJoin;
         ctx.lineCap = opts.lineCap || this.lineCap;
@@ -163,4 +165,3 @@
         }
         ctx.restore();
     };
-})(jQuery);    

@@ -28,9 +28,10 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {   
+import $ from 'jquery/jquery';
+import jqplot from '../jqplot.core';
     /**
-    *  class: $.jqplot.CategoryAxisRenderer
+    *  class: jqplot.CategoryAxisRenderer
     *  A plugin for jqPlot to render a category style axis, with equal pixel spacing between y data values of a series.
     *  
     *  To use this renderer, include the plugin in your source
@@ -38,10 +39,10 @@
     *  
     *  and supply the appropriate options to your plot
     *  
-    *  > {axes:{xaxis:{renderer:$.jqplot.CategoryAxisRenderer}}}
+    *  > {axes:{xaxis:{renderer:jqplot.CategoryAxisRenderer}}}
     **/
-    $.jqplot.CategoryAxisRenderer = function(options) {
-        $.jqplot.LinearAxisRenderer.call(this);
+    export const CategoryAxisRenderer = jqplot.CategoryAxisRenderer = function(options) {
+        jqplot.LinearAxisRenderer.call(this);
         // prop: sortMergedLabels
         // True to sort tick labels when labels are created by merging
         // x axis values from multiple series.  That is, say you have
@@ -57,14 +58,14 @@
         //
         // Note, this property is specified on the renderOptions for the 
         // axes when creating a plot:
-        // > axes:{xaxis:{renderer:$.jqplot.CategoryAxisRenderer, rendererOptions:{sortMergedLabels:true}}}
+        // > axes:{xaxis:{renderer:jqplot.CategoryAxisRenderer, rendererOptions:{sortMergedLabels:true}}}
         this.sortMergedLabels = false;
     };
     
-    $.jqplot.CategoryAxisRenderer.prototype = new $.jqplot.LinearAxisRenderer();
-    $.jqplot.CategoryAxisRenderer.prototype.constructor = $.jqplot.CategoryAxisRenderer;
+    jqplot.CategoryAxisRenderer.prototype = new jqplot.LinearAxisRenderer();
+    jqplot.CategoryAxisRenderer.prototype.constructor = jqplot.CategoryAxisRenderer;
     
-    $.jqplot.CategoryAxisRenderer.prototype.init = function(options){
+    jqplot.CategoryAxisRenderer.prototype.init = function(options){
         this.groups = 1;
         this.groupLabels = [];
         this._groupLabels = [];
@@ -73,9 +74,9 @@
         this.reverse = false;
         // prop: tickRenderer
         // A class of a rendering engine for creating the ticks labels displayed on the plot, 
-        // See <$.jqplot.AxisTickRenderer>.
-        // this.tickRenderer = $.jqplot.AxisTickRenderer;
-        // this.labelRenderer = $.jqplot.AxisLabelRenderer;
+        // See <jqplot.AxisTickRenderer>.
+        // this.tickRenderer = jqplot.AxisTickRenderer;
+        // this.labelRenderer = jqplot.AxisLabelRenderer;
         $.extend(true, this, {tickOptions:{formatString:'%d'}}, options);
         var db = this._dataBounds;
         // Go through all the series attached to this axis and find
@@ -113,7 +114,7 @@
     };
  
 
-    $.jqplot.CategoryAxisRenderer.prototype.createTicks = function() {
+    jqplot.CategoryAxisRenderer.prototype.createTicks = function() {
         // we're are operating on an axis here
         var ticks = this._ticks;
         var userTicks = this.ticks;
@@ -303,7 +304,7 @@
     };
     
     // called with scope of axis
-    $.jqplot.CategoryAxisRenderer.prototype.draw = function(ctx, plot) {
+    jqplot.CategoryAxisRenderer.prototype.draw = function(ctx, plot) {
         if (this.show) {
             // populate the axis label and value properties.
             // createTicks is a method on the renderer, but
@@ -361,7 +362,7 @@
     };
     
     // called with scope of axis
-    $.jqplot.CategoryAxisRenderer.prototype.set = function() { 
+    jqplot.CategoryAxisRenderer.prototype.set = function() {
         var dim = 0;
         var temp;
         var w = 0;
@@ -413,14 +414,14 @@
             else if (this.name == 'yaxis') {
                 dim += dim2 + w;
                 this._elem.css({'width':dim+'px', left:'0px', top:'0px'});
-                if (lshow && this._label.constructor == $.jqplot.AxisLabelRenderer) {
+                if (lshow && this._label.constructor == jqplot.AxisLabelRenderer) {
                     this._label._elem.css('width', w+'px');
                 }
             }
             else {
                 dim += dim2 + w;
                 this._elem.css({'width':dim+'px', right:'0px', top:'0px'});
-                if (lshow && this._label.constructor == $.jqplot.AxisLabelRenderer) {
+                if (lshow && this._label.constructor == jqplot.AxisLabelRenderer) {
                     this._label._elem.css('width', w+'px');
                 }
             }
@@ -428,7 +429,7 @@
     };
     
     // called with scope of axis
-    $.jqplot.CategoryAxisRenderer.prototype.pack = function(pos, offsets) {
+    jqplot.CategoryAxisRenderer.prototype.pack = function(pos, offsets) {
         var ticks = this._ticks;
         var max = this.max;
         var min = this.min;
@@ -515,7 +516,7 @@
                     if (t.show && t.showLabel) {
                         var shim;
                         
-                        if (t.constructor == $.jqplot.CanvasAxisTickRenderer && t.angle) {
+                        if (t.constructor == jqplot.CanvasAxisTickRenderer && t.angle) {
                             // will need to adjust auto positioning based on which axis this is.
                             var temp = (this.name == 'xaxis') ? 1 : -1;
                             switch (t.labelPosition) {
@@ -591,7 +592,7 @@
                     var t = ticks[i];
                     if (t.show && t.showLabel) {                        
                         var shim;
-                        if (t.constructor == $.jqplot.CanvasAxisTickRenderer && t.angle) {
+                        if (t.constructor == jqplot.CanvasAxisTickRenderer && t.angle) {
                             // will need to adjust auto positioning based on which axis this is.
                             var temp = (this.name == 'yaxis') ? 1 : -1;
                             switch (t.labelPosition) {
@@ -673,7 +674,4 @@
                 }
             }
         }
-    };    
-    
-    
-})(jQuery);
+    };

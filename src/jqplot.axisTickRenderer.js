@@ -28,12 +28,14 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
-    // class: $.jqplot.AxisTickRenderer
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
+
+    // class: jqplot.AxisTickRenderer
     // A "tick" object showing the value of a tick/gridline on the plot.
-    $.jqplot.AxisTickRenderer = function(options) {
+    export const AxisTickRenderer = jqplot.AxisTickRenderer = function(options) {
         // Group: Properties
-        $.jqplot.ElemContainer.call(this);
+        jqplot.ElemContainer.call(this);
         // prop: mark
         // tick mark on the axis.  One of 'inside', 'outside', 'cross', '' or null.
         this.mark = 'outside';
@@ -69,7 +71,7 @@
         this._styles = {};
         // prop: formatter
         // A class of a formatter for the tick text.  sprintf by default.
-        this.formatter = $.jqplot.DefaultTickFormatter;
+        this.formatter = jqplot.DefaultTickFormatter;
         // prop: prefix
         // String to prepend to the tick label.
         // Prefix is prepended to the formatted tick label.
@@ -99,14 +101,14 @@
         $.extend(true, this, options);
     };
     
-    $.jqplot.AxisTickRenderer.prototype.init = function(options) {
+    jqplot.AxisTickRenderer.prototype.init = function(options) {
         $.extend(true, this, options);
     };
     
-    $.jqplot.AxisTickRenderer.prototype = new $.jqplot.ElemContainer();
-    $.jqplot.AxisTickRenderer.prototype.constructor = $.jqplot.AxisTickRenderer;
+    jqplot.AxisTickRenderer.prototype = new jqplot.ElemContainer();
+    jqplot.AxisTickRenderer.prototype.constructor = jqplot.AxisTickRenderer;
     
-    $.jqplot.AxisTickRenderer.prototype.setTick = function(value, axisName, isMinor) {
+    jqplot.AxisTickRenderer.prototype.setTick = function(value, axisName, isMinor) {
         this.value = value;
         this.axis = axisName;
         if (isMinor) {
@@ -115,7 +117,7 @@
         return this;
     };
     
-    $.jqplot.AxisTickRenderer.prototype.draw = function() {
+    jqplot.AxisTickRenderer.prototype.draw = function() {
         if (this.label === null) {
             this.label = this.prefix + this.formatter(this.formatString, this.value) + this.suffix;
         }
@@ -161,31 +163,30 @@
         return this._elem;
     };
         
-    $.jqplot.DefaultTickFormatter = function (format, val) {
+    export const DefaultTickFormatter = jqplot.DefaultTickFormatter = function (format, val) {
         if (typeof val == 'number') {
             if (!format) {
-                format = $.jqplot.config.defaultTickFormatString;
+                format = jqplot.config.defaultTickFormatString;
             }
-            return $.jqplot.sprintf(format, val);
+            return jqplot.sprintf(format, val);
         }
         else {
             return String(val);
         }
     };
         
-    $.jqplot.PercentTickFormatter = function (format, val) {
+    export const PercentTickFormatter = jqplot.PercentTickFormatter = function (format, val) {
         if (typeof val == 'number') {
             val = 100 * val;
             if (!format) {
-                format = $.jqplot.config.defaultTickFormatString;
+                format = jqplot.config.defaultTickFormatString;
             }
-            return $.jqplot.sprintf(format, val);
+            return jqplot.sprintf(format, val);
         }
         else {
             return String(val);
         }
     };
     
-    $.jqplot.AxisTickRenderer.prototype.pack = function() {
+    jqplot.AxisTickRenderer.prototype.pack = function() {
     };
-})(jQuery);

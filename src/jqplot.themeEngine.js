@@ -28,9 +28,11 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-(function($) {
+import $ from 'jquery/jquery';
+import jqplot from './jqplot.core';
+
     /**
-     * Class: $.jqplot.ThemeEngine
+     * Class: jqplot.ThemeEngine
      * Theme Engine provides a programatic way to change some of the  more
      * common jqplot styling options such as fonts, colors and grid options.
      * A theme engine instance is created with each plot.  The theme engine
@@ -200,7 +202,7 @@
      * > }
      * 
      */
-    $.jqplot.ThemeEngine = function(){
+    export const ThemeEngine = jqplot.ThemeEngine = function(){
         // Group: Properties
         //
         // prop: themes
@@ -214,9 +216,9 @@
     };
     
     // called with scope of plot
-    $.jqplot.ThemeEngine.prototype.init = function() {
+    jqplot.ThemeEngine.prototype.init = function() {
         // get the Default theme from the current plot settings.
-        var th = new $.jqplot.Theme({_name:'Default'});
+        var th = new jqplot.Theme({_name:'Default'});
         var n, i, nn;
         
         for (n in th.target) {
@@ -259,22 +261,22 @@
         
         for (i=0; i<this.series.length; i++) {
             s = this.series[i];
-            if (s.renderer.constructor == $.jqplot.LineRenderer) {
+            if (s.renderer.constructor == jqplot.LineRenderer) {
                 th.series.push(new LineSeriesProperties());
             }
-            else if (s.renderer.constructor == $.jqplot.BarRenderer) {
+            else if (s.renderer.constructor == jqplot.BarRenderer) {
                 th.series.push(new BarSeriesProperties());
             }
-            else if (s.renderer.constructor == $.jqplot.PieRenderer) {
+            else if (s.renderer.constructor == jqplot.PieRenderer) {
                 th.series.push(new PieSeriesProperties());
             }
-            else if (s.renderer.constructor == $.jqplot.DonutRenderer) {
+            else if (s.renderer.constructor == jqplot.DonutRenderer) {
                 th.series.push(new DonutSeriesProperties());
             }
-            else if (s.renderer.constructor == $.jqplot.FunnelRenderer) {
+            else if (s.renderer.constructor == jqplot.FunnelRenderer) {
                 th.series.push(new FunnelSeriesProperties());
             }
-            else if (s.renderer.constructor == $.jqplot.MeterGaugeRenderer) {
+            else if (s.renderer.constructor == jqplot.MeterGaugeRenderer) {
                 th.series.push(new MeterSeriesProperties());
             }
             else {
@@ -335,7 +337,7 @@
      * 
      * Theme instance of given name.
      */   
-    $.jqplot.ThemeEngine.prototype.get = function(name) {
+    jqplot.ThemeEngine.prototype.get = function(name) {
         if (!name) {
             // return the active theme
             return this.activeTheme;
@@ -360,7 +362,7 @@
      * 
      * A the list of theme names in this manager in alpha-numerical order.
      */       
-    $.jqplot.ThemeEngine.prototype.getThemeNames = function() {
+    jqplot.ThemeEngine.prototype.getThemeNames = function() {
         var tn = [];
         for (var n in this.themes) {
             tn.push(n);
@@ -381,7 +383,7 @@
      * 
      * A list of themes in alpha-numerical order by name.
      */ 
-    $.jqplot.ThemeEngine.prototype.getThemes = function() {
+    jqplot.ThemeEngine.prototype.getThemes = function() {
         var tn = [];
         var themes = [];
         for (var n in this.themes) {
@@ -394,7 +396,7 @@
         return themes;
     };
     
-    $.jqplot.ThemeEngine.prototype.activate = function(plot, name) {
+    jqplot.ThemeEngine.prototype.activate = function(plot, name) {
         // sometimes need to redraw whole plot.
         var redrawPlot = false;
         if (!name && this.activeTheme && this.activeTheme._name) {
@@ -424,7 +426,7 @@
                 if (axis.show) {
                     var thaxis = th.axes[axname] || {};
                     var thaxstyle = th.axesStyles;
-                    var thax = $.jqplot.extend(true, {}, thaxis, thaxstyle);
+                    var thax = jqplot.extend(true, {}, thaxis, thaxstyle);
                     val = (th.axesStyles.borderColor != null) ? th.axesStyles.borderColor : thax.borderColor;
                     if (thax.borderColor != null) {
                         axis.borderColor = thax.borderColor;
@@ -539,7 +541,7 @@
         
     };
     
-    $.jqplot.ThemeEngine.prototype._add = function(theme, name) {
+    jqplot.ThemeEngine.prototype._add = function(theme, name) {
         if (name) {
             theme._name = name;
         }
@@ -571,7 +573,7 @@
      * 
      * true on success, false on failure.
      */
-    $.jqplot.ThemeEngine.prototype.remove = function(name) {
+    jqplot.ThemeEngine.prototype.remove = function(name) {
         if (name == 'Default') {
             return false;
         }
@@ -592,7 +594,7 @@
      * 
      * new Theme object.
      */
-    $.jqplot.ThemeEngine.prototype.newTheme = function(name, obj) {
+    jqplot.ThemeEngine.prototype.newTheme = function(name, obj) {
         if (typeof(name) == 'object') {
             obj = obj || name;
             name = null;
@@ -603,9 +605,9 @@
         else {
             name = name || Date.parse(new Date());
         }
-        // var th = new $.jqplot.Theme(name);
+        // var th = new jqplot.Theme(name);
         var th = this.copy(this.themes['Default']._name, name);
-        $.jqplot.extend(th, obj);
+        jqplot.extend(th, obj);
         return th;
     };
     
@@ -625,7 +627,7 @@
         return temp;
     }
     
-    $.jqplot.clone = clone;
+    jqplot.clone = clone;
     
     function merge(obj1, obj2) {
         if (obj2 ==  null || typeof(obj2) != 'object') {
@@ -647,10 +649,10 @@
         }
     }
     
-    $.jqplot.merge = merge;
+    jqplot.merge = merge;
     
         // Use the jQuery 1.3.2 extend function since behaviour in jQuery 1.4 seems problematic
-    $.jqplot.extend = function() {
+    jqplot.extend = function() {
         // copy reference to target object
         var target = arguments[0] || {}, i = 1, length = arguments.length, deep = false, options;
 
@@ -681,7 +683,7 @@
 
                     // Recurse if we're merging object values
                     if ( deep && copy && typeof copy === "object" && !copy.nodeType ) {
-                        target[ name ] = $.jqplot.extend( deep, 
+                        target[ name ] = jqplot.extend( deep, 
                             // Never move original objects, clone them
                             src || ( copy.length != null ? [ ] : { } )
                         , copy );
@@ -711,7 +713,7 @@
      * 
      * new Theme object.
      */
-    $.jqplot.ThemeEngine.prototype.rename = function (oldName, newName) {
+    jqplot.ThemeEngine.prototype.rename = function (oldName, newName) {
         if (oldName == 'Default' || newName == 'Default') {
             throw new Error ("jqplot.ThemeEngine Error: Cannot rename from/to Default");
         }
@@ -741,7 +743,7 @@
      * 
      * new Theme object.
      */
-    $.jqplot.ThemeEngine.prototype.copy = function (sourceName, targetName, obj) {
+    jqplot.ThemeEngine.prototype.copy = function (sourceName, targetName, obj) {
         if (targetName == 'Default') {
             throw new Error ("jqplot.ThemeEngine Error: Cannot copy over Default theme");
         }
@@ -756,14 +758,14 @@
         else {
             var th = clone(this.themes[sourceName]);
             th._name = targetName;
-            $.jqplot.extend(true, th, obj);
+            jqplot.extend(true, th, obj);
             this._add(th);
             return th;
         }
     };
     
     
-    $.jqplot.Theme = function(name, obj) {
+    export const Theme = jqplot.Theme = function(name, obj) {
         if (typeof(name) == 'object') {
             obj = obj || name;
             name = null;
@@ -803,7 +805,7 @@
             this._name = obj;
         }
         else if(typeof(obj) == 'object') {
-            $.jqplot.extend(true, this, obj);
+            jqplot.extend(true, this, obj);
         }
     };
     
@@ -912,6 +914,3 @@
         this.needleThickness=null;
         this.needlePad=null;
     };
-        
-
-})(jQuery);
