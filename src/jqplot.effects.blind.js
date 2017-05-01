@@ -14,7 +14,7 @@
  //////
  // jquery ui blind effect used for series animation in jqplot.
  //////
-import $ from 'jquery/jquery';
+import $ from 'jquery';
 import jqplot from './jqplot.core';
 
     var rvertical = /up|down|vertical/,

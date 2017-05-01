@@ -55,7 +55,7 @@
  * 
  * 
  */
-import $ from 'jquery/jquery';
+import $ from 'jquery';
 import jqplot from '../jqplot.core';
     // This code is a modified version of the canvastext.js code, copyright below:
     //

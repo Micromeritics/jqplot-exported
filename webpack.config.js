@@ -1,36 +1,11 @@
-/* global __dirname, require, module*/
-
-const webpack = require('webpack');
 const glob = require("glob");
-
-let libraryName = 'jqplot';
-
-/**
- * Given a glob pattern returns the matched paths as an entry point object for Webpack.
- * @param  {String} globPattern A glob pattern to match tests.
- * @return {Object}             Key value pairs, keyed on filepath.
- */
-function getEntryPoints(globPattern) {
-  const testFiles = glob.sync(globPattern);
-  const entryPoints = {};
-  testFiles.forEach(function (file) {
-    let name = file.replace(/\.js$/, '').replace(/\/?src\/plugins\//, '');
-    if (name[0].toUpperCase() === name[0]) {
-      // first letter of source file is uppercase? this is a plugin
-      const camelCaseName = name[0].toLowerCase() + name.substring(1);
-      name = `plugins/jqplot.${camelCaseName}`;
-    }
-    entryPoints[name] = './' + file;
-  });
-  return entryPoints;
-}
 
 const commonConfig = {
   devtool: 'source-map',
   output: {
     path: __dirname + '/dist',
     filename: '[name].js',
-    library: libraryName,
+    library: 'jqplot',
     libraryTarget: 'umd',
     umdNamedDefine: true,
   },
@@ -51,14 +26,29 @@ const commonConfig = {
     extensions: ['.json', '.js'],
   },
   externals: {
-    "jquery/jquery": {
+    "jquery": {
       global: "jQuery",
-      commonjs: "jquery/jquery",
-      commonjs2: "jquery/jquery",
-      amd: "jquery/jquery",
+      commonjs: "jquery",
+      commonjs2: "jquery",
+      amd: "jquery",
     },
   },
 };
+
+function getPluginEntryPoints() {
+  const testFiles = glob.sync('src/plugins/*.js');
+  const entryPoints = {};
+  testFiles.forEach(function (file) {
+    let name = file.replace(/\.js$/, '').replace(/\/?src\/plugins\//, '');
+    if (name[0].toUpperCase() === name[0]) {
+      // first letter of source file is uppercase? this is a plugin
+      const camelCaseName = name[0].toLowerCase() + name.substring(1);
+      name = `plugins/jqplot.${camelCaseName}`;
+    }
+    entryPoints[name] = './' + file;
+  });
+  return entryPoints;
+}
 
 
 module.exports = [
@@ -66,7 +56,7 @@ module.exports = [
     entry: { "jqplot": __dirname + '/src/jqplot.js' },
   }),
   Object.assign({}, commonConfig, {
-    entry: getEntryPoints('src/plugins/*.js'),
+    entry: getPluginEntryPoints(),
     externals: Object.assign({}, commonConfig.externals, {
       "../jqplot.core": {
         global: "jQuery.jqplot",

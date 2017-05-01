@@ -81,7 +81,7 @@
  * See <Change Log>
  * 
  */
-import $ from 'jquery/jquery';
+import $ from 'jquery';
 
     // make sure undefined is undefined
     var undefined;

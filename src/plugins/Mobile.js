@@ -19,7 +19,7 @@
  * making a donation at: http://www.jqplot.com/donate.php .
  *
  */
-import $ from 'jquery/jquery';
+import $ from 'jquery';
 import jqplot from '../jqplot.core';
     function postInit(target, data, options){
         this.bindCustomEvents = function() {

@@ -20,7 +20,7 @@
  *
  * 
  */
-import $ from 'jquery/jquery';
+import $ from 'jquery';
 import jqplot from '../jqplot.core';
     jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMove]);
     jqplot.eventListenerHooks.push(['jqplotMouseEnter', handleEnter]);

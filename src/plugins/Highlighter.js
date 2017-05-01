@@ -28,7 +28,7 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-import $ from 'jquery/jquery';
+import $ from 'jquery';
 import jqplot from '../jqplot.core';
     jqplot.eventListenerHooks.push(['jqplotMouseMove', handleMove]);
     

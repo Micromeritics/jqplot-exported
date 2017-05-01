@@ -28,7 +28,7 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-import $ from 'jquery/jquery';
+import $ from 'jquery';
 import jqplot from '../jqplot.core';
     var objCounter = 0;
     // class: jqplot.CanvasOverlay

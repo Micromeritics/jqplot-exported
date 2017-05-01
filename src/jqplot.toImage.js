@@ -57,7 +57,7 @@
  * 
  * 
  */
-import $ from 'jquery/jquery';
+import $ from 'jquery';
 import jqplot from './jqplot.core';
 
     $.fn.jqplotChildText = function() {

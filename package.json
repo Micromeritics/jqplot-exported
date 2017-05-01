@@ -35,7 +35,7 @@
     "graphing"
   ],
   "dependencies": {
-    "jquery": "1.9.1"
+    "jquery": "^3.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

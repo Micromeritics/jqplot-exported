@@ -28,7 +28,7 @@
  *     "This code is unrestricted: you are free to use it however you like."
  * 
  */
-import $ from 'jquery/jquery';
+import $ from 'jquery';
 import jqplot from '../jqplot.core';
     // Class: jqplot.CanvasGridRenderer
     // The default jqPlot grid renderer, creating a grid on a canvas element.

@@ -36,7 +36,7 @@
   * elegant solution.
   */
  
-import $ from 'jquery/jquery';
+import $ from 'jquery';
 import jqplot from './jqplot.core';
 
     var dotlen = 0.1;
