@@ -1739,7 +1739,7 @@ import $ from 'jquery';
      * Plot object returned by call to jqplot.  Handles parsing user options,
      * creating sub objects (Axes, legend, title, series) and rendering the plot.
      */
-    function jqPlot() {
+    export function jqPlot() {
         // Group: Properties
         // These properties are specified at the top of the options object
         // like so:
