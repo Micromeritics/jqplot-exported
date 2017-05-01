@@ -1,24 +1,21 @@
 Note: the version number will always match the upstream version number.
 Any changes in this package will increment the "pm" version.
 
-This version of jqplot can be used by simply importing it:
+This package contains jqplot modified to use the webpack build system.
+
+It can be imported:
 
 ```javascript
-import jqplot from 'jqplot-exported';
-import 'jqplot-exported/dist/jquery.jqplot.css';
-import 'jqplot-exported/dist/plugins/jqplot.canvasTextRenderer';
-import 'jqplot-exported/dist/plugins/jqplot.canvasAxisLabelRenderer';
-import 'jqplot-exported/dist/plugins/jqplot.enhancedLegendRenderer';
-import 'jqplot-exported/dist/plugins/jqplot.logAxisRenderer';
-import 'jqplot-exported/dist/plugins/jqplot.pointLabels';
+import jqplot from 'jqplot-exported/src/jqplot';
+import 'jqplot-exported/src/jqplot.css';
+import { CanvasAxisLabelRenderer } from 'jqplot-exported/src/plugins/CanvasAxisLabelRenderer';
+import { CanvasAxisTickRenderer } from 'jqplot-exported/src/plugins/CanvasAxisTickRenderer';
+import { EnhancedLegendRenderer } from 'jqplot-exported/src/plugins/EnhancedLegendRenderer';
+import { LogAxisRenderer } from 'jqplot-exported/src/plugins/LogAxisRenderer';
 ```
 
-Plugins are not accessed through the import mechanism though, you must access them like this:
+Or the files in `dist/` can be used the same way as before.
 
-```javascript
-import jqplot from 'jqplot-exported';
-import 'jqplot-exported/dist/plugins/jqplot.logAxisRenderer';
-```
 
 jQPlot
 ======
