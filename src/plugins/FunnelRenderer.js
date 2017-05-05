@@ -29,6 +29,7 @@
  * 
  */
 import $ from 'jquery';
+import jQuery from 'jquery';
 import jqplot from '../jqplot.core';
     /**
      * Class: jqplot.FunnelRenderer

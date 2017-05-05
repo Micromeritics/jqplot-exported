@@ -15,7 +15,8 @@
   ],
   "scripts": {
     "build": "webpack --progress",
-    "build-prod": "webpack --progress -p"
+    "build-prod": "webpack --progress -p",
+    "prepublish": "webpack --progress -p"
   },
   "files": [
     "dist/",

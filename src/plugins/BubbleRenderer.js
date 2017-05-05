@@ -29,6 +29,7 @@
  * 
  */
 import $ from 'jquery';
+import jQuery from 'jquery';
 import jqplot from '../jqplot.core';
     var arrayMax = function( array ){
         return Math.max.apply( Math, array );
