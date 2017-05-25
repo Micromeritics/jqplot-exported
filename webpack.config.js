@@ -1,4 +1,5 @@
-const glob = require("glob");
+const glob = require('glob');
+const path = require('path');
 
 const commonConfig = {
   devtool: 'source-map',
@@ -26,11 +27,11 @@ const commonConfig = {
     extensions: ['.json', '.js'],
   },
   externals: {
-    "jquery": {
-      global: "jQuery",
-      commonjs: "jquery",
-      commonjs2: "jquery",
-      amd: "jquery",
+    'jquery': {
+      global: 'jQuery',
+      commonjs: 'jquery',
+      commonjs2: 'jquery',
+      amd: 'jquery',
     },
   },
 };
@@ -45,7 +46,7 @@ function getPluginEntryPoints() {
       const camelCaseName = name[0].toLowerCase() + name.substring(1);
       name = `plugins/jqplot.${camelCaseName}`;
     }
-    entryPoints[name] = './' + file;
+    entryPoints[name] = `./${file}`;
   });
   return entryPoints;
 }
@@ -53,16 +54,16 @@ function getPluginEntryPoints() {
 
 module.exports = [
   Object.assign({}, commonConfig, {
-    entry: { "jqplot": __dirname + '/src/jqplot.js' },
+    entry: { 'jqplot': path.join(__dirname, '/src/jqplot.js') },
   }),
   Object.assign({}, commonConfig, {
     entry: getPluginEntryPoints(),
     externals: Object.assign({}, commonConfig.externals, {
-      "../jqplot.core": {
-        global: "jQuery.jqplot",
-        commonjs: "jqplot",
-        commonjs2: "jqplot",
-        amd: "jqplot",
+      '../jqplot.core': {
+        global: 'jQuery.jqplot',
+        commonjs: 'jqplot',
+        commonjs2: 'jqplot',
+        amd: 'jqplot',
       },
     }),
   }),

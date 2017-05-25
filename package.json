@@ -1,6 +1,6 @@
 {
   "name": "jqplot-exported",
-  "version": "1.0.9-pm.5",
+  "version": "1.0.9-pm.6",
   "description": "jqPlot is a plotting and charting plugin for the jQuery Javascript framework. jqPlot produces beautiful line, bar and pie charts with many features.",
   "author": "Chris Leonello <chris@jqplot.com>",
   "contributors": [
@@ -14,15 +14,12 @@
     }
   ],
   "scripts": {
-    "build": "webpack --progress",
-    "build-prod": "webpack --progress -p",
-    "prepublish": "webpack --progress -p"
+    "build": "webpack --progress --colors",
+    "prepublish": "npm run build",
+    "postinstall": "mv dist/* ./ && rm -rf lib/"
   },
-  "files": [
-    "dist/",
-    "src/"
-  ],
-  "main": "dist/jqplot.js",
+  "files": ["dist/"],
+  "main": "jqplot.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/flaviut/jqPlot"
@@ -36,21 +33,17 @@
     "graphing"
   ],
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "jquery": "^3.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-loader": "^7.0.0",
-    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-env": "^1.5.1",
     "css-loader": "^0.28.0",
     "glob": "^7.1.1",
     "style-loader": "^0.16.1",
     "webpack": "^2.4.1"
-  },
-  "babel": {
-    "presets": [
-      "babel-preset-es2015"
-    ]
   },
   "license": "(MIT OR GPL-2.0)"
 }
