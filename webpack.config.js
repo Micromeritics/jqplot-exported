@@ -40,12 +40,7 @@ function getPluginEntryPoints() {
   const testFiles = glob.sync('src/plugins/*.js');
   const entryPoints = {};
   testFiles.forEach(function (file) {
-    let name = file.replace(/\.js$/, '').replace(/\/?src\/plugins\//, '');
-    if (name[0].toUpperCase() === name[0]) {
-      // first letter of source file is uppercase? this is a plugin
-      const camelCaseName = name[0].toLowerCase() + name.substring(1);
-      name = `plugins/jqplot.${camelCaseName}`;
-    }
+    let name = file.replace(/\.js$/, '').replace(/\/?src\//, '');
     entryPoints[name] = `./${file}`;
   });
   return entryPoints;
