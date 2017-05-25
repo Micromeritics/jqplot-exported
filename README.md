@@ -1,7 +1,7 @@
 Note: the version number will always match the upstream version number.
 Any changes in this package will increment the "pm" version.
 
-This package contains jqplot modified to use the webpack build system.
+This package contains jqplot modified to commonjs modules.
 
 It can be imported:
 
@@ -9,7 +9,7 @@ It can be imported:
 import jqplot from 'jqplot-exported/jqplot';
 import { CanvasAxisLabelRenderer } from 'jqplot-exported/plugins/CanvasAxisLabelRenderer';
 import { CanvasAxisTickRenderer } from 'jqplot-exported/plugins/CanvasAxisTickRenderer';
-import { EnhancedLegendRenderer } from 'jqplot-exported//plugins/EnhancedLegendRenderer';
+import { EnhancedLegendRenderer } from 'jqplot-exported/plugins/EnhancedLegendRenderer';
 import { LogAxisRenderer } from 'jqplot-exported/plugins/LogAxisRenderer';
 ```
 

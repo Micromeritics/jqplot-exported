@@ -1,10 +1,13 @@
 {
-  "presets": [
-    ["env", {
-      "targets": { "node": "current", "browsers": ["> 4%", "last 2 versions"] },
-      "uglifyjs": true,
-      "modules": false,
-      "useBuiltIns": true
+  presets: [
+    ['env', {
+      targets: {
+        node: 'current',
+        browsers: ['> 4%', 'last 2 versions'],
+      },
+      uglifyjs: true,
+      useBuiltIns: true,
     }]
-  ]
+  ],
+  sourceMaps: 'both',
 }
