@@ -6,15 +6,14 @@ This package contains jqplot modified to use the webpack build system.
 It can be imported:
 
 ```javascript
-import jqplot from 'jqplot-exported/src/jqplot';
-import { CanvasAxisLabelRenderer } from 'jqplot-exported/src/plugins/CanvasAxisLabelRenderer';
-import { CanvasAxisTickRenderer } from 'jqplot-exported/src/plugins/CanvasAxisTickRenderer';
-import { EnhancedLegendRenderer } from 'jqplot-exported/src/plugins/EnhancedLegendRenderer';
-import { LogAxisRenderer } from 'jqplot-exported/src/plugins/LogAxisRenderer';
+import jqplot from 'jqplot-exported/jqplot';
+import { CanvasAxisLabelRenderer } from 'jqplot-exported/plugins/CanvasAxisLabelRenderer';
+import { CanvasAxisTickRenderer } from 'jqplot-exported/plugins/CanvasAxisTickRenderer';
+import { EnhancedLegendRenderer } from 'jqplot-exported//plugins/EnhancedLegendRenderer';
+import { LogAxisRenderer } from 'jqplot-exported/plugins/LogAxisRenderer';
 ```
 
-Or the files in `dist/` can be used the same way as before.
-
+For more information, see the [documentation](http://www.jqplot.com/docs) and [examples](http://www.jqplot.com/examples).
 
 jQPlot
 ======
@@ -37,20 +36,6 @@ Pure JavaScript plotting plugin for jQuery.
 
 **Bugs, issues, feature requests**: http://www.github.com/jqPlot/jqPlot/issues
 
-# Basic Usage Instructions
-
-jqPlot requires jQuery (1.4+ required for certain features). jQuery 1.9.1 is included in the distribution.
-
-To use jqPlot, include jQuery, the jqPlot jQuery plugin, the jqPlot css file and optionally the excanvas script to support IE version prior to IE 9 in your web page:
-
-```
-<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="excanvas.js"></script><![endif]-->
-<script language="javascript" type="text/javascript" src="jquery-1.9.1.min.js"></script>
-<script language="javascript" type="text/javascript" src="jquery.jqplot.min.js"></script>
-<link rel="stylesheet" type="text/css" href="jquery.jqplot.css" />
-```
-
-For more information, see the [documentation](http://www.jqplot.com/docs) and [examples](http://www.jqplot.com/examples).
 
 # Building from source
 
@@ -59,25 +44,14 @@ If you've cloned the repository, you can build a distribution from source.
 ## Requirements and build tools
 
 - Install [NodeJS](https://nodejs.org/en/download/)
-- jQplot is [a NPM module](https://docs.npmjs.com/getting-started/what-is-npm)
-- Grunt is used to build the application and documentation from source. [What is Grunt](http://gruntjs.com/getting-started)
 
 ## Getting started
 
 1. Fork the repo
 2. Clone the repository into the folder of your choice.
 3. Install Node.JS
-4. Run `npm install` to install the necessary "npm" dependencies like "grunt".
-
-## Building with grunt
-
-Build the application and all the documentation, plus create the zip file, ready for distribution with this command:
-
-    grunt
-
-Create the application without compression for local use with the command:
-
-    grunt build
+4. Run `npm install` to install the necessary dependencies.
+5. Run `npm build` to build the program.
 
 # Legal Notices
 
