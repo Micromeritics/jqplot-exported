@@ -16,7 +16,7 @@
   "scripts": {
     "build": "babel src --source-maps --out-dir dist/ && cp src/*.css dist/",
     "prepublish": "npm run build",
-    "postinstall": "rm -rf plugins/ && mv dist/* ./ && rm -rf dist/"
+    "postinstall": "npm run build && rm -rf plugins/ && mv dist/* ./ && rm -rf dist/"
   },
   "files": ["dist/"],
   "main": "jqplot.js",
@@ -33,11 +33,9 @@
     "graphing"
   ],
   "dependencies": {
-    "jquery": "^3.2.1"
-  },
-  "devDependencies": {
     "babel-cli": "^6.24.1",
-    "babel-preset-env": "^1.5.1"
+    "babel-preset-env": "^1.5.1",
+    "jquery": "^3.2.1"
   },
   "license": "(MIT OR GPL-2.0)"
 }
