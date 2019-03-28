@@ -18,7 +18,9 @@
     "prepublish": "npm run build",
     "postinstall": "npm run build && rm -rf plugins/ && mv dist/* ./ && rm -rf dist/"
   },
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "main": "jqplot.js",
   "repository": {
     "type": "git",
