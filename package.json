@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "build": "babel src --source-maps --out-dir dist/ && cp src/*.css dist/",
+    "preinstall": "npm run build",
     "prepublish": "npm run build",
     "postinstall": "rm -rf plugins/ && mv dist/* ./ && rm -rf dist/"
   },
